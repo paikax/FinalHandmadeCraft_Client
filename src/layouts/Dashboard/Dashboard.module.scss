@@ -1,0 +1,17 @@
+.container {
+    position: relative;
+    display: flex;
+}
+
+.bars-icon {
+    position: absolute;
+    top: 30px;
+    left: 24px;
+}
+
+.content {
+    flex: 1;
+    background-color: #faf9f8;
+    padding: 28px 54px;
+    min-height: 100vh;
+}
