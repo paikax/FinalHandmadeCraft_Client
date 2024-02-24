@@ -473,11 +473,11 @@ const Profile = () => {
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center">
                     <div className="modal-overlay fixed inset-0 bg-black opacity-50"></div>
-                    <div className="modal bg-white p-6 rounded-lg z-10">
+                    <div className="flex flex-col justify-center overflow-y-auto h-[calc(100vh-200px)] modal bg-white p-6 rounded-lg z-10">
                         <span className="close-icon absolute top-4 right-4 cursor-pointer" onClick={handleCloseModal}>
                             <FontAwesomeIcon icon={faTimes} />
                         </span>
-                        <h2 className="text-2xl mb-4 text-center font-bold">Edit Profile</h2>
+                        <h2 className="text-2xl mb-8 text-center font-bold">Edit Profile</h2>
                         <form>
                             <div className="form-group mb-4">
                                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">

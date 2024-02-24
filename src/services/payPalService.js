@@ -52,3 +52,14 @@ export const connectPaypal = async (userId, paypalEmail, paypalFirstName, paypal
         throw new Error('Failed to connect PayPal.');
     }
 };
+
+export const sendPayment = async (paypalEmail, amount) => {
+    try {
+        // Make a request to your backend to send payment to the provided PayPal email with the specified amount
+        const res = await apiClient.post(`/PayPal/payments/send`, { paypalEmail, amount });
+        return res;
+    } catch (error) {
+        console.log(error);
+        throw error; // Re-throw the error to handle it elsewhere
+    }
+};

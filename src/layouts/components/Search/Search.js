@@ -15,24 +15,24 @@ function Search({ id }) {
     const [showResult, setShowResult] = useState(false);
     const userId = localStorage.getItem('userId');
 
-    const debouncedValue = useDebounce(searchValue, 500);
+    const debouncedValue = useDebounce(searchValue, 800);
 
     useEffect(() => {
         const fetchSearchResults = async () => {
             try {
-                const result = await searchTutorials(searchValue); // Call your search service function
+                const result = await searchTutorials(debouncedValue); // Call your search service function
                 setSearchResult(result);
             } catch (error) {
                 console.error('Error searching tutorials:', error);
             }
         };
 
-        if (searchValue.trim() !== '') {
+        if (debouncedValue.trim() !== '') {
             fetchSearchResults();
         } else {
             setSearchResult([]);
         }
-    }, [searchValue]);
+    }, [debouncedValue]);
 
     const handleChange = (e) => {
         const searchValue = e.target.value;

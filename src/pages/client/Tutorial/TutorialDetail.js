@@ -19,6 +19,7 @@ import CommentSection from '~/components/Tutorial/CommentSection';
 import toast from 'react-hot-toast';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { createOrder } from '~/services/orderService';
+import { sendPayment } from '~/services/payPalService';
 
 const TutorialDetail = () => {
     const { tutorialId } = useParams();
@@ -98,10 +99,19 @@ const TutorialDetail = () => {
             };
 
             // Call the createOrder function with the constructed order request
-            await createOrder(orderRequest);
+            const orderResponse = await createOrder(orderRequest);
 
-            setIsPaymentSuccess(true); // Update payment success state
-            toast.success('Payment successful');
+            // Check if order creation was successful
+            if (orderResponse && orderResponse.OrderId) {
+                // If order was created successfully, send payment
+                await sendPayment(tutorial.paypalEmail, tutorial.price);
+
+                setIsPaymentSuccess(true); // Update payment success state
+                toast.success('Payment successful');
+            } else {
+                // Handle the case where order creation failed
+                toast.error('Failed to create order');
+            }
         } catch (error) {
             console.error('Error processing payment:', error);
             toast.error('Failed to process payment');
@@ -277,17 +287,17 @@ const TutorialDetail = () => {
                         <div className="flex items-center">
                             <div className="mr-8">
                                 <Link to="/" className="text-3xl font-bold text-white">
-                                    M
+                                    T
                                 </Link>
                             </div>
                             <nav className="hidden md:flex space-x-4">
                                 <Link to="/" className="text-black hover:text-gray-300">
                                     Your choosing
                                 </Link>
-                                <Link to="/" className="text-black hover:text-gray-300">
+                                <Link to="/" className="text-orange-600 hover:text-orange-500">
                                     Completed
                                 </Link>
-                                <div className="relative inline-block text-left dropdown">
+                                {/* <div className="relative inline-block text-left dropdown">
                                     <span className="rounded-md shadow-sm">
                                         <button
                                             aria-controls="headlessui-menu-items-117"
@@ -310,14 +320,14 @@ const TutorialDetail = () => {
                                 </div>
                                 <Link to="/" className="text-black hover:text-gray-300">
                                     A-Z List
-                                </Link>
+                                </Link> */}
                                 <Link to="/" className="text-black hover:text-gray-300">
                                     News
                                 </Link>
                             </nav>
                         </div>
                         <div className="flex items-center">
-                            <Link to="/" className="text-black hover:text-gray-300 mr-4">
+                            {/* <Link to="/" className="text-black hover:text-gray-300 mr-4">
                                 Follow maker:
                             </Link>
                             <Link to="/" className="text-black hover:text-gray-300 mr-4">
@@ -328,26 +338,17 @@ const TutorialDetail = () => {
                             </Link>
                             <Link to="/" className="text-white hover:text-gray-300 mr-4">
                                 <i className="fab fa-discord"></i>
-                            </Link>
+                            </Link> */}
                             <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
                                 Dark Mode
                             </button>
                         </div>
                     </header>
                     <div className="flex justify-between items-center bg-blue-600 p-4 rounded my-4">
-                        {/* <div className="flex space-x-4">
-                            <button className="bg-blue-700 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">
-                                <i className="fas fa-filter"></i> FILTER
-                            </button>
-                            <input
-                                className="bg-blue-400 text-white placeholder-gray-300 p-2 rounded focus:outline-none"
-                                placeholder="Search ..."
-                                type="text"
-                            />
-                        </div> */}
-                        <div>
+                        <div className="flex items-center mx-4">
+                            <span>Follow Maker</span>
                             <Link to={`/profile/${tutorial.createdById}`}>
-                                <button className="bg-blue-200 rounded-full hover:bg-blue-200 text-white font-bold py-2 px-3">
+                                <button className="bg-blue-200 mx-2 rounded-full hover:bg-blue-200 text-white font-bold py-2 px-3">
                                     <img
                                         className="w-12 h-12 rounded-full"
                                         src={tutorial.userProfilePicture}
@@ -380,7 +381,7 @@ const TutorialDetail = () => {
                                 <p className="text-2xl text-green-300 font-bold mb-4">${tutorial.price}</p>
                                 <button
                                     onClick={openBuyModal}
-                                    className="bg-orange-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded mb-4"
+                                    className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mb-4"
                                 >
                                     <i className="fas fa-book-open"></i> Buy the product
                                 </button>
@@ -390,7 +391,7 @@ const TutorialDetail = () => {
                                     </span>
                                 </div>
                                 <p className="text-sm mb-4">{tutorial.instruction}</p>
-                                <Link to="/" className="text-blue-400 hover:text-blue-300 text-sm">
+                                <Link to="/" className="text-white text-lg">
                                     + Read full
                                 </Link>
                             </div>
@@ -420,7 +421,7 @@ const TutorialDetail = () => {
                                 <div className="mb-4">
                                     <h3 className="text-xl font-bold mb-2">Likes:</h3>
                                     <div className="flex items-center">
-                                        <p className="text-3xl font-bold text-yellow-400 mr-2">
+                                        <p className="text-3xl font-bold text-yellow-200 mr-2">
                                             {tutorial.likes.length}
                                         </p>
                                     </div>
