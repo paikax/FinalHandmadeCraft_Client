@@ -77,7 +77,6 @@ const TutorialDetail = () => {
 
     const openBuyModal = () => setIsBuyModalOpen(true);
     const closeBuyModal = () => setIsBuyModalOpen(false);
-
     const handleBuyNow = async () => {
         try {
             setIsPaymentSuccess(false); // Reset payment success state
@@ -102,9 +101,9 @@ const TutorialDetail = () => {
             const orderResponse = await createOrder(orderRequest);
 
             // Check if order creation was successful
-            if (orderResponse && orderResponse.OrderId) {
+            if (orderResponse && orderResponse.id) {
                 // If order was created successfully, send payment
-                await sendPayment(tutorial.paypalEmail, tutorial.price);
+                await sendPayment(tutorial.creatorPayPalEmail, tutorial.price);
 
                 setIsPaymentSuccess(true); // Update payment success state
                 toast.success('Payment successful');

@@ -56,7 +56,7 @@ export const connectPaypal = async (userId, paypalEmail, paypalFirstName, paypal
 export const sendPayment = async (paypalEmail, amount) => {
     try {
         // Make a request to your backend to send payment to the provided PayPal email with the specified amount
-        const res = await apiClient.post(`/PayPal/payments/send`, { paypalEmail, amount });
+        const res = await apiClient.post(`/PayPal/send-payment?recipientEmail=${paypalEmail}&amount=${amount}`);
         return res;
     } catch (error) {
         console.log(error);
