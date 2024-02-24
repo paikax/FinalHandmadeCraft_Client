@@ -40,14 +40,15 @@ export const capturePayment = async (orderId) => {
     }
 };
 
-export const setUpPayment = async (userId, clientID, clientSecret) => {
+export const connectPaypal = async (userId, paypalEmail, paypalFirstName, paypalLastName) => {
     try {
-        const response = await apiClient.post(`/paymentSetup/setup-paypal/${userId}`, {
-            clientID,
-            clientSecret,
+        await apiClient.post('/PayPal/connect-paypal', {
+            userId,
+            paypalEmail,
+            paypalFirstName,
+            paypalLastName,
         });
-        return response.data;
     } catch (error) {
-        throw new Error('Failed to set up PayPal for user: ' + error.message);
+        throw new Error('Failed to connect PayPal.');
     }
 };

@@ -1,53 +1,111 @@
-// PaymentSetup.js
-
-import React, { useState } from 'react';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import axios from 'axios';
-import { setUpPayment } from '~/services/payPalService';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { getUserById, updateUserProfile } from '~/redux/apiRequest';
+import { connectPaypal } from '~/services/payPalService';
 
 const PaymentSetup = () => {
-    const [error, setError] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [paypalEmail, setPaypalEmail] = useState('');
+    const [paypalFirstName, setPaypalFirstName] = useState('');
+    const [paypalLastName, setPaypalLastName] = useState('');
+    const [userPayPalInfo, setUserPayPalInfo] = useState(null);
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
 
-    const handleOnApprove = async (data, actions) => {
+    useEffect(() => {
+        // Fetch user PayPal information after successful registration
+        const fetchUserPayPalInfo = async () => {
+            try {
+                const user = await getUserById(currentUserID);
+                setUserPayPalInfo({
+                    email: user.payPalEmail,
+                    firstName: user.payPalFirstName,
+                    lastName: user.payPalLastName,
+                });
+            } catch (error) {
+                console.error('Failed to fetch user PayPal information:', error);
+            }
+        };
+
+        fetchUserPayPalInfo();
+    }, [currentUserID]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            // Set up PayPal for the user
-            console.log(data);
-            await setUpPayment(currentUserID, data.clientID, data.clientSecret);
-            alert('PayPal setup successful.');
-        } catch (err) {
-            setError(err.message);
+            await connectPaypal(currentUserID, paypalEmail, paypalFirstName, paypalLastName);
+            toast.success('PayPal information updated successfully');
+            // Update user PayPal information in the component state
+            setUserPayPalInfo({
+                email: paypalEmail,
+                firstName: paypalFirstName,
+                lastName: paypalLastName,
+            });
+            setShowModal(false); // Close the modal after successful submission
+        } catch (error) {
+            toast.error('Failed to update PayPal information');
         }
     };
 
+    const handleEdit = () => {
+        // Show modal for editing PayPal information
+        setShowModal(true);
+    };
+
     return (
-        <PayPalScriptProvider
-            options={{
-                'client-id': 'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k', // Replace with your application's PayPal client ID
-            }}
-        >
-            <div>
-                <h2>PayPal Setup</h2>
+        <div>
+            <h2>Payment Setup</h2>
+            {userPayPalInfo ? (
                 <div>
-                    <PayPalButtons
-                        createOrder={(data, actions) => {
-                            return actions.order.create({
-                                purchase_units: [
-                                    {
-                                        amount: {
-                                            value: '0.01', // Change this value as per your requirements
-                                        },
-                                    },
-                                ],
-                            });
-                        }}
-                        onApprove={handleOnApprove}
-                    />
+                    <p>User PayPal Email: {userPayPalInfo.email}</p>
+                    <p>User PayPal First Name: {userPayPalInfo.firstName}</p>
+                    <p>User PayPal Last Name: {userPayPalInfo.lastName}</p>
+                    <button onClick={handleEdit}>Edit</button>
                 </div>
-                {error && <div>{error}</div>}
-            </div>
-        </PayPalScriptProvider>
+            ) : (
+                <button onClick={() => setShowModal(true)}>Set up PayPal Account</button>
+            )}
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={() => setShowModal(false)}>
+                            &times;
+                        </span>
+                        <form onSubmit={handleSubmit}>
+                            <div>
+                                <label>Email:</label>
+                                <input
+                                    type="email"
+                                    value={paypalEmail}
+                                    onChange={(e) => setPaypalEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>First Name:</label>
+                                <input
+                                    type="text"
+                                    value={paypalFirstName}
+                                    onChange={(e) => setPaypalFirstName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label>Last Name:</label>
+                                <input
+                                    type="text"
+                                    value={paypalLastName}
+                                    onChange={(e) => setPaypalLastName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <button type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 
