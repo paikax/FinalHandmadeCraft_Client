@@ -1,8 +1,8 @@
 import * as httpRequest from '~/utils/httpRequest';
 
-export const createOrder = async (tutorialId, userId) => {
+export const createOrder = async (orderRequest) => {
     try {
-        const res = await httpRequest.post(`/api/orders/${userId}`, { tutorialId });
+        const res = await httpRequest.post(`/orders/${orderRequest.userId}`, orderRequest);
         return res;
     } catch (error) {
         console.log(error);

@@ -16,6 +16,9 @@ import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import CommentSection from '~/components/Tutorial/CommentSection';
+import toast from 'react-hot-toast';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { createOrder } from '~/services/orderService';
 
 const TutorialDetail = () => {
     const { tutorialId } = useParams();
@@ -29,6 +32,7 @@ const TutorialDetail = () => {
     const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
     const { transcript, resetTranscript } = useSpeechRecognition();
+    const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
     useEffect(() => {
         const fetchTutorial = async () => {
@@ -70,18 +74,41 @@ const TutorialDetail = () => {
         fetchTutorial();
     }, [tutorialId]);
 
-    // Open buy modal
     const openBuyModal = () => setIsBuyModalOpen(true);
-    // Close buy modal
     const closeBuyModal = () => setIsBuyModalOpen(false);
 
     const handleBuyNow = async () => {
-        // Placeholder: Implement your logic for direct purchase
-        alert('Buy Now feature will be implemented');
+        try {
+            setIsPaymentSuccess(false); // Reset payment success state
+            setIsBuyModalOpen(false); // Close the buy modal
+
+            // Construct order item with necessary information
+            const orderItem = {
+                tutorialId: tutorialId,
+                quantity: 1, // Assuming quantity is fixed to 1 for now
+                price: tutorial.price, // Pass the tutorial price to the order item
+            };
+
+            // Construct order request object with user ID, order items, total price, and address (if applicable)
+            const orderRequest = {
+                userId: currentUserID,
+                items: [orderItem],
+                totalPrice: tutorial.price, // Pass the total price of the order
+                address: '', // Add the address if available
+            };
+
+            // Call the createOrder function with the constructed order request
+            await createOrder(orderRequest);
+
+            setIsPaymentSuccess(true); // Update payment success state
+            toast.success('Payment successful');
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            toast.error('Failed to process payment');
+        }
     };
 
     const handleAddToCart = async () => {
-        // Placeholder: Implement your logic for adding to cart
         alert('Add to Cart feature will be implemented');
     };
 
@@ -194,31 +221,53 @@ const TutorialDetail = () => {
         <div className="container mx-auto p-8 mb-10">
             <p className="text-xl text-left mx-2 my-2">Tutorial · Product</p>
             <Modal
-                isOpen={isBuyModalOpen}
+                isOpen={!isPaymentSuccess && isBuyModalOpen}
                 onRequestClose={closeBuyModal}
                 className="fixed inset-0 flex items-center justify-center p-4"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50"
                 contentLabel="Buy Options"
             >
-                <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm">
-                    <div className="p-5">
-                        <h2 className="text-xl font-semibold text-center mb-4">Choose an option</h2>
-                        <div className="flex flex-col space-y-4">
-                            <button
-                                onClick={handleBuyNow}
-                                className="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-opacity-50"
-                            >
-                                Buy Now
-                            </button>
-                            <button
-                                onClick={handleAddToCart}
-                                className="bg-yellow-500 text-white font-bold py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:ring-opacity-50"
-                            >
-                                Add to Cart
-                            </button>
+                {isPaymentSuccess ? ( // If payment is successful, display success message
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm">
+                        <div className="p-5">
+                            <h2 className="text-2xl font-bold mb-2">Order Successful!</h2>
+                            <p className="text-sm text-gray-700">Thank you for your purchase.</p>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm">
+                        <div className="p-5">
+                            <PayPalScriptProvider
+                                options={{
+                                    'client-id':
+                                        'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k',
+                                }}
+                            >
+                                <div className="container mx-auto p-8 mb-10">
+                                    <PayPalButtons
+                                        style={{ layout: 'horizontal' }}
+                                        createOrder={(data, actions) => {
+                                            return actions.order.create({
+                                                purchase_units: [
+                                                    {
+                                                        amount: {
+                                                            value: tutorial.price,
+                                                        },
+                                                    },
+                                                ],
+                                            });
+                                        }}
+                                        onApprove={(data, actions) => {
+                                            return actions.order.capture().then(function (details) {
+                                                handleBuyNow();
+                                            });
+                                        }}
+                                    />
+                                </div>
+                            </PayPalScriptProvider>
+                        </div>
+                    </div>
+                )}
             </Modal>
 
             {/* New */}
