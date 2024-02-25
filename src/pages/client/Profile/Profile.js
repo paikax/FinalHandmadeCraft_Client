@@ -80,7 +80,7 @@ const Profile = () => {
 
         const fetchFollowersAndFollowing = async () => {
             try {
-                const isCurrentlyFollowing = await checkIfFollowing(currentUserID, userId);
+                const isCurrentlyFollowing = await checkIfFollowing(userId, currentUserID);
                 console.log(isCurrentlyFollowing);
                 setIsFollowing(isCurrentlyFollowing);
                 const followers = await getFollowers(userId);
@@ -94,7 +94,6 @@ const Profile = () => {
         };
 
         fetchFollowersAndFollowing();
-
         fetchUserProfile();
     }, [userId, currentUserID]);
 
@@ -274,7 +273,7 @@ const Profile = () => {
 
     const handleFollow = async () => {
         try {
-            await followUser(currentUserID, userId);
+            await followUser(userId, currentUserID);
             setIsFollowing(true);
             setFollowerCount((prevCount) => prevCount + 1);
             toast.success('You are now following this user.');
@@ -285,7 +284,7 @@ const Profile = () => {
 
     const handleUnfollow = async () => {
         try {
-            await unfollowUser(currentUserID, userId);
+            await unfollowUser(userId, currentUserID);
             setIsFollowing(false);
             setFollowerCount((prevCount) => prevCount - 1);
             toast.success('You have unfollowed this user.');
