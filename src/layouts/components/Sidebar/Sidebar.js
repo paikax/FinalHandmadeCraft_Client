@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 import { connect, useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { BarsIcon, CheckIcon, HomeIcon, SignOutIcon, StarIcon, TheSunIcon } from '~/components/Icons';
+import { BarsIcon, CheckIcon, HomeIcon, SignOutIcon, StarIcon, TheSunIcon, WalletIcon } from '~/components/Icons';
 import config from '~/config';
 import { createAxios } from '~/createInstance';
 import { handleSignOut } from '~/firebaseConfig';
@@ -43,6 +43,12 @@ const sidebarList = [
     },
     {
         id: 5,
+        icon: WalletIcon,
+        title: 'Setup Your Payment',
+        to: config.routes.paymentSetup,
+    },
+    {
+        id: 6,
         icon: SignOutIcon,
         title: 'Sign out',
     },

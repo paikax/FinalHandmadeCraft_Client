@@ -290,10 +290,10 @@ const TutorialDetail = () => {
                                 </Link>
                             </div>
                             <nav className="hidden md:flex space-x-4">
-                                <Link to="/" className="text-black hover:text-gray-300">
+                                <Link to="/" className="text-black hover:underline">
                                     Your choosing
                                 </Link>
-                                <Link to="/" className="text-orange-600 hover:text-orange-500">
+                                <Link to="/" className="text-white hover:underline">
                                     Completed
                                 </Link>
                                 {/* <div className="relative inline-block text-left dropdown">
@@ -320,7 +320,7 @@ const TutorialDetail = () => {
                                 <Link to="/" className="text-black hover:text-gray-300">
                                     A-Z List
                                 </Link> */}
-                                <Link to="/" className="text-black hover:text-gray-300">
+                                <Link to="/" className="text-white hover:underline">
                                     News
                                 </Link>
                             </nav>

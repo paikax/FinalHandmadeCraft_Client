@@ -12,6 +12,8 @@ import { logOut } from '~/redux/apiRequest';
 import { logOutSuccess } from '~/redux/authSlice';
 import Search from '../Search';
 import { NotifyIcon } from '~/components/Icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function Header({ currentUser }) {
     const name = localStorage.getItem('name');
@@ -78,6 +80,12 @@ function Header({ currentUser }) {
             <Search />
 
             <div className="flex items-center gap-[10px] h-full">
+                <Link
+                    to={config.routes.tutorialUpload}
+                    className="text-center text-white w-[98px] border border-solid border-white rounded hover:bg-red-200 transition-all hover:bg-opacity-15"
+                >
+                    <FontAwesomeIcon icon={faPlus} />
+                </Link>
                 <HeadlessTippy
                     trigger="click"
                     interactive
