@@ -94,7 +94,7 @@ function Header({ currentUser }) {
                     render={() => (
                         <div className="bg-white shadow-[0_24px_54px_rgba(0,0,0,0.15)]">
                             <div className="flex justify-between p-[16px] pb-[0px]">
-                                <h3 className="text-[18px] font-medium">Thông báo</h3>
+                                <h3 className="text-[18px] font-medium">Notification</h3>
                                 <button className="text-[#f05123] text-[14px] hover:bg-[#f5f5f5] p-[6px] rounded-[4px]">
                                     Marks as read
                                 </button>
@@ -108,7 +108,7 @@ function Header({ currentUser }) {
                                 </div>
                                 <div className="p-[10px] rounded-[8px] mt-[10px] bg-[#f051231a] cursor-pointer">
                                     <h4>
-                                        Works "<span className="font-medium">INFO</span>" sắp đến hạn
+                                        Works "<span className="font-medium">INFO</span>"
                                     </h4>
                                     <p className="text-[#f05123] text-[12px] mt-[4px]">Time</p>
                                 </div>

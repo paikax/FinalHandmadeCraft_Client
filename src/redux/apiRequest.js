@@ -168,3 +168,13 @@ export const checkIfFollowing = async (currentUserId, profileUserId) => {
         throw error;
     }
 };
+
+export const getLatestTutorialsByUser = async (userId, count) => {
+    try {
+        const response = await axios.get(`/api/User/${userId}/latest-tutorials?count=${count}`);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch latest tutorials by user', error);
+        throw error;
+    }
+};

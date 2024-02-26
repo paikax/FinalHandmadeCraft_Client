@@ -106,7 +106,7 @@ const TutorialUpload = () => {
                             onClick={openModal}
                             className="border-dashed border-2 border-gray-300 p-8 text-center cursor-pointer bg-gray-100"
                         >
-                            Open Video Upload Modal
+                            Upload your handmade craft video
                         </button>
                     </div>
                 )}

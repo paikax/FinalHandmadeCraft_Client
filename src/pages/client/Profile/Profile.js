@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faImages, faEdit, faStar, faGift, faTimes } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
@@ -15,6 +15,7 @@ import {
     getFollowers,
     getFollowing,
     checkIfFollowing,
+    getLatestTutorialsByUser,
 } from '~/redux/apiRequest';
 import { updateAvatar, uploadImageToCloudinary } from '~/utils/cloudinaryConfig';
 import ImageCropper from '~/utils/ImageCropper';
@@ -33,8 +34,6 @@ const Profile = () => {
     const [isCroppedImageVisible, setIsCroppedImageVisible] = useState(false);
     const [isImageUploading, setIsImageUploading] = useState(false);
     const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
-
-    // States for modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         firstName: '',
@@ -52,6 +51,7 @@ const Profile = () => {
     const [isFollowing, setIsFollowing] = useState(false);
     const [followerCount, setFollowerCount] = useState(0);
     const [followingCount, setFollowingCount] = useState(0);
+    const [latestTutorials, setLatestTutorials] = useState([]);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -93,7 +93,17 @@ const Profile = () => {
             }
         };
 
+        const fetchLatestTutorials = async () => {
+            try {
+                const tutorials = await getLatestTutorialsByUser(userId, 4);
+                setLatestTutorials(tutorials);
+            } catch (error) {
+                console.error('Error fetching latest tutorials', error);
+            }
+        };
+
         fetchFollowersAndFollowing();
+        fetchLatestTutorials();
         fetchUserProfile();
     }, [userId, currentUserID]);
 
@@ -293,6 +303,11 @@ const Profile = () => {
         }
     };
 
+    const removeFileExtension = (url) => {
+        const index = url.lastIndexOf('.');
+        return index > 0 ? url.substring(0, index) : url;
+    };
+
     if (!user) {
         return <div>Loading...</div>;
     }
@@ -374,44 +389,20 @@ const Profile = () => {
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center mb-4">
-                                    <p className="lead font-normal mb-0">Recent Photos</p>
-                                    <p className="mb-0">
-                                        <a href="#!" className="text-muted">
-                                            Show All
-                                        </a>
-                                    </p>
+                                    <p className="lead font-normal mb-0">Recent Tutorials</p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2">
-                                    <div className="mb-2">
-                                        <img
-                                            src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                                            alt="Image 1"
-                                            className="w-full rounded-3"
-                                        />
-                                    </div>
-                                    <div className="mb-2">
-                                        <img
-                                            src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                                            alt="Image 2"
-                                            className="w-full rounded-3"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div className="mb-2">
-                                        <img
-                                            src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                                            alt="Image 3"
-                                            className="w-full rounded-3"
-                                        />
-                                    </div>
-                                    <div className="mb-2">
-                                        <img
-                                            src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                                            alt="Image 4"
-                                            className="w-full rounded-3"
-                                        />
-                                    </div>
+                                    {latestTutorials.slice(0, 4).map((tutorial) => (
+                                        <div className="mb-2" key={tutorial.id}>
+                                            <Link to={`/tutorials/${tutorial.id}`}>
+                                                <img
+                                                    src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
+                                                    alt={tutorial.title}
+                                                    className="w-full rounded-3"
+                                                />
+                                            </Link>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
