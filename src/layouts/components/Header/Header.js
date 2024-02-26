@@ -102,15 +102,15 @@ function Header({ currentUser }) {
                             <div className="flex flex-col p-[10px]">
                                 <div className="p-[10px] rounded-[8px] mt-[10px] bg-[#f051231a] cursor-pointer">
                                     <h4>
-                                        Works "<span className="font-medium">tac vu huynguyen</span>" sắp đến hạn
+                                        Works "<span className="font-medium">INFO</span>"
                                     </h4>
-                                    <p className="text-[#f05123] text-[12px] mt-[4px]">3 tháng trước</p>
+                                    <p className="text-[#f05123] text-[12px] mt-[4px]">Time</p>
                                 </div>
                                 <div className="p-[10px] rounded-[8px] mt-[10px] bg-[#f051231a] cursor-pointer">
                                     <h4>
-                                        Works "<span className="font-medium">tac vu huynguyen</span>" sắp đến hạn
+                                        Works "<span className="font-medium">INFO</span>" sắp đến hạn
                                     </h4>
-                                    <p className="text-[#f05123] text-[12px] mt-[4px]">3 tháng trước</p>
+                                    <p className="text-[#f05123] text-[12px] mt-[4px]">Time</p>
                                 </div>
                             </div>
                         </div>
