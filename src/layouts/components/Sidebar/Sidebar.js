@@ -32,13 +32,13 @@ const sidebarList = [
     {
         id: 3,
         icon: StarIcon,
-        to: config.routes.important,
+        to: config.routes.tutorialList,
         title: 'Saved',
     },
     {
         id: 4,
         icon: CheckIcon,
-        to: config.routes.finished,
+        to: config.routes.orders,
         title: 'Order',
     },
     {

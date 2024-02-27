@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { getUserById, updateUserProfile } from '~/redux/apiRequest';
 import { connectPaypal } from '~/services/payPalService';
@@ -12,9 +11,9 @@ const PaymentSetup = () => {
     const [paypalLastName, setPaypalLastName] = useState('');
     const [userPayPalInfo, setUserPayPalInfo] = useState(null);
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
+    const modalRef = useRef(null);
 
     useEffect(() => {
-        // Fetch user PayPal information after successful registration
         const fetchUserPayPalInfo = async () => {
             try {
                 const user = await getUserById(currentUserID);
@@ -31,80 +30,166 @@ const PaymentSetup = () => {
         fetchUserPayPalInfo();
     }, [currentUserID]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setShowModal(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await connectPaypal(currentUserID, paypalEmail, paypalFirstName, paypalLastName);
             toast.success('PayPal information updated successfully');
-            // Update user PayPal information in the component state
             setUserPayPalInfo({
                 email: paypalEmail,
                 firstName: paypalFirstName,
                 lastName: paypalLastName,
             });
-            setShowModal(false); // Close the modal after successful submission
+            setShowModal(false);
         } catch (error) {
             toast.error('Failed to update PayPal information');
         }
     };
 
     const handleEdit = () => {
-        // Show modal for editing PayPal information
         setShowModal(true);
     };
 
     return (
-        <div>
-            <h2>Payment Setup</h2>
-            {userPayPalInfo ? (
-                <div>
-                    <p>User PayPal Email: {userPayPalInfo.email}</p>
-                    <p>User PayPal First Name: {userPayPalInfo.firstName}</p>
-                    <p>User PayPal Last Name: {userPayPalInfo.lastName}</p>
-                    <button onClick={handleEdit}>Edit</button>
-                </div>
-            ) : (
-                <button onClick={() => setShowModal(true)}>Set up PayPal Account</button>
-            )}
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={() => setShowModal(false)}>
-                            &times;
-                        </span>
-                        <form onSubmit={handleSubmit}>
-                            <div>
-                                <label>Email:</label>
-                                <input
-                                    type="email"
-                                    value={paypalEmail}
-                                    onChange={(e) => setPaypalEmail(e.target.value)}
-                                    required
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-500">
+            <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl">
+                <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Payment Board Management</h2>
+                {userPayPalInfo ? (
+                    <div className="mb-6">
+                        <p className="text-lg mb-2 text-gray-700">PayPal Email: {userPayPalInfo.email}</p>
+                        <p className="text-lg mb-2 text-gray-700">First Name: {userPayPalInfo.firstName}</p>
+                        <p className="text-lg mb-2 text-gray-700">Last Name: {userPayPalInfo.lastName}</p>
+                        <button
+                            onClick={handleEdit}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-6 w-6 mr-2"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm2 0a5 5 0 11-10 0 5 5 0 0110 0zm2 0a7 7 0 11-14 0 7 7 0 0114 0z"
                                 />
-                            </div>
-                            <div>
-                                <label>First Name:</label>
-                                <input
-                                    type="text"
-                                    value={paypalFirstName}
-                                    onChange={(e) => setPaypalFirstName(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Last Name:</label>
-                                <input
-                                    type="text"
-                                    value={paypalLastName}
-                                    onChange={(e) => setPaypalLastName(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <button type="submit">Save</button>
-                        </form>
+                            </svg>
+                            Edit
+                        </button>
                     </div>
-                </div>
-            )}
+                ) : (
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            />
+                        </svg>
+                        Set up PayPal Account
+                    </button>
+                )}
+                {showModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black opacity-50"></div>
+                        <div ref={modalRef} className="bg-white p-8 rounded-lg z-50 max-w-md w-full relative">
+                            <button
+                                className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 focus:outline-none"
+                                onClick={() => setShowModal(false)}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div>
+                                    <label htmlFor="email" className="block text-lg mb-2 text-gray-800">
+                                        Email:
+                                    </label>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        value={paypalEmail}
+                                        onChange={(e) => setPaypalEmail(e.target.value)}
+                                        required
+                                        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="firstName" className="block text-lg mb-2 text-gray-800">
+                                        First Name:
+                                    </label>
+                                    <input
+                                        id="firstName"
+                                        type="text"
+                                        value={paypalFirstName}
+                                        onChange={(e) => setPaypalFirstName(e.target.value)}
+                                        required
+                                        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="lastName" className="block text-lg mb-2 text-gray-800">
+                                        Last Name:
+                                    </label>
+                                    <input
+                                        id="lastName"
+                                        type="text"
+                                        value={paypalLastName}
+                                        onChange={(e) => setPaypalLastName(e.target.value)}
+                                        required
+                                        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out w-full"
+                                >
+                                    Save
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

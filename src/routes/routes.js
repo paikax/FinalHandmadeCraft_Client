@@ -15,6 +15,7 @@ import TutorialList from '~/pages/client/Tutorial/TutorialList';
 import TutorialDetail from '~/pages/client/Tutorial/TutorialDetail';
 import Profile from '~/pages/client/Profile';
 import PaymentSetup from '~/pages/client/Payment/PaymentSetup';
+import Order from '~/pages/client/Order';
 
 // Public routes
 const publicRoutes = [
@@ -32,6 +33,7 @@ const privateRoutes = [
     { path: config.routes.settings, component: Settings, layout: HeaderOnly },
     { path: config.routes.profile, component: Profile },
     { path: config.routes.paymentSetup, component: PaymentSetup },
+    { path: config.routes.orders, component: Order },
 ];
 
 // Admin routes
