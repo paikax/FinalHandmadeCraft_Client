@@ -44,24 +44,26 @@ const TutorialList = () => {
 
     return (
         <div className="container mx-auto p-8">
-            <h2 className="text-3xl font-semibold mb-4">My Tutorials</h2>
+            <h2 className="text-4xl font-bold mb-8 text-center">Discover Inspiring Crafts</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {loading ? (
-                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-500 border-solid border-r-0 border-l-0"></div>
+                    <div className="flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid border-r-0 border-l-0"></div>
+                    </div>
                 ) : (
                     tutorials.map((tutorial) => (
-                        <div key={tutorial.id} className={loading ? 'pointer-events-none opacity-50' : ''}>
+                        <div key={tutorial.id} className="relative">
                             <Link to={`/tutorials/${tutorial.id}`}>
-                                <div className="bg-white rounded-md p-4 shadow-md transition-transform transform hover:scale-105">
+                                <div className="bg-white rounded-lg p-8 shadow-xl transition-transform transform hover:scale-105">
                                     {isNewTutorial(tutorial.uploadTime) && (
-                                        <span className="bg-green-500 text-white px-2 py-1 rounded-md absolute top-2 right-2">
+                                        <span className="bg-green-500 text-white px-4 py-2 rounded-full absolute top-6 right-6">
                                             New
                                         </span>
                                     )}
 
                                     {isHotTutorial(tutorial.likes.length) && (
-                                        <span className="bg-red-500 text-white px-2 py-1 rounded-md absolute top-2 left-2">
+                                        <span className="bg-red-500 text-white px-4 py-2 rounded-full absolute top-6 left-6">
                                             Hot
                                         </span>
                                     )}
@@ -69,34 +71,41 @@ const TutorialList = () => {
                                     <img
                                         src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
                                         alt={tutorial.title}
-                                        className="w-full h-96 object-cover mb-4 rounded-md"
+                                        className="w-full h-80 object-cover mb-6 rounded-md"
                                     />
-                                    <span className="text-xl font-semibold absolute bottom-4 right-20">
-                                        {tutorial.userName}
-                                    </span>
-                                    <img
-                                        src={tutorial.userProfilePicture}
-                                        alt="User Profile"
-                                        className="w-12 h-12 rounded-full absolute bottom-4 right-4"
-                                    />
-
-                                    <h3 className="text-2xl font-semibold mb-2 capitalize">{tutorial.title}</h3>
-                                    <p className="text-xl text-gray-600 mb-2 capitalize">
-                                        Difficulty Level: {tutorial.difficultLevel}
-                                    </p>
-                                    <p className="text-xl text-gray-600 mb-2 capitalize">
-                                        Completion Time: {tutorial.completionTime}
-                                    </p>
-                                    <p className="text-xl text-gray-700 capitalize">
-                                        Price: ${tutorial.price.toFixed(2)}
-                                    </p>
-                                    <div className="flex items-center space-x-2 mt-2">
-                                        <FontAwesomeIcon icon={faHeart} className="text-red-500" />
-                                        <span>{tutorial.likes.length}</span>
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            <h3 className="text-3xl font-semibold mb-4 capitalize">{tutorial.title}</h3>
+                                            <p className="text-lg text-gray-600 capitalize">
+                                                Difficulty: {tutorial.difficultLevel}
+                                            </p>
+                                            <p className="text-lg text-gray-600 capitalize">
+                                                Time: {tutorial.completionTime}
+                                            </p>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <img
+                                                src={tutorial.userProfilePicture}
+                                                alt="User Profile"
+                                                className="w-16 h-16 rounded-full"
+                                            />
+                                            <span className="text-xl font-semibold ml-4">{tutorial.userName}</span>
+                                        </div>
                                     </div>
-                                    <div className="flex items-center space-x-2 mt-1">
-                                        <FontAwesomeIcon icon={faComment} className="text-blue-500" />
-                                        <span>{tutorial.comments.length}</span>
+                                    <div className="flex justify-between mt-6">
+                                        <p className="text-lg text-gray-700 capitalize">
+                                            Price: ${tutorial.price.toFixed(2)}
+                                        </p>
+                                        <div className="flex items-center space-x-4">
+                                            <div className="flex items-center">
+                                                <FontAwesomeIcon icon={faHeart} className="text-red-500 mr-2" />
+                                                <span className="text-lg">{tutorial.likes.length}</span>
+                                            </div>
+                                            <div className="flex items-center">
+                                                <FontAwesomeIcon icon={faComment} className="text-blue-500 mr-2" />
+                                                <span className="text-lg">{tutorial.comments.length}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </Link>

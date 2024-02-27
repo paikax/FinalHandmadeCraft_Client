@@ -12,25 +12,27 @@ function AdminHeader({ currentUser }) {
 
     const renderResult = () => {
         return (
-            <div className="bg-white shadow-[0_24px_54px_rgba(0,0,0,0.15)]">
+            <div className="bg-white shadow-lg rounded-lg p-4">
                 <div className="flex justify-end">
                     <Link
                         to={config.routes.home}
-                        className="px-[14px] py-[15px] text-[14px] hover:bg-[#f5f5f5] hover:underline"
+                        className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:underline rounded-md"
                     >
-                        Go home
+                        Go Home
                     </Link>
                 </div>
-                <div className="flex items-center">
-                    <Image
-                        className="m-[20px] shrink-0 rounded-full w-[88px] h-[88px] object-cover border-[1px] border-solid border-[#777]"
-                        src={avatar || ''}
-                        alt="Avatar"
-                    />
-
-                    <div>
-                        <h2 className="font-semibold text-[18px]">{name || currentUser?.username}</h2>
-                        <p className="text-[14px]">{email || currentUser?.email}</p>
+                <div className="flex items-center mt-4">
+                    <div className="relative">
+                        <Image
+                            className="rounded-full w-20 h-20 object-cover border-2 border-solid border-white"
+                            src={avatar || ''}
+                            alt="Avatar"
+                        />
+                        <span className="absolute bottom-0 right-0 inline-block w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+                    </div>
+                    <div className="ml-4">
+                        <h2 className="font-semibold text-2xl text-gray-800">{name || currentUser?.username}</h2>
+                        <p className="text-sm text-gray-600">{email || currentUser?.email}</p>
                     </div>
                 </div>
             </div>
@@ -38,19 +40,20 @@ function AdminHeader({ currentUser }) {
     };
 
     return (
-        <header className="flex items-center h-[48px] bg-[#2564cf] justify-between px-[12px]">
+        <header className="flex items-center h-16 bg-gradient-to-r from-blue-500 to-purple-600 justify-between px-4">
             <Link to={config.routes.home} className="font-semibold text-white hover:underline">
                 HandMadeCraft
             </Link>
 
-            <div className="account-global flex items-center justify-center h-full w-[48px] hover:bg-[#005A9E] transition-colors cursor-pointer">
+            <div className="account-global relative group">
                 <HeadlessTippy trigger="click" interactive offset={[8, 8]} placement="bottom-end" render={renderResult}>
                     <Image
-                        className="rounded-full w-[32px] h-[32px] object-cover border-[1px] border-solid border-white"
+                        className="rounded-full w-10 h-10 object-cover border-2 border-solid border-white group-hover:shadow-lg"
                         src={avatar || ''}
                         alt="Avatar"
                     />
                 </HeadlessTippy>
+                <span className="absolute bottom-0 right-0 inline-block w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
             </div>
         </header>
     );
