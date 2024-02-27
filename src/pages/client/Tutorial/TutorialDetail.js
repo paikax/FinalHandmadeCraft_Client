@@ -296,48 +296,12 @@ const TutorialDetail = () => {
                                 <Link to="/" className="text-white hover:underline">
                                     Completed
                                 </Link>
-                                {/* <div className="relative inline-block text-left dropdown">
-                                    <span className="rounded-md shadow-sm">
-                                        <button
-                                            aria-controls="headlessui-menu-items-117"
-                                            aria-expanded="true"
-                                            aria-haspopup="true"
-                                            className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white hover:text-gray-300 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                                            type="button"
-                                        >
-                                            Types
-                                            <svg
-                                                className="w-5 h-5 ml-2 -mr-1"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path>
-                                            </svg>
-                                        </button>
-                                    </span>
-                                </div>
-                                <Link to="/" className="text-black hover:text-gray-300">
-                                    A-Z List
-                                </Link> */}
                                 <Link to="/" className="text-white hover:underline">
                                     News
                                 </Link>
                             </nav>
                         </div>
                         <div className="flex items-center">
-                            {/* <Link to="/" className="text-black hover:text-gray-300 mr-4">
-                                Follow maker:
-                            </Link>
-                            <Link to="/" className="text-black hover:text-gray-300 mr-4">
-                                <i className="fab fa-reddit-alien"></i>
-                            </Link>
-                            <Link to="/" className="text-black hover:text-gray-300 mr-4">
-                                <i className="fab fa-twitter"></i>
-                            </Link>
-                            <Link to="/" className="text-white hover:text-gray-300 mr-4">
-                                <i className="fab fa-discord"></i>
-                            </Link> */}
                             <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
                                 Dark Mode
                             </button>
@@ -359,10 +323,10 @@ const TutorialDetail = () => {
                     </div>
                     <div className="flex flex-wrap lg:flex-nowrap">
                         <div className="w-full lg:w-1/2 p-4">
-                            <div className="flex flex-col items-center bg-blue-500 p-6 rounded-lg">
+                            <div className="flex flex-col items-center bg-gradient-to-br from-blue-500 to-blue-700 p-8 rounded-lg shadow-lg">
                                 <video
                                     controls
-                                    className="w-full h-auto object-cover rounded-md mb-4"
+                                    className="w-full h-auto object-cover rounded-md mb-6 lg:mb-8"
                                     onPlay={handleVideoPlay}
                                     onPause={handleVideoPause}
                                 >
@@ -376,131 +340,116 @@ const TutorialDetail = () => {
                                     />
                                     Your browser does not support the video tag.
                                 </video>
-                                <h2 className="text-3xl font-bold mb-2">{tutorial.title}</h2>
-                                <p className="text-2xl text-green-300 font-bold mb-4">${tutorial.price}</p>
+                                <h2 className="text-4xl lg:text-5xl font-bold mb-4 lg:mb-6 text-white">
+                                    {tutorial.title}
+                                </h2>
+                                <p className="text-3xl lg:text-4xl text-green-300 font-bold mb-6 lg:mb-8">
+                                    ${tutorial.price}
+                                </p>
                                 <button
                                     onClick={openBuyModal}
-                                    className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mb-4"
+                                    className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 lg:py-4 px-10 lg:px-12 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                                 >
-                                    <i className="fas fa-book-open"></i> Buy the product
+                                    <i className="fas fa-shopping-cart mr-2"></i> Add to Cart
                                 </button>
-                                <div className="flex space-x-2 mb-4">
-                                    <span className="bg-purple-600 hover:bg-purple-500 text-xl rounded-md px-3 py-1 text-white">
-                                        Difficult Level: {tutorial.difficultLevel}
+                                <div className="flex space-x-2 mt-6 mb-4 lg:mb-6">
+                                    <span className="bg-yellow-600 hover:bg-yellow-500 text-lg lg:text-xl rounded-md px-3 py-1 text-white">
+                                        Difficulty: {tutorial.difficultLevel}
                                     </span>
                                 </div>
-                                <p className="text-sm mb-4">{tutorial.instruction}</p>
-                                <Link to="/" className="text-white text-lg">
-                                    + Read full
+                                <p className="text-lg lg:text-xl mb-6 lg:mb-8 text-white">{tutorial.instruction}</p>
+                                <Link to="/" className="text-white text-lg hover:underline">
+                                    + Learn More
                                 </Link>
                             </div>
                         </div>
+
                         <div className="w-full lg:w-1/2 p-4">
-                            <div className="bg-blue-500 p-6 rounded-lg">
-                                <div className="mb-4">
-                                    <h3 className="text-xl font-bold mb-2">Type:</h3>
-                                    <p className="text-sm">Manga</p>
+                            <div className="bg-gradient-to-br from-blue-500 to-blue-700 p-8 rounded-lg shadow-lg">
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-bold mb-2 text-white">Type:</h3>
+                                    <p className="text-lg text-white">Manga</p>
                                 </div>
-                                <div className="mb-4">
-                                    <h3 className="text-xl font-bold mb-2">Material:</h3>
-                                    <p className="text-sm">... ... ...</p>
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-bold mb-2 text-white">Material:</h3>
+                                    <p className="text-lg text-white">...</p>
                                 </div>
-                                <div className="mb-4">
-                                    <h3 className="text-xl font-bold mb-2">Uploaded by</h3>
-                                    <p className="text-sm">{tutorial.userName}</p>
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-bold mb-2 text-white">Uploaded by:</h3>
+                                    <p className="text-lg text-white">{tutorial.userName}</p>
                                 </div>
-                                <div className="mb-4">
-                                    <h3 className="text-xl font-bold mb-2">Published:</h3>
-                                    <p className="text-sm">{tutorial.createdAt}</p>
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-bold mb-2 text-white">Published:</h3>
+                                    <p className="text-lg text-white">{tutorial.createdAt}</p>
                                 </div>
-                                <div className="mb-4">
-                                    <h3 className="text-xl font-bold mb-2">Views:</h3>
-                                    <p className="text-sm">23,445</p>
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-bold mb-2 text-white">Views:</h3>
+                                    <p className="text-lg text-white">23,445</p>
                                 </div>
-                                <div className="mb-4">
-                                    <h3 className="text-xl font-bold mb-2">Likes:</h3>
+                                <div className="mb-6">
+                                    <h3 className="text-2xl font-bold mb-2 text-white">Likes:</h3>
                                     <div className="flex items-center">
                                         <p className="text-3xl font-bold text-yellow-200 mr-2">
                                             {tutorial.likes.length}
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex space-x-2 mb-4">
+                                <div className="flex space-x-4 mb-6">
                                     <button
-                                        className={`bg-white hover:bg-white text-blue-700 hover:text-blue-500 ${
+                                        className={`bg-white hover:bg-white text-blue-700 hover:text-blue-500 font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out ${
                                             isLiked ? 'text-red-500' : ''
-                                        } font-bold py-2 px-4 rounded`}
+                                        }`}
                                         onClick={handleLike}
                                     >
                                         <FontAwesomeIcon icon={faHeart} className="mr-1" />
                                         {isLiked ? 'Liked' : 'Like'}
                                     </button>
-                                </div>
-                                <div className="flex space-x-2 mb4">
                                     <button
-                                        className="bg-white px-2 py-2 rounded-md text-xl font-bold text-blue-500
-                                        hover:text-blue-400 cursor-pointer"
+                                        className="bg-white hover:bg-white text-blue-700 hover:text-blue-500 font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out"
                                         onClick={openCommentModal}
                                     >
-                                        View Comments {tutorial.comments.length}
+                                        <FontAwesomeIcon icon={faComment} className="mr-1" />
+                                        View Comments ({tutorial.comments.length})
                                     </button>
-                                    <Modal
-                                        className="flex flex-col w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto my-8 bg-white p-8 shadow-[1px_1px_12px_rgba(0,0,0,0.15)] rounded-md"
-                                        isOpen={isCommentModalOpen}
-                                        onRequestClose={closeCommentModal}
-                                        contentLabel="Comments Modal"
-                                    >
-                                        <h2 className="text-2xl font-semibold mb-4">Comments</h2>
-                                        <CommentSection
-                                            comments={commentSection}
-                                            currentUserID={currentUserID}
-                                            onDeleteComment={handleDeleteComment}
-                                            setCommentSection={setCommentSection}
-                                        />
-
-                                        <div className="mt-4">
-                                            <textarea
-                                                className="w-full h-20 p-2 border border-gray-300 rounded-md"
-                                                placeholder="Type your comment here..."
-                                                value={newComment}
-                                                onChange={handleCommentChange}
-                                            />
-                                            <button
-                                                className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md"
-                                                onClick={handleCommentSubmit}
-                                                disabled={!newComment.trim()}
-                                            >
-                                                Submit Comment
-                                            </button>
-                                        </div>
-                                        <button
-                                            className="mt-4 self-end flex items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-[rgba(0,0,0,0.05)]"
-                                            onClick={closeCommentModal}
-                                        >
-                                            <FontAwesomeIcon icon={faTimes} />
-                                        </button>
-                                    </Modal>
                                 </div>
+                                <Modal
+                                    className="flex flex-col w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto my-8 bg-white p-8 shadow-lg rounded-md"
+                                    isOpen={isCommentModalOpen}
+                                    onRequestClose={closeCommentModal}
+                                    contentLabel="Comments Modal"
+                                >
+                                    <h2 className="text-4xl lg:text-3xl font-bold mb-8 text-gray-900">Comments</h2>
+                                    <CommentSection
+                                        comments={commentSection}
+                                        currentUserID={currentUserID}
+                                        onDeleteComment={handleDeleteComment}
+                                        setCommentSection={setCommentSection}
+                                    />
+                                    <div className="mt-8">
+                                        <textarea
+                                            className="w-full h-32 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring focus:ring-blue-500 text-gray-800"
+                                            placeholder="Type your comment here..."
+                                            value={newComment}
+                                            onChange={handleCommentChange}
+                                        />
+                                        <button
+                                            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-md transition duration-300 ease-in-out disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                                            onClick={handleCommentSubmit}
+                                            disabled={!newComment.trim()}
+                                        >
+                                            Send
+                                        </button>
+                                    </div>
+                                    <button
+                                        className="mt-8 self-end flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-300 ease-in-out focus:outline-none"
+                                        onClick={closeCommentModal}
+                                    >
+                                        <FontAwesomeIcon icon={faTimes} className="text-gray-600" />
+                                    </button>
+                                </Modal>
                             </div>
                         </div>
                     </div>
-                    {/* <div className="flex space-x-2 my-4">
-                        <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded">
-                            <i className="fab fa-facebook-f"></i> Share
-                        </button>
-                        <button className="bg-blue-400 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded">
-                            <i className="fab fa-twitter"></i> Tweet
-                        </button>
-                        <button className="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded">
-                            <i className="fab fa-pinterest-p"></i> Share
-                        </button>
-                        <button className="bg-orange-500 hover:bg-orange-400 text-white font-bold py-2 px-4 rounded">
-                            <i className="fab fa-reddit-alien"></i> Share
-                        </button>
-                        <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded">
-                            <i className="fab fa-whatsapp"></i> Share
-                        </button>
-                    </div> */}
                     <div className="bg-blue-700 my-2 text-center p-4">
                         <span className="text-xl my-2">PRIVACY</span>
                     </div>

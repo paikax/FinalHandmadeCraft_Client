@@ -11,6 +11,7 @@ import {
     faTimes,
     faCheckCircle,
     faGem,
+    faCrown,
 } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
@@ -416,7 +417,13 @@ const Profile = () => {
                                     )}
                                 </div>
                                 <div className="ms-3" style={{ marginTop: '130px' }}>
-                                    <h5 className={`text-md font-semibold ${user.isPremium ? 'text-yellow-500' : ''}`}>
+                                    <h5
+                                        className={`text-md font-semibold ${
+                                            user.isPremium ? 'text-yellow-500 premium-name' : ''
+                                        }`}
+                                    >
+                                        {user.isPremium && <FontAwesomeIcon icon={faCrown} className="me-1" />}{' '}
+                                        {/* Render the crown icon only for premium users */}
                                         {user.firstName} {user.lastName}
                                     </h5>
                                     <p className="">
@@ -425,6 +432,7 @@ const Profile = () => {
                                     </p>
                                 </div>
                             </div>
+
                             <div className="px-4 py-6 text-black rounded-md" style={{ backgroundColor: '#f8f9fa' }}>
                                 <button
                                     onClick={handleShowBenefitsModal}
