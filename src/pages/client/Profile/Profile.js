@@ -2,7 +2,16 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faImages, faEdit, faStar, faGift, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+    faMapMarkerAlt,
+    faImages,
+    faEdit,
+    faStar,
+    faGift,
+    faTimes,
+    faCheckCircle,
+    faGem,
+} from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
@@ -218,27 +227,95 @@ const Profile = () => {
 
     const PremiumBenefitsModal = () => {
         return (
-            <div className={`${showBenefitsModal ? 'fixed inset-0 flex items-center justify-center' : 'hidden'}`}>
+            <div
+                className={`${
+                    showBenefitsModal ? 'fixed inset-0 flex items-center justify-center overflow-y-auto' : 'hidden'
+                }`}
+            >
                 <div className="modal-overlay fixed inset-0 bg-black opacity-50"></div>
-                <div className="modal bg-white p-6 rounded-lg z-10">
+                <div className="modal bg-white p-8 rounded-lg z-50 shadow-xl">
                     <div className="flex justify-end">
                         <button className="focus:outline-none" onClick={() => setShowBenefitsModal(false)}>
                             <FontAwesomeIcon icon={faTimes} className="text-gray-500 hover:text-gray-700" />
                         </button>
                     </div>
-                    <h2 className="text-2xl mb-4">Premium Benefits</h2>
-                    <ul className="list-disc text-left ml-10">
-                        <li>Unlimited Access to All Features</li>
-                        <li>Ad-Free Experience</li>
-                        <li>Priority Support</li>
-                        <li>Exclusive Content</li>
+                    <h2 className="text-4xl font-bold mb-8 text-center text-blue-700">Unlock Premium Benefits!</h2>
+                    <ul className="list-disc text-lg text-left ml-6 mb-8">
+                        <li className="mb-4 flex items-center">
+                            <span className="text-green-500 mr-3">
+                                <FontAwesomeIcon icon={faCheckCircle} />
+                            </span>
+                            Unlimited Access to All Features
+                        </li>
+                        <li className="mb-4 flex items-center">
+                            <span className="text-green-500 mr-3">
+                                <FontAwesomeIcon icon={faCheckCircle} />
+                            </span>
+                            Unlimited Uploads for Your Creative Ideas
+                        </li>
+                        <li className="mb-4 flex items-center">
+                            <span className="text-green-500 mr-3">
+                                <FontAwesomeIcon icon={faCheckCircle} />
+                            </span>
+                            Priority Support via Live Chat
+                        </li>
+                        <li className="mb-4 flex items-center">
+                            <span className="text-green-500 mr-3">
+                                <FontAwesomeIcon icon={faCheckCircle} />
+                            </span>
+                            Access to Exclusive Premium Content
+                        </li>
                     </ul>
-                    <button
-                        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        onClick={() => setShowBenefitsModal(false)}
-                    >
-                        Close
-                    </button>
+                    <div className="text-center mb-8">
+                        <p className="text-gray-600 mb-2">All these benefits for just $10/month!</p>
+                        <p className="text-sm text-gray-600">Cancel anytime.</p>
+                    </div>
+
+                    <div className="flex justify-center items-center">
+                        <PayPalScriptProvider
+                            options={{
+                                'client-id':
+                                    'AQoxVwjga08z5yxk0JvxpEgKbGqGZ7DQdOLuYT34GGPv7Xn4Mc0fzf-ZdsdLe--pF0G0vIDR5699Dbqa',
+                            }}
+                        >
+                            {isPremium ? (
+                                <div className="text-center p-4 rounded-lg bg-green-100 border border-green-200">
+                                    <FontAwesomeIcon icon={faStar} className="text-yellow-500" />
+                                    <span>You are a premium user!</span>
+                                </div>
+                            ) : (
+                                <div className="text-center p-4 rounded-lg border border-blue-200 bg-blue-50">
+                                    {showPayPalButtons ? (
+                                        <PayPalButtons
+                                            createOrder={(data, actions) => {
+                                                return actions.order.create({
+                                                    purchase_units: [
+                                                        {
+                                                            amount: { value: '10.00' },
+                                                        },
+                                                    ],
+                                                });
+                                            }}
+                                            onApprove={(data, actions) => {
+                                                // Capture the payment
+                                                return actions.order.capture().then(function (details) {
+                                                    // Handle payment success
+                                                    handleUpgradeToPremium();
+                                                });
+                                            }}
+                                        />
+                                    ) : (
+                                        <button
+                                            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline transform transition duration-300 hover:scale-105"
+                                            onClick={() => handleShowPayPalButtons(true)}
+                                        >
+                                            Upgrade to Premium
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+                        </PayPalScriptProvider>
+                    </div>
                 </div>
             </div>
         );
@@ -330,7 +407,7 @@ const Profile = () => {
                                     />
                                     {currentUserID === userId && ( // Check if current user is viewing their own profile
                                         <button
-                                            className="btn bg-green-400 hover:bg-green-500 rounded btn-outline-dark h-10 overflow-visible"
+                                            className="bg-green-400 hover:bg-green-500 rounded btn-outline-dark h-10 overflow-visible"
                                             onClick={handleEditProfile}
                                         >
                                             <FontAwesomeIcon icon={faEdit} className="me-2" />
@@ -348,7 +425,19 @@ const Profile = () => {
                                     </p>
                                 </div>
                             </div>
-                            <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
+                            <div className="px-4 py-6 text-black rounded-md" style={{ backgroundColor: '#f8f9fa' }}>
+                                <button
+                                    onClick={handleShowBenefitsModal}
+                                    className="btn btn-primary flex items-center justify-center space-x-2 px-6 py-3 rounded-lg text-lg font-semibold transition duration-300 transform hover:scale-105 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 border border-transparent hover:border-yellow-500 absolute"
+                                >
+                                    <div className="flex items-center justify-center bg-white rounded-full w-10 h-10">
+                                        <FontAwesomeIcon icon={faGem} className="text-yellow-500" />
+                                    </div>
+                                    <span className="font-bold">Unlock Premium Features</span>
+                                    <span className="text-sm ml-2 bg-yellow-500 text-white py-1 px-2 rounded-md absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                                        New
+                                    </span>
+                                </button>
                                 <div className="flex justify-end text-center py-1">
                                     <div>
                                         {currentUserID !== userId && (
@@ -372,35 +461,37 @@ const Profile = () => {
                                         )}
                                     </div>
                                     <div className="px-3">
-                                        <p className="mb-1 text-lg">{followerCount}</p>
-                                        <p className="text-xs text-muted mb-0">Followers</p>
+                                        <p className="mb-1 text-lg font-semibold">{followerCount}</p>
+                                        <p className="text-xs text-gray-500 mb-0">Followers</p>
                                     </div>
                                     <div className="px-3">
-                                        <p className="mb-1 text-lg">{followingCount}</p>
-                                        <p className="text-xs text-muted mb-0">Following</p>
+                                        <p className="mb-1 text-lg font-semibold">{followingCount}</p>
+                                        <p className="text-xs text-gray-500 mb-0">Following</p>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="card-body text-black p-4">
                                 <div className="mb-5">
                                     <p className="lead font-normal mb-1">About</p>
-                                    <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
+                                    <div className="p-4 rounded-sm" style={{ backgroundColor: '#f8f9fa' }}>
                                         <p className="font-italic mb-1">{user.bio}</p>
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center mb-4">
-                                    <p className="lead font-normal mb-0">Recent Tutorials</p>
+                                    <p className="lead font-normal mb-0">Recent Craft Tutorials</p>
                                 </div>
-                                <div className="grid grid-cols-2 gap-2">
+                                <div className="grid grid-cols-2 gap-4">
                                     {latestTutorials.slice(0, 4).map((tutorial) => (
-                                        <div className="mb-2" key={tutorial.id}>
+                                        <div className="mb-4" key={tutorial.id}>
                                             <Link to={`/tutorials/${tutorial.id}`}>
                                                 <img
                                                     src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
                                                     alt={tutorial.title}
-                                                    className="w-full rounded-3"
+                                                    className="w-full h-auto rounded-lg shadow-lg hover:shadow-xl transition duration-300"
                                                 />
                                             </Link>
+                                            {/* <p className="mt-2 text-sm font-medium text-gray-700">{tutorial.title}</p> */}
                                         </div>
                                     ))}
                                 </div>
@@ -408,65 +499,17 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <PayPalScriptProvider
-                        options={{
-                            'client-id':
-                                'AQoxVwjga08z5yxk0JvxpEgKbGqGZ7DQdOLuYT34GGPv7Xn4Mc0fzf-ZdsdLe--pF0G0vIDR5699Dbqa',
-                        }}
-                    >
-                        {isPremium ? (
-                            <div className="text-center p-4 rounded-lg bg-green-100 border border-green-200">
-                                <FontAwesomeIcon icon={faStar} className="text-yellow-500" />
-                                <span>You are a premium user!</span>
-                            </div>
-                        ) : (
-                            <div className="text-center p-4 rounded-lg border border-blue-200 bg-blue-50">
-                                <h2 className="text-2xl mb-4">Upgrade to Premium</h2>
-                                <FontAwesomeIcon icon={faGift} className="text-3xl mb-4 text-red-500 animate-bounce" />
-                                <p className="mb-4">Unlock all premium features for a better experience.</p>
-                                {showPayPalButtons ? (
-                                    <PayPalButtons
-                                        createOrder={(data, actions) => {
-                                            return actions.order.create({
-                                                purchase_units: [
-                                                    {
-                                                        amount: { value: '10.00' },
-                                                    },
-                                                ],
-                                            });
-                                        }}
-                                        onApprove={(data, actions) => {
-                                            // Capture the payment
-                                            return actions.order.capture().then(function (details) {
-                                                // Handle payment success
-                                                handleUpgradeToPremium();
-                                            });
-                                        }}
-                                    />
-                                ) : (
-                                    <button
-                                        onClick={handleShowPayPalButtons}
-                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Upgrade to Premium
-                                    </button>
-                                )}
-                                <button className="btn btn-primary" onClick={handleShowBenefitsModal}>
-                                    See Premium Benefits
-                                </button>
-                            </div>
-                        )}
-                    </PayPalScriptProvider>
-                </div>
             </div>
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center">
-                    <div className="modal-overlay fixed inset-0 bg-black opacity-50"></div>
-                    <div className="flex flex-col justify-center overflow-y-auto h-[calc(100vh-200px)] modal bg-white p-6 rounded-lg z-10">
-                        <span className="close-icon absolute top-4 right-4 cursor-pointer" onClick={handleCloseModal}>
+                    <div className="modal-overlay fixed inset-0 bg-black opacity-50" onClick={handleCloseModal}></div>
+                    <div className="relative flex flex-col justify-center overflow-y-auto h-[calc(100vh-200px)] modal bg-white p-6 rounded-lg z-10">
+                        <button
+                            className="close-icon absolute top-2 right-2 cursor-pointer w-[40px] h-[40px] rounded-full hover:bg-[rgba(0,0,0,0.08)] transition-all"
+                            onClick={handleCloseModal}
+                        >
                             <FontAwesomeIcon icon={faTimes} />
-                        </span>
+                        </button>
                         <h2 className="text-2xl mb-8 text-center font-bold">Edit Profile</h2>
                         <form>
                             <div className="form-group mb-4">

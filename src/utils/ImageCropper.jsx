@@ -94,7 +94,7 @@ function ImageCropper({ onCropComplete }) {
                 type="file"
                 accept="image/*"
                 onChange={onSelectFile}
-                className="cursor-pointer bg-blue-500 text-white rounded-lg p-2 mt-2"
+                className="cursor-pointer bg-blue-500 text-white w-full rounded-lg p-2 mt-2"
             />
             {error && <p className="text-red-400 text-xs">{error}</p>}
             {imgSrc && (
