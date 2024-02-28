@@ -1,6 +1,8 @@
 import React from 'react';
 
 const OrderList = ({ orders }) => {
+    console.log('Orders received:', orders); // Log the orders received from props
+
     if (!orders || orders.length === 0) {
         return <div>No orders available</div>;
     }

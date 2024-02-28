@@ -13,9 +13,9 @@ export const createOrder = async (orderRequest) => {
 export const getOrders = async (userId) => {
     try {
         const res = await httpRequest.get(`/orders/all/${userId}`);
-        return res;
+        return res; // Assuming the response data contains the orders
     } catch (error) {
-        console.log(error);
+        console.error('Error fetching orders:', error);
         throw error; // Re-throw the error to handle it elsewhere
     }
 };
