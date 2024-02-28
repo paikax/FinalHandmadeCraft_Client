@@ -78,55 +78,20 @@ const TutorialDetail = () => {
         fetchTutorial();
     }, [tutorialId]);
 
+    useEffect(() => {
+        if (tutorial) {
+            const totalPrice = tutorial.price * quantity;
+            setTotalPrice(totalPrice);
+            localStorage.setItem('totalPrice', totalPrice);
+        }
+    }, [quantity, tutorial]);
+
+    useEffect(() => {
+        localStorage.setItem('shippingAddress', shippingAddress);
+    }, [shippingAddress]);
+
     const openBuyModal = () => setIsBuyModalOpen(true);
     const closeBuyModal = () => setIsBuyModalOpen(false);
-    const handleBuyNow = async () => {
-        try {
-            setIsPaymentSuccess(false); // Reset payment success state
-
-            const orderItem = {
-                tutorialId: tutorialId,
-                productName: tutorial.title,
-                price: tutorial.price,
-                quantity: quantity,
-            };
-
-            const totalPrice = tutorial.price * quantity;
-
-            // Construct order request object with user ID, order items, total price, and address (if applicable)
-            const orderRequest = {
-                userId: currentUserID,
-                items: [orderItem],
-                quantity: quantity,
-                totalPrice: totalPrice,
-                address: shippingAddress,
-            };
-
-            // Call the createOrder function with the constructed order request
-            const orderResponse = await createOrder(orderRequest);
-
-            // Check if order creation was successful
-            if (orderResponse && orderResponse.id) {
-                // If order was created successfully, send payment
-                await sendPayment(tutorial.creatorPayPalEmail, totalPrice);
-
-                setIsPaymentSuccess(true); // Update payment success state
-                toast.success('Payment successful');
-                console.log('Order created successfully:', orderResponse);
-                setIsBuyModalOpen(false); // Close the buy modal
-            } else {
-                // Handle the case where order creation failed
-                toast.error('Failed to create order');
-            }
-        } catch (error) {
-            console.error('Error processing payment:', error);
-            toast.error('Failed to process payment');
-        }
-    };
-
-    const handleAddToCart = async () => {
-        alert('Add to Cart feature will be implemented');
-    };
 
     const openCommentModal = () => {
         setIsCommentModalOpen(true);
@@ -224,15 +189,53 @@ const TutorialDetail = () => {
         console.log('Transcript:', transcript);
         resetTranscript();
     };
-
     const handleQuantityChange = (e) => {
-        const value = parseInt(e.target.value);
-        if (!isNaN(value) && value > 0 && value <= 10) {
-            setQuantity(value);
-            // Calculate and set the total price based on the new quantity
-            setTotalPrice(value * tutorial.price);
+        const newQuantity = parseInt(e.target.value);
+        setQuantity(newQuantity);
+        localStorage.setItem('quantity', newQuantity);
+    };
+
+    const handleBuyNow = async () => {
+        try {
+            setIsPaymentSuccess(false); // Reset payment success state
+
+            const orderItem = {
+                tutorialId: tutorialId,
+                productName: tutorial.title,
+                price: tutorial.price,
+                quantity: +JSON.parse(localStorage.getItem('quantity')),
+            };
+
+            // Construct order request object with user ID, order items, total price, and address (if applicable)
+            const orderRequest = {
+                userId: currentUserID,
+                items: [orderItem],
+                totalPrice: +JSON.parse(localStorage.getItem('totalPrice')),
+                address: localStorage.getItem('shippingAddress'),
+            };
+
+            // Call the createOrder function with the constructed order request
+            const orderResponse = await createOrder(orderRequest);
+
+            // Check if order creation was successful
+            if (orderResponse && orderResponse.id) {
+                // If order was created successfully, send payment
+                await sendPayment(tutorial.creatorPayPalEmail, +JSON.parse(localStorage.getItem('totalPrice')));
+
+                setIsPaymentSuccess(true); // Update payment success state
+                toast.success('Payment successful');
+                console.log('Order created successfully:', orderResponse);
+                setIsBuyModalOpen(false); // Close the buy modal
+            } else {
+                // Handle the case where order creation failed
+                toast.error('Failed to create order');
+            }
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            toast.error('Failed to process payment');
         }
     };
+
     if (loading) {
         return <div className="text-center mt-8">Loading...</div>;
     }
@@ -247,19 +250,27 @@ const TutorialDetail = () => {
             <Modal
                 isOpen={!isPaymentSuccess && isBuyModalOpen}
                 onRequestClose={closeBuyModal}
-                className="fixed inset-0 flex items-center justify-center p-4"
+                className="fixed inset-0 flex items-center justify-center"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+                shouldCloseOnEsc={true}
                 contentLabel="Buy Options"
+                shouldCloseOnOverlayClick={true}
             >
-                {isPaymentSuccess ? ( // If payment is successful, display success message
+                {isPaymentSuccess ? (
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm">
                         <div className="p-5">
-                            <h2 className="text-2xl font-bold mb-2">Order Successful!</h2>
-                            <p className="text-sm text-gray-700">Thank you for your purchase.</p>
+                            <h2 className="text-2xl font-bold text-center mb-2 text-green-600">Order Successful!</h2>
+                            <p className="text-sm text-gray-700 text-center">Thank you for your purchase.</p>
                         </div>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm">
+                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm relative">
+                        <button
+                            className="absolute top-0 right-0 m-3 text-gray-600 hover:text-gray-800 focus:outline-none"
+                            onClick={closeBuyModal}
+                        >
+                            <FontAwesomeIcon icon={faTimes} />
+                        </button>
                         <div className="p-5">
                             <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="shippingAddress">
                                 Shipping Address
@@ -288,7 +299,6 @@ const TutorialDetail = () => {
                                 placeholder="Enter quantity"
                             />
                         </div>
-
                         <div className="p-5">
                             <PayPalScriptProvider
                                 options={{
@@ -297,14 +307,13 @@ const TutorialDetail = () => {
                                 }}
                             >
                                 <PayPalButtons
-                                    style={{ layout: 'horizontal' }}
                                     createOrder={(data, actions) => {
+                                        const totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
+
                                         return actions.order.create({
                                             purchase_units: [
                                                 {
-                                                    amount: {
-                                                        value: totalPrice.toFixed(),
-                                                    },
+                                                    amount: { value: (+totalPrice).toFixed(2) },
                                                 },
                                             ],
                                         });
