@@ -32,6 +32,9 @@ const TutorialDetail = () => {
     const [modalKey, setModalKey] = useState(0);
     const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
+    const [shippingAddress, setShippingAddress] = useState('');
+    const [quantity, setQuantity] = useState(1);
+    const [totalPrice, setTotalPrice] = useState(0);
     const { transcript, resetTranscript } = useSpeechRecognition();
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
@@ -80,21 +83,23 @@ const TutorialDetail = () => {
     const handleBuyNow = async () => {
         try {
             setIsPaymentSuccess(false); // Reset payment success state
-            setIsBuyModalOpen(false); // Close the buy modal
 
-            // Construct order item with necessary information
             const orderItem = {
                 tutorialId: tutorialId,
-                quantity: 1, // Assuming quantity is fixed to 1 for now
-                price: tutorial.price, // Pass the tutorial price to the order item
+                productName: tutorial.title,
+                price: tutorial.price,
+                quantity: quantity,
             };
+
+            const totalPrice = tutorial.price * quantity;
 
             // Construct order request object with user ID, order items, total price, and address (if applicable)
             const orderRequest = {
                 userId: currentUserID,
                 items: [orderItem],
-                totalPrice: tutorial.price, // Pass the total price of the order
-                address: '', // Add the address if available
+                quantity: quantity,
+                totalPrice: totalPrice,
+                address: shippingAddress,
             };
 
             // Call the createOrder function with the constructed order request
@@ -103,10 +108,12 @@ const TutorialDetail = () => {
             // Check if order creation was successful
             if (orderResponse && orderResponse.id) {
                 // If order was created successfully, send payment
-                await sendPayment(tutorial.creatorPayPalEmail, tutorial.price);
+                await sendPayment(tutorial.creatorPayPalEmail, totalPrice);
 
                 setIsPaymentSuccess(true); // Update payment success state
                 toast.success('Payment successful');
+                console.log('Order created successfully:', orderResponse);
+                setIsBuyModalOpen(false); // Close the buy modal
             } else {
                 // Handle the case where order creation failed
                 toast.error('Failed to create order');
@@ -218,6 +225,14 @@ const TutorialDetail = () => {
         resetTranscript();
     };
 
+    const handleQuantityChange = (e) => {
+        const value = parseInt(e.target.value);
+        if (!isNaN(value) && value > 0 && value <= 10) {
+            setQuantity(value);
+            // Calculate and set the total price based on the new quantity
+            setTotalPrice(value * tutorial.price);
+        }
+    };
     if (loading) {
         return <div className="text-center mt-8">Loading...</div>;
     }
@@ -246,33 +261,60 @@ const TutorialDetail = () => {
                 ) : (
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm">
                         <div className="p-5">
+                            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="shippingAddress">
+                                Shipping Address
+                            </label>
+                            <input
+                                type="text"
+                                id="shippingAddress"
+                                value={shippingAddress}
+                                onChange={(e) => setShippingAddress(e.target.value)}
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500 w-full"
+                                placeholder="Enter your shipping address"
+                            />
+                        </div>
+                        <div className="p-5">
+                            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="quantity">
+                                Quantity (Max: 10)
+                            </label>
+                            <input
+                                type="number"
+                                id="quantity"
+                                min="1"
+                                max="10"
+                                value={quantity}
+                                onChange={handleQuantityChange}
+                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500 w-full"
+                                placeholder="Enter quantity"
+                            />
+                        </div>
+
+                        <div className="p-5">
                             <PayPalScriptProvider
                                 options={{
                                     'client-id':
                                         'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k',
                                 }}
                             >
-                                <div className="container mx-auto p-8 mb-10">
-                                    <PayPalButtons
-                                        style={{ layout: 'horizontal' }}
-                                        createOrder={(data, actions) => {
-                                            return actions.order.create({
-                                                purchase_units: [
-                                                    {
-                                                        amount: {
-                                                            value: tutorial.price,
-                                                        },
+                                <PayPalButtons
+                                    style={{ layout: 'horizontal' }}
+                                    createOrder={(data, actions) => {
+                                        return actions.order.create({
+                                            purchase_units: [
+                                                {
+                                                    amount: {
+                                                        value: totalPrice.toFixed(),
                                                     },
-                                                ],
-                                            });
-                                        }}
-                                        onApprove={(data, actions) => {
-                                            return actions.order.capture().then(function (details) {
-                                                handleBuyNow();
-                                            });
-                                        }}
-                                    />
-                                </div>
+                                                },
+                                            ],
+                                        });
+                                    }}
+                                    onApprove={(data, actions) => {
+                                        return actions.order.capture().then(function (details) {
+                                            handleBuyNow();
+                                        });
+                                    }}
+                                />
                             </PayPalScriptProvider>
                         </div>
                     </div>

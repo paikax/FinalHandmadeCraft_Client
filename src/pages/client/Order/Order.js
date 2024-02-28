@@ -32,7 +32,7 @@ const Order = () => {
                 {orders && orders.length > 0 ? (
                     orders.map((order) => (
                         <div key={order.id} className="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-                            <h2 className="text-2xl font-semibold mb-6 text-center text-gray-900">Order #{order.id}</h2>
+                            <h2 className="text-sm font-semibold mb-6 text-center text-gray-900">Order #{order.id}</h2>
                             <p className="text-lg text-gray-800 mb-4">Total Price: ${order.totalPrice.toFixed(2)}</p>
                             <p className="text-lg text-gray-800 mb-8">Shipping Address: {order.address}</p>
                             <ul className="divide-y divide-gray-300">
