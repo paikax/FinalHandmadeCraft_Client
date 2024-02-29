@@ -16,11 +16,15 @@ import TutorialDetail from '~/pages/client/Tutorial/TutorialDetail';
 import Profile from '~/pages/client/Profile';
 import PaymentSetup from '~/pages/client/Payment/PaymentSetup';
 import Order from '~/pages/client/Order';
+import ForgotPassword from '~/pages/client/ResetPassword/forgotPassword';
+import ResetPassword from '~/pages/client/ResetPassword/resetPassword';
 
 // Public routes
 const publicRoutes = [
     { path: config.routes.login, component: Login, layout: null },
     { path: config.routes.register, component: Register, layout: null },
+    { path: config.routes.forgotPassword, component: ForgotPassword, layout: null },
+    { path: config.routes.resetPassword, component: ResetPassword, layout: null },
 ];
 
 // Private routes

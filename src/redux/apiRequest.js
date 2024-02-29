@@ -178,3 +178,21 @@ export const getLatestTutorialsByUser = async (userId, count) => {
         throw error;
     }
 };
+
+export const forgotPassword = async (email) => {
+    try {
+        const response = await axios.post('/api/User/forgot-password', { email });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const resetPassword = async (token, password, confirmPassword) => {
+    try {
+        const response = await axios.post('/api/User/reset-password', { token, password, confirmPassword });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

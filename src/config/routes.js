@@ -7,6 +7,7 @@ const routes = {
     search: '/search',
     dashboard: '/dashboard',
     forgotPassword: '/forgot-password',
+    resetPassword: '/reset-password',
     tutorialUpload: '/tutorialUpload',
     tutorialList: '/tutorials',
     tutorialDetail: '/tutorials/:tutorialId',

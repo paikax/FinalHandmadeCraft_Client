@@ -401,7 +401,7 @@ const TutorialDetail = () => {
                                     onClick={openBuyModal}
                                     className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 lg:py-4 px-10 lg:px-12 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                                 >
-                                    <i className="fas fa-shopping-cart mr-2"></i> Add to Cart
+                                    <i className="fas fa-shopping-cart mr-2"></i> Buy the product
                                 </button>
                                 <div className="flex space-x-2 mt-6 mb-4 lg:mb-6">
                                     <span className="bg-yellow-600 hover:bg-yellow-500 text-lg lg:text-xl rounded-md px-3 py-1 text-white">
