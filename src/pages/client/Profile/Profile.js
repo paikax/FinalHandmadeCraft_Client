@@ -227,6 +227,10 @@ const Profile = () => {
     };
 
     const PremiumBenefitsModal = () => {
+        if (isPremium) {
+            return null;
+        }
+
         return (
             <div
                 className={`${
@@ -434,18 +438,20 @@ const Profile = () => {
                             </div>
 
                             <div className="px-4 py-6 text-black rounded-md" style={{ backgroundColor: '#f8f9fa' }}>
-                                <button
-                                    onClick={handleShowBenefitsModal}
-                                    className="btn btn-primary flex items-center justify-center space-x-2 px-6 py-3 rounded-lg text-lg font-semibold transition duration-300 transform hover:scale-105 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 border border-transparent hover:border-yellow-500 absolute"
-                                >
-                                    <div className="flex items-center justify-center bg-white rounded-full w-10 h-10">
-                                        <FontAwesomeIcon icon={faGem} className="text-yellow-500" />
-                                    </div>
-                                    <span className="font-bold">Unlock Premium Features</span>
-                                    <span className="text-sm ml-2 bg-yellow-500 text-white py-1 px-2 rounded-md absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
-                                        New
-                                    </span>
-                                </button>
+                                {!isPremium && (
+                                    <button
+                                        onClick={handleShowBenefitsModal}
+                                        className="btn btn-primary flex items-center justify-center space-x-2 px-6 py-3 rounded-lg text-lg font-semibold transition duration-300 transform hover:scale-105 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 border border-transparent hover:border-yellow-500 absolute"
+                                    >
+                                        <div className="flex items-center justify-center bg-white rounded-full w-10 h-10">
+                                            <FontAwesomeIcon icon={faGem} className="text-yellow-500" />
+                                        </div>
+                                        <span className="font-bold">Unlock Premium Features</span>
+                                        <span className="text-sm ml-2 bg-yellow-500 text-white py-1 px-2 rounded-md absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                                            New
+                                        </span>
+                                    </button>
+                                )}
                                 <div className="flex justify-end text-center py-1">
                                     <div>
                                         {currentUserID !== userId && (

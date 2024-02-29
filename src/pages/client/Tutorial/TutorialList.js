@@ -55,7 +55,7 @@ const TutorialList = () => {
                     tutorials.map((tutorial) => (
                         <div key={tutorial.id} className="relative">
                             <Link to={`/tutorials/${tutorial.id}`}>
-                                <div className="bg-white rounded-lg p-8 shadow-xl transition-transform transform hover:scale-105">
+                                <div className="bg-white rounded-lg p-8 shadow-xl transition-transform transform hover:scale-105 h-full">
                                     {isNewTutorial(tutorial.uploadTime) && (
                                         <span className="bg-green-500 text-white px-4 py-2 rounded-full absolute top-6 right-6">
                                             New
