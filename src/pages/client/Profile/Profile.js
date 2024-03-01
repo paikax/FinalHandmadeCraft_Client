@@ -69,6 +69,7 @@ const Profile = () => {
                 const fetchedUser = await getUserById(userId);
                 setUser(fetchedUser);
                 // Retrieve the updated profile picture URL from localStorage
+                localStorage.setItem('profilePhoto', fetchedUser.profilePhoto);
                 const storedProfilePhoto = localStorage.getItem('profilePhoto');
 
                 // Set initial form data
@@ -126,6 +127,7 @@ const Profile = () => {
         setProfilePicture(null);
         setIsCroppedImageVisible(false);
         setUploadImage(false);
+        localStorage.removeItem('profilePhoto');
     };
 
     const handleEditProfile = () => {
@@ -135,6 +137,7 @@ const Profile = () => {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setUploadImage(false);
+        localStorage.removeItem('profilePhoto');
     };
 
     const handleInputChange = (e) => {
@@ -340,6 +343,7 @@ const Profile = () => {
             await upgradeToPremium(userId);
             // Update local state to reflect premium status
             setIsPremium(true);
+            setUser((prevUser) => ({ ...prevUser, isPremium: true }));
             setShowPayPalButtons(false);
             handlePayment();
             toast.success('Successfully upgraded to premium!');

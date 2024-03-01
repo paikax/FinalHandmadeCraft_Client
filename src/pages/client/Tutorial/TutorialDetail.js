@@ -37,6 +37,7 @@ const TutorialDetail = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const { transcript, resetTranscript } = useSpeechRecognition();
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
+    const [orderTotal, setOrderTotal] = useState(0);
 
     useEffect(() => {
         const fetchTutorial = async () => {
@@ -214,12 +215,9 @@ const TutorialDetail = () => {
                 address: localStorage.getItem('shippingAddress'),
             };
 
-            // Call the createOrder function with the constructed order request
             const orderResponse = await createOrder(orderRequest);
 
-            // Check if order creation was successful
             if (orderResponse && orderResponse.id) {
-                // If order was created successfully, send payment
                 await sendPayment(tutorial.creatorPayPalEmail, +JSON.parse(localStorage.getItem('totalPrice')));
 
                 setIsPaymentSuccess(true); // Update payment success state
@@ -235,6 +233,13 @@ const TutorialDetail = () => {
             toast.error('Failed to process payment');
         }
     };
+
+    useEffect(() => {
+        if (tutorial) {
+            const totalPrice = tutorial.price * quantity;
+            setOrderTotal(totalPrice);
+        }
+    }, [tutorial, quantity]);
 
     if (loading) {
         return <div className="text-center mt-8">Loading...</div>;
@@ -256,22 +261,16 @@ const TutorialDetail = () => {
                 contentLabel="Buy Options"
                 shouldCloseOnOverlayClick={true}
             >
-                {isPaymentSuccess ? (
-                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm">
-                        <div className="p-5">
-                            <h2 className="text-2xl font-bold text-center mb-2 text-green-600">Order Successful!</h2>
-                            <p className="text-sm text-gray-700 text-center">Thank you for your purchase.</p>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-sm relative">
-                        <button
-                            className="absolute top-0 right-0 m-3 text-gray-600 hover:text-gray-800 focus:outline-none"
-                            onClick={closeBuyModal}
-                        >
-                            <FontAwesomeIcon icon={faTimes} />
-                        </button>
-                        <div className="p-5">
+                <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-lg relative">
+                    <button
+                        className="absolute top-0 right-0 m-3 text-gray-600 hover:text-gray-800 focus:outline-none"
+                        onClick={closeBuyModal}
+                    >
+                        <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                    <div className="p-8">
+                        <h2 className="text-3xl font-bold mb-4 text-green-600">{tutorial.title}</h2>
+                        <div className="mb-6">
                             <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="shippingAddress">
                                 Shipping Address
                             </label>
@@ -284,7 +283,7 @@ const TutorialDetail = () => {
                                 placeholder="Enter your shipping address"
                             />
                         </div>
-                        <div className="p-5">
+                        <div className="mb-6">
                             <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="quantity">
                                 Quantity (Max: 10)
                             </label>
@@ -299,7 +298,13 @@ const TutorialDetail = () => {
                                 placeholder="Enter quantity"
                             />
                         </div>
-                        <div className="p-5">
+                        <div className="mb-6">
+                            <h3 className="text-xl font-semibold mb-2">Product Details</h3>
+                            <p className="text-sm text-gray-700">Price per item: ${tutorial.price}</p>
+                            <p className="text-sm text-gray-700">Quantity: {quantity}</p>
+                            <p className="text-sm text-gray-700">Total Price: ${orderTotal}</p>
+                        </div>
+                        <div className="mb-6">
                             <PayPalScriptProvider
                                 options={{
                                     'client-id':
@@ -327,7 +332,7 @@ const TutorialDetail = () => {
                             </PayPalScriptProvider>
                         </div>
                     </div>
-                )}
+                </div>
             </Modal>
 
             {/* New */}
@@ -397,17 +402,14 @@ const TutorialDetail = () => {
                                 <p className="text-3xl lg:text-4xl text-green-300 font-bold mb-6 lg:mb-8">
                                     ${tutorial.price}
                                 </p>
-                                <button
-                                    onClick={openBuyModal}
-                                    className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 lg:py-4 px-10 lg:px-12 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                                >
-                                    <i className="fas fa-shopping-cart mr-2"></i> Buy the product
-                                </button>
-                                <div className="flex space-x-2 mt-6 mb-4 lg:mb-6">
-                                    <span className="bg-yellow-600 hover:bg-yellow-500 text-lg lg:text-xl rounded-md px-3 py-1 text-white">
-                                        Difficulty: {tutorial.difficultLevel}
-                                    </span>
-                                </div>
+                                {tutorial.createdById !== currentUserID && (
+                                    <button
+                                        onClick={openBuyModal}
+                                        className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 lg:py-4 px-10 lg:px-12 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                    >
+                                        <i className="fas fa-shopping-cart mr-2"></i> Buy the product
+                                    </button>
+                                )}
                                 <p className="text-lg lg:text-xl mb-6 lg:mb-8 text-white">{tutorial.instruction}</p>
                                 <Link to="/" className="text-white text-lg hover:underline">
                                     + Learn More
