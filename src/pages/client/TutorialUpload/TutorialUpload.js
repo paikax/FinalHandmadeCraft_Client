@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useSelector } from 'react-redux';
 
@@ -6,6 +6,7 @@ import cl, { uploadVideoToCloudinary } from '~/utils/cloudinaryConfig'; // Updat
 import { createTutorial } from '~/services/tutorialService'; // Update the path accordingly
 import VideoUploadModal from '~/pages/client/TutorialUpload/videoUploadModal';
 import { useNavigate } from 'react-router-dom';
+import { getAllCategories } from '~/services/categoryService';
 
 const TutorialUpload = () => {
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
@@ -20,13 +21,28 @@ const TutorialUpload = () => {
         instruction: '',
         price: '',
         CreatedById: currentUserID,
+        categoryId: '',
     });
 
     const [videoUrl, setVideoUrl] = useState('');
     const [previewUrl, setPreviewUrl] = useState('');
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isUploadComplete, setUploadComplete] = useState(false);
+    const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Fetch categories when the component mounts
+        async function fetchCategories() {
+            try {
+                const categoriesData = await getAllCategories();
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error('Error fetching categories', error);
+            }
+        }
+        fetchCategories();
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -229,6 +245,27 @@ const TutorialUpload = () => {
                                 onChange={handleInputChange}
                                 className="mt-1 p-2 w-full border rounded-md"
                             />
+                        </div>
+
+                        {/* Dropdown for category */}
+                        <div className="mb-4">
+                            <label htmlFor="categoryId" className="block text-sm font-medium text-gray-600">
+                                Category
+                            </label>
+                            <select
+                                id="categoryId"
+                                name="categoryId"
+                                value={tutorialData.categoryId}
+                                onChange={handleInputChange}
+                                className="mt-1 p-2 w-full border rounded-md"
+                            >
+                                <option value="">Select category</option>
+                                {categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         {/* Hidden input for videoUrl */}
