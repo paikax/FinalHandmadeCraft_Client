@@ -22,6 +22,7 @@ const TutorialUpload = () => {
         price: '',
         CreatedById: currentUserID,
         categoryId: '',
+        material: '',
     });
 
     const [videoUrl, setVideoUrl] = useState('');
@@ -205,7 +206,7 @@ const TutorialUpload = () => {
                                 <option value="hard">Hard</option>
                             </select>
                         </div>
-
+                        {/* 
                         <div className="mb-4">
                             <label htmlFor="completionTime" className="block text-sm font-medium text-gray-600">
                                 Completion Time
@@ -215,6 +216,20 @@ const TutorialUpload = () => {
                                 id="completionTime"
                                 name="completionTime"
                                 value={tutorialData.completionTime}
+                                onChange={handleInputChange}
+                                className="mt-1 p-2 w-full border rounded-md"
+                            />
+                        </div> */}
+
+                        <div className="mb-4">
+                            <label htmlFor="material" className="block text-sm font-medium text-gray-600">
+                                Material
+                            </label>
+                            <input
+                                type="text"
+                                id="material"
+                                name="material"
+                                value={tutorialData.material}
                                 onChange={handleInputChange}
                                 className="mt-1 p-2 w-full border rounded-md"
                             />

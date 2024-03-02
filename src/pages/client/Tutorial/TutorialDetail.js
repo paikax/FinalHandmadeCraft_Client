@@ -425,7 +425,7 @@ const TutorialDetail = () => {
                                 </div>
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Material:</h3>
-                                    <p className="text-lg text-white">...</p>
+                                    <p className="text-lg text-white">{tutorial.material} ...</p>
                                 </div>
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Uploaded by:</h3>
