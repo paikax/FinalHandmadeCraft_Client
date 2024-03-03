@@ -9,6 +9,7 @@ function AdminHeader({ currentUser }) {
     const name = localStorage.getItem('name');
     const avatar = localStorage.getItem('profilePic');
     const email = localStorage.getItem('email');
+    console.log('-------->' + email);
 
     const renderResult = () => {
         return (
@@ -49,7 +50,7 @@ function AdminHeader({ currentUser }) {
                 <HeadlessTippy trigger="click" interactive offset={[8, 8]} placement="bottom-end" render={renderResult}>
                     <Image
                         className="rounded-full w-10 h-10 object-cover border-2 border-solid border-white group-hover:shadow-lg"
-                        src={avatar || ''}
+                        src={avatar || currentUser?.profilePic}
                         alt="Avatar"
                     />
                 </HeadlessTippy>

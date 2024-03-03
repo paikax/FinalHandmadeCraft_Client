@@ -410,7 +410,7 @@ const Profile = () => {
                             >
                                 <div className="ms-4 mt-5 flex flex-col" style={{ width: '150px' }}>
                                     <img
-                                        src={user.profilePhoto}
+                                        src={user.profilePhoto || ' '}
                                         alt="Profile"
                                         className="mt-4 mb-2 img-thumbnail w-full"
                                     />

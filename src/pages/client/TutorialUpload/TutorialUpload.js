@@ -121,7 +121,7 @@ const TutorialUpload = () => {
                     <div>
                         <button
                             onClick={openModal}
-                            className="border-dashed border-2 border-gray-300 p-8 text-center cursor-pointer bg-gray-100"
+                            className="bg-[#176B87] text-[white] border-1-solid-#EEF5FF rounded-xl p-8 text-center cursor-pointer shadow-[5px_9px_#b4d4ff] hover:shadow-[0] transition-0.7s"
                         >
                             Upload your handmade craft video
                         </button>

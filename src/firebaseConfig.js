@@ -9,8 +9,8 @@ const firebaseConfig = {
     projectId: 'handmadecraftfinal',
     storageBucket: 'handmadecraftfinal.appspot.com',
     messagingSenderId: '76205863553',
-    appId: '1:76205863553:web:7efd7d84a2013c84f9d380',
-    measurementId: 'G-KXBWW3BRY1',
+    appId: '1:76205863553:web:3ea065b7e4b6e664f9d380',
+    measurementId: 'G-QD5LJCLC3Y',
 };
 const app = initializeApp(firebaseConfig);
 

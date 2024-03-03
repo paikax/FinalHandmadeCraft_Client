@@ -13,12 +13,13 @@ import { logOutSuccess } from '~/redux/authSlice';
 import Search from '../Search';
 import { NotifyIcon } from '~/components/Icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 function Header({ currentUser }) {
     const name = localStorage.getItem('name');
     const email = localStorage.getItem('email');
-    const avatar = currentUser.profilePhoto;
+    const googleAvatar = localStorage.getItem('profilePic');
+    const avatar = localStorage.getItem('profilePhoto');
 
     const dispatch = useDispatch(); // Moved dispatch declaration here
     const navigate = useNavigate();
@@ -56,7 +57,7 @@ function Header({ currentUser }) {
                 <div className="flex items-center">
                     <Image
                         className="m-[20px] shrink-0 rounded-full w-[88px] h-[88px] object-cover border-[1px] border-solid border-[#777]"
-                        src={avatar || ''}
+                        src={googleAvatar || currentUser.profilePhoto}
                         alt="Avatar"
                     />
 
@@ -72,7 +73,7 @@ function Header({ currentUser }) {
     };
 
     return (
-        <header className="flex items-center h-[48px] bg-[#2564cf] justify-between px-[12px]">
+        <header className="flex items-center h-[48px] bg-[#176B87] justify-between px-[12px]">
             <Link to={config.routes.home} className="font-semibold text-white hover:underline px-4">
                 HandMadeCraft
             </Link>
@@ -82,9 +83,9 @@ function Header({ currentUser }) {
             <div className="flex items-center gap-[10px] h-full">
                 <Link
                     to={config.routes.tutorialUpload}
-                    className="text-center text-white w-[98px] border border-solid border-white rounded hover:bg-red-200 transition-all hover:bg-opacity-15"
+                    className="text-center text-white w-[50px] bg-[#B4D4FF] rounded-full border border-solid border-white transition-all hover:bg-[#EEF5FF]"
                 >
-                    <FontAwesomeIcon icon={faPlus} />
+                    <FontAwesomeIcon icon={faCloudArrowUp} className="text-[#176B87]" />
                 </Link>
                 <HeadlessTippy
                     trigger="click"
@@ -116,8 +117,8 @@ function Header({ currentUser }) {
                         </div>
                     )}
                 >
-                    <button className="p-[10px] rounded-full hover:bg-[#005A9E]">
-                        <NotifyIcon className="text-white" />
+                    <button className="p-[5px] bg-[#B4D4FF] rounded-full border border-solid border-white transition-all hover:bg-[#EEF5FF]">
+                        <NotifyIcon className="text-[#176B87]" />
                     </button>
                 </HeadlessTippy>
                 <div className="account-global flex items-center justify-center h-full w-[48px] hover:bg-[#005A9E] transition-colors cursor-pointer">
@@ -130,7 +131,7 @@ function Header({ currentUser }) {
                     >
                         <Image
                             className="rounded-full w-[32px] h-[32px] object-cover border-[1px] border-solid border-white"
-                            src={avatar || ''}
+                            src={googleAvatar || currentUser.profilePhoto}
                             alt="Avatar"
                         />
                     </HeadlessTippy>
