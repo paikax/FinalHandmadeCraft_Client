@@ -38,6 +38,7 @@ const TutorialDetail = () => {
     const { transcript, resetTranscript } = useSpeechRecognition();
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
     const [orderTotal, setOrderTotal] = useState(0);
+    const [buyerEmail, setBuyerEmail] = useState('');
 
     useEffect(() => {
         const fetchTutorial = async () => {
@@ -195,7 +196,6 @@ const TutorialDetail = () => {
         setQuantity(newQuantity);
         localStorage.setItem('quantity', newQuantity);
     };
-
     const handleBuyNow = async () => {
         try {
             setIsPaymentSuccess(false); // Reset payment success state
@@ -213,6 +213,7 @@ const TutorialDetail = () => {
                 items: [orderItem],
                 totalPrice: +JSON.parse(localStorage.getItem('totalPrice')),
                 address: localStorage.getItem('shippingAddress'),
+                sellerEmail: tutorial.creatorPayPalEmail,
             };
 
             const orderResponse = await createOrder(orderRequest);
@@ -271,7 +272,7 @@ const TutorialDetail = () => {
                     <div className="p-8">
                         <h2 className="text-3xl font-bold mb-4 text-green-600">{tutorial.title}</h2>
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="shippingAddress">
+                            <label className="block text-xl font-medium text-gray-700 mb-1" htmlFor="shippingAddress">
                                 Shipping Address
                             </label>
                             <input
@@ -284,7 +285,7 @@ const TutorialDetail = () => {
                             />
                         </div>
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="quantity">
+                            <label className="block text-xl font-medium text-gray-700 mb-1" htmlFor="quantity">
                                 Quantity (Max: 10)
                             </label>
                             <input
@@ -300,9 +301,9 @@ const TutorialDetail = () => {
                         </div>
                         <div className="mb-6">
                             <h3 className="text-xl font-semibold mb-2">Product Details</h3>
-                            <p className="text-sm text-gray-700">Price per item: ${tutorial.price}</p>
-                            <p className="text-sm text-gray-700">Quantity: {quantity}</p>
-                            <p className="text-sm text-gray-700">Total Price: ${orderTotal}</p>
+                            <p className="text-xl text-gray-700">Price per item: ${tutorial.price}</p>
+                            <p className="text-xl text-gray-700">Quantity: {quantity}</p>
+                            <p className="text-xl text-gray-700">Total Price: ${orderTotal}</p>
                         </div>
                         <div className="mb-6">
                             <PayPalScriptProvider
