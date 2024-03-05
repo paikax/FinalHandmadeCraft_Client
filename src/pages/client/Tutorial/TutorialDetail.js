@@ -337,38 +337,38 @@ const TutorialDetail = () => {
             </Modal>
 
             {/* New */}
-            <div className="bg-gradient-to-r from-purple-300 to-blue-400 text-white py-4">
+            <div className="bg-gradient-to-r bg-[#B4D4FF] text-white py-4">
                 <div className="container mx-auto px-4">
                     <header className="flex justify-between items-center py-4">
                         <div className="flex items-center">
                             <div className="mr-8">
-                                <Link to="/" className="text-3xl font-bold text-white">
-                                    T
+                                <Link to="/" className="text-3xl font-bold text-yellow-500">
+                                    N
                                 </Link>
                             </div>
                             <nav className="hidden md:flex space-x-4">
                                 <Link to="/" className="text-black hover:underline">
                                     Your choosing
                                 </Link>
-                                <Link to="/" className="text-white hover:underline">
+                                <Link to="/" className="text-black hover:underline">
                                     Completed
                                 </Link>
-                                <Link to="/" className="text-white hover:underline">
+                                <Link to="/" className="text-black hover:underline">
                                     News
                                 </Link>
                             </nav>
                         </div>
                         <div className="flex items-center">
-                            <button className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">
+                            <button className="bg-[#176B87] hover:bg-[#47a2c1] text-white font-bold py-2 px-4 rounded">
                                 Dark Mode
                             </button>
                         </div>
                     </header>
-                    <div className="flex justify-between items-center bg-blue-600 p-4 rounded my-4">
+                    <div className="flex justify-between items-center bg-[#176B87] p-4 rounded my-4">
                         <div className="flex items-center mx-4">
-                            <span>Follow Maker</span>
+                            <span className="text-white">Follow Maker</span>
                             <Link to={`/profile/${tutorial.createdById}`}>
-                                <button className="bg-blue-200 mx-2 rounded-full hover:bg-blue-200 text-white font-bold py-2 px-3">
+                                <button className="bg-blue-200 mx-2 rounded-full hover:bg-blue-400 text-[#176B87] font-bold py-2 px-3">
                                     <img
                                         className="w-12 h-12 rounded-full"
                                         src={tutorial.userProfilePicture}
@@ -380,7 +380,7 @@ const TutorialDetail = () => {
                     </div>
                     <div className="flex flex-wrap lg:flex-nowrap">
                         <div className="w-full lg:w-1/2 p-4">
-                            <div className="flex flex-col items-center bg-gradient-to-br from-blue-500 to-blue-700 p-8 rounded-lg shadow-lg">
+                            <div className="flex flex-col items-center bg-[#176B87] p-8 rounded-lg shadow-lg">
                                 <video
                                     controls
                                     className="w-full h-auto object-cover rounded-md mb-6 lg:mb-8"
@@ -397,7 +397,7 @@ const TutorialDetail = () => {
                                     />
                                     Your browser does not support the video tag.
                                 </video>
-                                <h2 className="text-4xl lg:text-5xl font-bold mb-4 lg:mb-6 text-white">
+                                <h2 className="text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 text-white">
                                     {tutorial.title}
                                 </h2>
                                 <p className="text-3xl lg:text-4xl text-green-300 font-bold mb-6 lg:mb-8">
@@ -419,7 +419,7 @@ const TutorialDetail = () => {
                         </div>
 
                         <div className="w-full lg:w-1/2 p-4">
-                            <div className="bg-gradient-to-br from-blue-500 to-blue-700 p-8 rounded-lg shadow-lg">
+                            <div className="bg-[#176B87] p-8 rounded-lg shadow-lg">
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Type:</h3>
                                     <p className="text-lg text-white">{tutorial.categoryName}</p>
@@ -503,9 +503,6 @@ const TutorialDetail = () => {
                                 </Modal>
                             </div>
                         </div>
-                    </div>
-                    <div className="bg-blue-700 my-2 text-center p-4">
-                        <span className="text-xl my-2">PRIVACY</span>
                     </div>
                 </div>
             </div>

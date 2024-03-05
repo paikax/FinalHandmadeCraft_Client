@@ -417,7 +417,7 @@ const Profile = () => {
                                     />
                                 </div>
                                 <div className="px-4 py-2">
-                                    <h2 className="text-lg font-semibold text-white">
+                                    <h2 className="text-2xl font-semibold text-white">
                                         <span
                                             className={`text-md font-semibold ${
                                                 user.isPremium ? 'text-yellow-500 premium-name' : ''
@@ -432,7 +432,7 @@ const Profile = () => {
                                             />
                                         )}
                                     </h2>
-                                    <p className="text-sm text-gray-200">
+                                    <p className="text-lg text-gray-200">
                                         <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" />
                                         {user.address}
                                     </p>
