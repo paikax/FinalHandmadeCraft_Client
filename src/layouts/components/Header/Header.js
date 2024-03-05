@@ -28,21 +28,6 @@ function Header({ currentUser }) {
         await logOut(dispatch, navigate);
     };
 
-    // const id = currentUser.id;
-    // const accessToken = currentUser?.accessToken;
-    // const axiosJWT = createAxios(currentUser, dispatch, logOutSuccess);
-
-    // const { mutate } = useMutation({
-    //     mutationFn: () => logOut(dispatch, id, navigate, accessToken, axiosJWT),
-    //     onSuccess: (data) => {
-    //         if (data && data.status === 200) {
-    //             toast.success('Logout successfully');
-    //         } else {
-    //             toast.error('Logout failed!');
-    //         }
-    //     },
-    // });
-
     const renderResult = () => {
         return (
             <div className="bg-white shadow-[0_24px_54px_rgba(0,0,0,0.15)]">
@@ -73,20 +58,36 @@ function Header({ currentUser }) {
     };
 
     return (
-        <header className="flex items-center h-[48px] bg-[#176B87] justify-between px-[12px]">
-            <Link to={config.routes.home} className="font-semibold text-white hover:underline px-4">
-                HandMadeCraft
-            </Link>
+        <header className="flex flex-col md:flex-row items-center h-[60px] bg-[#176B87] justify-between px-[12px]">
+            <div className="flex items-center justify-between w-full md:w-auto">
+                <div className="flex items-center">
+                    <Link to={config.routes.home} className="font-semibold text-white hover:underline px-4">
+                        HandMadeCraft
+                    </Link>
+                    <div className="flex items-center">
+                        <Search />
+                    </div>
+                </div>
+            </div>
 
-            <Search />
-
-            <div className="flex items-center gap-[10px] h-full">
+            <div className="flex items-center gap-[20px] h-full">
                 <Link
                     to={config.routes.tutorialUpload}
                     className="text-center text-white w-[50px] bg-[#B4D4FF] rounded-full border border-solid border-white transition-all hover:bg-[#EEF5FF]"
                 >
                     <FontAwesomeIcon icon={faCloudArrowUp} className="text-[#176B87]" />
                 </Link>
+                <div className="hidden md:flex gap-[20px]">
+                    <Link to={config.routes.tutorialList} className="text-white hover:underline">
+                        Discover
+                    </Link>
+                    <Link to="/link2" className="text-white hover:underline">
+                        About
+                    </Link>
+                    <Link to="/link3" className="text-white hover:underline">
+                        Saved
+                    </Link>
+                </div>
                 <HeadlessTippy
                     trigger="click"
                     interactive

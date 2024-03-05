@@ -343,7 +343,7 @@ const TutorialDetail = () => {
                         <div className="flex items-center">
                             <div className="mr-8">
                                 <Link to="/" className="text-3xl font-bold text-yellow-500">
-                                    N
+                                    M
                                 </Link>
                             </div>
                             <nav className="hidden md:flex space-x-4">

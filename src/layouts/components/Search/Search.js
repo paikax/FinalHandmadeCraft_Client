@@ -68,7 +68,7 @@ function Search({ id }) {
                 ref={inputRef}
                 spellCheck={false}
                 placeholder="Search"
-                className="flex-1 py-[8px] px-[40px] h-[32px] rounded-md text-xl"
+                className="flex-1 py-[8px] px-[40px] h-[38px] rounded-md text-xl"
                 onChange={handleChange}
                 onFocus={() => setShowResult(true)}
             />

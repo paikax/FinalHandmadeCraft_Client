@@ -61,11 +61,16 @@ const PaymentSetup = () => {
     };
 
     const handleEdit = () => {
+        if (userPayPalInfo) {
+            setPaypalEmail(userPayPalInfo.email);
+            setPaypalFirstName(userPayPalInfo.firstName);
+            setPaypalLastName(userPayPalInfo.lastName);
+        }
         setShowModal(true);
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-500">
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#86B6F6] to-[#B4D4FF]">
             <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl">
                 <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Payment Board Management</h2>
                 {userPayPalInfo ? (
@@ -75,7 +80,7 @@ const PaymentSetup = () => {
                         <p className="text-lg mb-2 text-gray-700">Last Name: {userPayPalInfo.lastName}</p>
                         <button
                             onClick={handleEdit}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center"
+                            className="bg-[#176B87] text-white px-4 py-2 rounded-md hover:bg-[#428ba3] transition duration-300 ease-in-out flex items-center justify-center"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +102,7 @@ const PaymentSetup = () => {
                 ) : (
                     <button
                         onClick={() => setShowModal(true)}
-                        className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center"
+                        className="bg-[#176B87] text-white px-6 py-3 rounded-full hover:bg-[#4591ab] transition duration-300 ease-in-out flex items-center justify-center"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +186,7 @@ const PaymentSetup = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out w-full"
+                                    className="bg-[#176B87] text-white px-6 py-3 rounded-full hover:bg-[#41879e] transition duration-300 ease-in-out w-full"
                                 >
                                     Save
                                 </button>

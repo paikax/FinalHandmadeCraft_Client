@@ -1,21 +1,16 @@
-// TutorialList.js
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { FaHeart, FaComment } from 'react-icons/fa';
-import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
-
 import { getAllTutorials } from '~/services/tutorialService';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const TutorialList = () => {
+function Home() {
     const [tutorials, setTutorials] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentTutorialIndex, setCurrentTutorialIndex] = useState(0);
 
     useEffect(() => {
         const fetchTutorials = async () => {
             try {
                 const tutorialsData = await getAllTutorials();
-                console.log(tutorialsData);
                 setTutorials(tutorialsData);
                 setLoading(false);
             } catch (error) {
@@ -27,94 +22,122 @@ const TutorialList = () => {
         fetchTutorials();
     }, []);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTutorialIndex((prevIndex) => (prevIndex === tutorials.length - 1 ? 0 : prevIndex + 1));
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [tutorials]);
+
     const removeFileExtension = (url) => {
         const index = url.lastIndexOf('.');
         return index > 0 ? url.substring(0, index) : url;
     };
 
-    const isNewTutorial = (uploadTime) => {
-        const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-        const today = new Date();
-        return today - new Date(uploadTime) < oneDay;
-    };
-
-    const isHotTutorial = (likesCount) => {
-        return likesCount > 3;
-    };
-
     return (
-        <div className="container mx-auto p-8">
-            <h2 className="text-4xl font-bold mb-8 text-center">Discover Inspiring Crafts</h2>
+        <div className="bg-gray-100 min-h-screen">
+            <div className="container mx-auto px-4">
+                <header className="py-4 flex justify-between items-center">
+                    <Link to="/" className="text-3xl font-bold text-yellow-400">
+                        M
+                    </Link>
+                    <button className="md:hidden text-gray-700 hover:text-gray-600">
+                        <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 6h16M4 12h16m-7 6h7"
+                            />
+                        </svg>
+                    </button>
+                    <nav className="hidden md:flex space-x-6">
+                        <Link to="/" className="text-gray-700 hover:text-gray-600">
+                            Hot crafts
+                        </Link>
+                        <Link to="/" className="text-gray-700 hover:text-gray-600">
+                            Types
+                        </Link>
+                        <Link to="/" className="text-gray-700 hover:text-gray-600">
+                            A-Z List
+                        </Link>
+                        <Link to="/" className="text-gray-700 hover:text-gray-600">
+                            News
+                        </Link>
+                    </nav>
+                </header>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {loading ? (
-                    <div className="flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid border-r-0 border-l-0"></div>
-                    </div>
-                ) : (
-                    tutorials.map((tutorial) => (
-                        <div key={tutorial.id} className="relative">
-                            <Link to={`/tutorials/${tutorial.id}`}>
-                                <div className="bg-white rounded-lg p-8 shadow-xl transition-transform transform hover:scale-105 h-full">
-                                    {isNewTutorial(tutorial.uploadTime) && (
-                                        <span className="bg-green-500 text-white px-4 py-2 rounded-full absolute top-6 right-6">
-                                            New
-                                        </span>
-                                    )}
-
-                                    {isHotTutorial(tutorial.likes.length) && (
-                                        <span className="bg-red-500 text-white px-4 py-2 rounded-full absolute top-6 left-6">
-                                            Hot
-                                        </span>
-                                    )}
-
-                                    <img
-                                        src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
-                                        alt={tutorial.title}
-                                        className="w-full h-80 object-cover mb-6 rounded-md"
-                                    />
-                                    <div className="flex justify-between items-center">
-                                        <div>
-                                            <h3 className="text-3xl font-semibold mb-4 capitalize">{tutorial.title}</h3>
-                                            <p className="text-lg text-gray-600 capitalize">
-                                                Difficulty: {tutorial.difficultLevel}
-                                            </p>
-                                            <p className="text-lg text-gray-600 capitalize">
-                                                Time: {tutorial.completionTime}
-                                            </p>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <img
-                                                src={tutorial.userProfilePicture}
-                                                alt="User Profile"
-                                                className="w-16 h-16 rounded-full"
-                                            />
-                                            <span className="text-xl font-semibold ml-4">{tutorial.userName}</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between mt-6">
-                                        <p className="text-lg text-gray-700 capitalize">
-                                            Price: ${tutorial.price.toFixed(2)}
+                <main className="mt-8">
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        <div className="rounded-lg shadow-lg overflow-hidden">
+                            <div className="relative">
+                                <img
+                                    alt={tutorials[currentTutorialIndex].title}
+                                    className="w-full h-auto object-cover"
+                                    src={`${removeFileExtension(tutorials[currentTutorialIndex].videoUrl)}.jpg`}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-60"></div>
+                                <div className="absolute inset-0 flex items-center justify-center text-white">
+                                    <div className="text-center">
+                                        <h1 className="text-3xl md:text-5xl font-bold mb-4">
+                                            {tutorials[currentTutorialIndex].title}
+                                        </h1>
+                                        <p className="text-lg md:text-xl">
+                                            {tutorials[currentTutorialIndex].instruction}
                                         </p>
-                                        <div className="flex items-center space-x-4">
-                                            <div className="flex items-center">
-                                                <FontAwesomeIcon icon={faHeart} className="text-red-500 mr-2" />
-                                                <span className="text-lg">{tutorial.likes.length}</span>
-                                            </div>
-                                            <div className="flex items-center">
-                                                <FontAwesomeIcon icon={faComment} className="text-blue-500 mr-2" />
-                                                <span className="text-lg">{tutorial.comments.length}</span>
-                                            </div>
+                                        <div className="mt-6 flex justify-center space-x-4">
+                                            <Link
+                                                to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
+                                                className="text-yellow-400 hover:text-yellow-500 font-semibold"
+                                            >
+                                                View Tutorial
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
+                            <div className="p-6 bg-white rounded-b-lg">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h2 className="text-lg font-semibold">
+                                            Difficulty: {tutorials[currentTutorialIndex].difficultLevel}
+                                        </h2>
+                                    </div>
+                                    <div className="flex items-center space-x-4">
+                                        <Link to={`/profile/${tutorials[currentTutorialIndex].createdById}`}>
+                                            <img
+                                                className="w-12 h-12 rounded-full"
+                                                src={tutorials[currentTutorialIndex].userProfilePicture}
+                                                alt="creator avatar"
+                                            />
+                                        </Link>
+                                        <Link
+                                            to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
+                                            className="bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded text-gray-900 font-semibold"
+                                        >
+                                            View Info
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    ))
-                )}
+                    )}
+                </main>
+                <footer className="mt-8 py-4 border-t border-gray-700 text-center">
+                    <p className="text-gray-400">Privacy 🍪</p>
+                </footer>
             </div>
         </div>
     );
-};
+}
 
-export default TutorialList;
+export default Home;

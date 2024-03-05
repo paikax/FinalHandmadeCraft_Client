@@ -1,8 +1,42 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getAllTutorials } from '~/services/tutorialService';
 
 function Home() {
+    const [tutorials, setTutorials] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentTutorialIndex, setCurrentTutorialIndex] = useState(0);
+
+    useEffect(() => {
+        const fetchTutorials = async () => {
+            try {
+                const tutorialsData = await getAllTutorials();
+                setTutorials(tutorialsData);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching tutorials', error);
+                setLoading(false);
+            }
+        };
+
+        fetchTutorials();
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTutorialIndex((prevIndex) => (prevIndex === tutorials.length - 1 ? 0 : prevIndex + 1));
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [tutorials]);
+
+    const removeFileExtension = (url) => {
+        const index = url.lastIndexOf('.');
+        return index > 0 ? url.substring(0, index) : url;
+    };
+
     return (
-        <div className="bg-white text-gray-900">
+        <div className="bg-gray-100 min-h-screen">
             <div className="container mx-auto px-4">
                 <header className="py-4 flex justify-between items-center">
                     <Link to="/" className="text-3xl font-bold text-yellow-400">
@@ -38,76 +72,71 @@ function Home() {
                             News
                         </Link>
                     </nav>
-                    <div className="flex items-center space-x-4">
-                        <div className="hidden md:flex space-x-2">
-                            <Link to="/" className="text-gray-700 hover:text-gray-600">
-                                Instagram
-                            </Link>
-                            <Link to="/" className="text-gray-700 hover:text-gray-600">
-                                Facebook
-                            </Link>
-                            <Link to="/" className="text-gray-700 hover:text-gray-600">
-                                Discord
-                            </Link>
-                        </div>
-                        <button className="bg-blue-600 px-3 py-1 rounded text-gray-700">Dark Mode</button>
-                        <button className="border border-gray-700 px-3 py-1 rounded text-gray-700">
-                            Become creator
-                        </button>
-                    </div>
                 </header>
+
                 <main className="mt-8">
-                    <div className="bg-gradient-to-r from-blue-600 to-pink-600 p-8 rounded-lg shadow-lg">
-                        <div className="flex flex-col lg:flex-row lg:items-center">
-                            <div className="lg:w-1/2 mb-8 lg:mb-0 lg:mr-4">
-                                <h2 className="text-sm font-semibold">New product: Tutorial in [EN]</h2>
-                                <h1 className="text-4xl font-bold mt-2">Bath bombs</h1>
-                                <p className="mt-4 text-white">
-                                    Bath bombs. Bath bombs are a blast to make because you can make them in all kinds of
-                                    shapes, sizes, and colors! You can order most of the ingredients you ...
-                                </p>
-                                <div className="flex flex-col lg:flex-row lg:space-x-2 mt-4">
-                                    <span className="bg-yellow-400 text-gray-900 px-3 py-1 rounded mt-2 lg:mt-0">
-                                        View tutorial
-                                    </span>
-                                    <span className="bg-yellow-400 text-gray-900 px-3 py-1 rounded mt-2 lg:mt-0">
-                                        Detail
-                                    </span>
-                                    <span className="bg-yellow-400 text-gray-900 px-3 py-1 rounded mt-2 lg:mt-0">
-                                        Price
-                                    </span>
-                                    <span className="bg-yellow-400 text-gray-900 px-3 py-1 rounded mt-2 lg:mt-0">
-                                        Maker
-                                    </span>
-                                </div>
-                                <div className="flex space-x-4 mt-6">
-                                    <button className="bg-yellow-500 px-6 py-2 rounded text-gray-900 font-semibold">
-                                        Buy it now
-                                    </button>
-                                    <button className="bg-yellow-400 px-6 py-2 rounded text-gray-900 font-semibold">
-                                        View Info
-                                    </button>
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        <div className="rounded-lg shadow-lg overflow-hidden">
+                            <div className="relative">
+                                <img
+                                    alt={tutorials[currentTutorialIndex].title}
+                                    className="w-full h-auto object-cover"
+                                    src={`${removeFileExtension(tutorials[currentTutorialIndex].videoUrl)}.jpg`}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-60"></div>
+                                <div className="absolute inset-0 flex items-center justify-center text-white">
+                                    <div className="text-center">
+                                        <h1 className="text-3xl md:text-5xl font-bold mb-4">
+                                            {tutorials[currentTutorialIndex].title}
+                                        </h1>
+                                        <p className="text-lg md:text-xl">
+                                            {tutorials[currentTutorialIndex].instruction}
+                                        </p>
+                                        <div className="mt-6 flex justify-center space-x-4">
+                                            <Link
+                                                to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
+                                                className="text-yellow-400 hover:text-yellow-500 font-semibold"
+                                            >
+                                                View Tutorial
+                                            </Link>
+                                            <Link
+                                                to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
+                                                className="text-gray-400 hover:text-gray-200 font-semibold"
+                                            >
+                                                View Details
+                                            </Link>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="lg:w-1/2 flex justify-center">
-                                <img
-                                    alt="Bath bombs"
-                                    className="rounded-lg shadow-lg"
-                                    src="https://i.pinimg.com/736x/71/55/dc/7155dc282b825cc30348b127763dc1c4.jpg"
-                                    width="300"
-                                />
+                            <div className="p-6 bg-white">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <h2 className="text-lg font-semibold">
+                                            Difficulty: {tutorials[currentTutorialIndex].difficultLevel}
+                                        </h2>
+                                    </div>
+                                    <div className="flex items-center space-x-4">
+                                        <Link to={`/profile/${tutorials[currentTutorialIndex].createdById}`}>
+                                            <img
+                                                className="w-12 h-12 rounded-full"
+                                                src={tutorials[currentTutorialIndex].userProfilePicture}
+                                                alt="creator avatar"
+                                            />
+                                        </Link>
+                                        <Link
+                                            to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
+                                            className="bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded text-gray-900 font-semibold"
+                                        >
+                                            View Info
+                                        </Link>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="mt-8 text-center">
-                        <p className="text-gray-700">
-                            Welcome to our handmade crafts community, where artisans can showcase and sell their unique
-                            creations while offering tutorials for others to learn and share their crafting journey.
-                            Whether you're a seasoned artisan or just starting out, our platform provides a supportive
-                            space to connect, inspire, and create beautiful handmade treasures together. Join us and
-                            unleash your creativity!
-                        </p>
-                    </div>
+                    )}
                 </main>
                 <footer className="mt-8 py-4 border-t border-gray-700 text-center">
                     <p className="text-gray-400">Privacy 🍪</p>
