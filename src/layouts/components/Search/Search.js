@@ -58,7 +58,7 @@ function Search({ id }) {
     };
 
     return (
-        <div className="relative flex items-center w-[400px] max-sm:hidden">
+        <div className="relative flex items-center max-sm:hidden">
             <span className="absolute top-0 left-0 bottom-0 flex items-center justify-center px-[8px] cursor-pointer text-[#2564cf] hover:bg-[rgba(0,0,0,0.05)] transition-colors">
                 <SearchIcon />
             </span>

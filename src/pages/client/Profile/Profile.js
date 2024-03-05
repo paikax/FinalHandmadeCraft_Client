@@ -400,26 +400,26 @@ const Profile = () => {
     }
 
     return (
-        <div className="gradient-custom-2 bg-gradient-to-r from-[#EEF5FF] to-[#EEF5FF] rounded-lg h-screen">
+        <div className="gradient-custom-2 bg-gradient-to-r from-[#EEF5FF] to-[#EEF5FF] rounded-lg">
             <div className="container py-5 h-full">
                 <div className="flex justify-center items-center h-full">
-                    <div className="lg:w-10/12 xl:w-9/12">
+                    <div className="w-[90%]">
                         <div className="card bg-white rounded-lg shadow-lg overflow-hidden">
                             <div
-                                className="flex items-center rounded-t-lg transition-all duration-300 ease-in-out"
+                                className="flex items-center rounded-t-lg transition-all duration-300 ease-in-out h-[150px]"
                                 style={{ backgroundColor: '#176B87' }}
                             >
-                                <div className="p-4">
+                                <div className="p-8">
                                     <img
                                         src={user.profilePhoto || ' '}
                                         alt="Profile"
-                                        className="w-32 h-32 rounded-full border-4 border-white shadow-lg transform hover:scale-105 transition duration-300"
+                                        className="w-40 h-40 rounded-full border-4 border-white shadow-lg transform hover:scale-105 transition duration-300"
                                     />
                                 </div>
                                 <div className="px-4 py-2">
                                     <h2 className="text-2xl font-semibold text-white">
                                         <span
-                                            className={`text-md font-semibold ${
+                                            className={`text-2xl font-semibold ${
                                                 user.isPremium ? 'text-yellow-500 premium-name' : ''
                                             }`}
                                         >
@@ -440,7 +440,7 @@ const Profile = () => {
                                 {currentUserID === userId && (
                                     <div className="ml-auto mr-4">
                                         <button
-                                            className="bg-green-400 hover:bg-green-500 rounded-full h-12 w-12 overflow-visible flex items-center justify-center transition duration-300 ease-in-out transform hover:scale-110 shadow-lg"
+                                            className="bg-green-400 hover:bg-green-500 mr-4 rounded-full h-12 w-12 overflow-visible flex items-center justify-center transition duration-300 ease-in-out transform hover:scale-110 shadow-lg"
                                             onClick={handleEditProfile}
                                         >
                                             <FontAwesomeIcon icon={faEdit} className="text-white" />
@@ -482,23 +482,25 @@ const Profile = () => {
                             <div className="px-6 py-4">
                                 <div className="flex justify-end text-center py-1">
                                     <div className="px-3">
-                                        <p className="mb-1 text-lg font-semibold text-gray-700">{followerCount}</p>
-                                        <p className="text-xs text-gray-500 mb-0">Followers</p>
+                                        <p className="mb-1 text-2xl font-semibold text-gray-700">{followerCount}</p>
+                                        <p className="text-sm text-gray-500 mb-0">Followers</p>
                                     </div>
                                     <div className="px-3">
-                                        <p className="mb-1 text-lg font-semibold text-gray-700">{followingCount}</p>
-                                        <p className="text-xs text-gray-500 mb-0">Following</p>
+                                        <p className="mb-1 text-2xl font-semibold text-gray-700">{followingCount}</p>
+                                        <p className="text-sm text-gray-500 mb-0">Following</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="card-body p-4">
                                 <div className="mb-4">
-                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">About</h3>
+                                    <h3 className="text-2xl font-semibold mb-2 text-gray-800">About</h3>
                                     <p className="text-gray-600">{user.bio}</p>
                                 </div>
                                 <div className="mb-4">
-                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Recent Craft Tutorials</h3>
+                                    <h3 className="text-2xl font-semibold mb-2 text-gray-800">
+                                        Recent Craft Tutorials
+                                    </h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         {latestTutorials.slice(0, 4).map((tutorial) => (
                                             <div className="mb-4" key={tutorial.id}>

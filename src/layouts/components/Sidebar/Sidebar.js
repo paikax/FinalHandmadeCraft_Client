@@ -29,12 +29,12 @@ const sidebarList = [
         to: config.routes.tutorialList,
         title: 'Tutorials',
     },
-    {
-        id: 3,
-        icon: StarIcon,
-        to: config.routes.tutorialList,
-        title: 'Saved',
-    },
+    // {
+    //     id: 3,
+    //     icon: StarIcon,
+    //     to: config.routes.tutorialList,
+    //     title: 'Saved',
+    // },
     {
         id: 4,
         icon: CheckIcon,
@@ -127,7 +127,7 @@ function Sidebar({ currentUser, showSidebar, handleToggleSidebar }) {
                 </ul>
             </aside>
 
-            <aside className="fixed bg-white bottom-0 right-0 left-0 sm:hidden border-t border-solid border-[#f5f5f5]">
+            <aside className="fixed bg-white bottom-0 right-0 left-0 sm:hidden border-t border-solid border-[#f5f5f5] z-50">
                 <ul className="flex">
                     {sidebarList.map((item) => {
                         const Icon = item.icon;

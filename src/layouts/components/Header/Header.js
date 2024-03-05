@@ -58,16 +58,16 @@ function Header({ currentUser }) {
     };
 
     return (
-        <header className="flex flex-col md:flex-row items-center h-[60px] bg-[#176B87] justify-between px-[12px]">
+        <header className="flex md:flex-row items-center h-[60px] bg-[#176B87] justify-between px-[12px]">
             <div className="flex items-center justify-between w-full md:w-auto">
                 <div className="flex items-center">
                     <Link to={config.routes.home} className="font-semibold text-white hover:underline px-4">
                         HandMadeCraft
                     </Link>
-                    <div className="flex items-center">
-                        <Search />
-                    </div>
                 </div>
+            </div>
+            <div className="flex items-center max-md:hidden">
+                <Search />
             </div>
 
             <div className="flex items-center gap-[20px] h-full">
