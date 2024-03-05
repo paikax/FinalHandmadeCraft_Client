@@ -12,6 +12,7 @@ import {
     faCheckCircle,
     faGem,
     faCrown,
+    faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
@@ -399,119 +400,118 @@ const Profile = () => {
     }
 
     return (
-        <div className="gradient-custom-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg">
+        <div className="gradient-custom-2 bg-gradient-to-r from-[#EEF5FF] to-[#EEF5FF] rounded-lg h-screen">
             <div className="container py-5 h-full">
                 <div className="flex justify-center items-center h-full">
-                    <div className="lg:w-9/12 xl:w-7/12">
-                        <div className="card">
+                    <div className="lg:w-10/12 xl:w-9/12">
+                        <div className="card bg-white rounded-lg shadow-lg overflow-hidden">
                             <div
-                                className="rounded-top text-white flex items-center rounded-md"
-                                style={{ backgroundColor: '#000', height: '200px' }}
+                                className="flex items-center rounded-t-lg transition-all duration-300 ease-in-out"
+                                style={{ backgroundColor: '#176B87' }}
                             >
-                                <div className="ms-4 mt-5 flex flex-col" style={{ width: '150px' }}>
+                                <div className="p-4">
                                     <img
                                         src={user.profilePhoto || ' '}
                                         alt="Profile"
-                                        className="mt-4 mb-2 img-thumbnail w-full"
+                                        className="w-32 h-32 rounded-full border-4 border-white shadow-lg transform hover:scale-105 transition duration-300"
                                     />
-                                    {currentUserID === userId && ( // Check if current user is viewing their own profile
-                                        <button
-                                            className="bg-green-400 hover:bg-green-500 rounded btn-outline-dark h-10 overflow-visible"
-                                            onClick={handleEditProfile}
-                                        >
-                                            <FontAwesomeIcon icon={faEdit} className="me-2" />
-                                            Edit Profile
-                                        </button>
-                                    )}
                                 </div>
-                                <div className="ms-3" style={{ marginTop: '130px' }}>
-                                    <h5
-                                        className={`text-md font-semibold ${
-                                            user.isPremium ? 'text-yellow-500 premium-name' : ''
-                                        }`}
-                                    >
-                                        {user.isPremium && <FontAwesomeIcon icon={faCrown} className="me-1" />}{' '}
-                                        {/* Render the crown icon only for premium users */}
-                                        {user.firstName} {user.lastName}
-                                    </h5>
-                                    <p className="">
+                                <div className="px-4 py-2">
+                                    <h2 className="text-lg font-semibold text-white">
+                                        <span
+                                            className={`text-md font-semibold ${
+                                                user.isPremium ? 'text-yellow-500 premium-name' : ''
+                                            }`}
+                                        >
+                                            {user.firstName} {user.lastName}
+                                        </span>
+                                        {user.isPremium && (
+                                            <FontAwesomeIcon
+                                                icon={faCrown}
+                                                className="ml-2 text-yellow-500 animate-bounce"
+                                            />
+                                        )}
+                                    </h2>
+                                    <p className="text-sm text-gray-200">
                                         <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" />
                                         {user.address}
                                     </p>
                                 </div>
-                            </div>
-
-                            <div className="px-4 py-6 text-black rounded-md" style={{ backgroundColor: '#f8f9fa' }}>
-                                {!isPremium && (
-                                    <button
-                                        onClick={handleShowBenefitsModal}
-                                        className="btn btn-primary flex items-center justify-center space-x-2 px-6 py-3 rounded-lg text-lg font-semibold transition duration-300 transform hover:scale-105 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 border border-transparent hover:border-yellow-500 absolute"
-                                    >
-                                        <div className="flex items-center justify-center bg-white rounded-full w-10 h-10">
-                                            <FontAwesomeIcon icon={faGem} className="text-yellow-500" />
-                                        </div>
-                                        <span className="font-bold">Unlock Premium Features</span>
-                                        <span className="text-sm ml-2 bg-yellow-500 text-white py-1 px-2 rounded-md absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
-                                            New
-                                        </span>
-                                    </button>
+                                {currentUserID === userId && (
+                                    <div className="ml-auto mr-4">
+                                        <button
+                                            className="bg-green-400 hover:bg-green-500 rounded-full h-12 w-12 overflow-visible flex items-center justify-center transition duration-300 ease-in-out transform hover:scale-110 shadow-lg"
+                                            onClick={handleEditProfile}
+                                        >
+                                            <FontAwesomeIcon icon={faEdit} className="text-white" />
+                                            <span className="sr-only">Edit Profile</span>
+                                        </button>
+                                    </div>
                                 )}
-                                <div className="flex justify-end text-center py-1">
-                                    <div>
-                                        {currentUserID !== userId && (
-                                            <div className="flex justify-center">
-                                                {isFollowing ? (
-                                                    <button
-                                                        onClick={handleUnfollow}
-                                                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out"
-                                                    >
-                                                        Unfollow
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        onClick={handleFollow}
-                                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out"
-                                                    >
-                                                        Follow
-                                                    </button>
-                                                )}
-                                            </div>
+                                {currentUserID !== userId && (
+                                    <div className="ml-auto mr-4">
+                                        {isFollowing ? (
+                                            <button
+                                                onClick={handleUnfollow}
+                                                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out shadow-lg"
+                                            >
+                                                Unfollow
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={handleFollow}
+                                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out shadow-lg"
+                                            >
+                                                Follow
+                                            </button>
                                         )}
                                     </div>
+                                )}
+                                {!user.isPremium && (
+                                    <div className="mr-4">
+                                        <button
+                                            onClick={handleShowBenefitsModal}
+                                            className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out shadow-lg"
+                                        >
+                                            Upgrade to Premium
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="px-6 py-4">
+                                <div className="flex justify-end text-center py-1">
                                     <div className="px-3">
-                                        <p className="mb-1 text-lg font-semibold">{followerCount}</p>
+                                        <p className="mb-1 text-lg font-semibold text-gray-700">{followerCount}</p>
                                         <p className="text-xs text-gray-500 mb-0">Followers</p>
                                     </div>
                                     <div className="px-3">
-                                        <p className="mb-1 text-lg font-semibold">{followingCount}</p>
+                                        <p className="mb-1 text-lg font-semibold text-gray-700">{followingCount}</p>
                                         <p className="text-xs text-gray-500 mb-0">Following</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="card-body text-black p-4">
-                                <div className="mb-5">
-                                    <p className="lead font-normal mb-1">About</p>
-                                    <div className="p-4 rounded-sm" style={{ backgroundColor: '#f8f9fa' }}>
-                                        <p className="font-italic mb-1">{user.bio}</p>
+                            <div className="card-body p-4">
+                                <div className="mb-4">
+                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">About</h3>
+                                    <p className="text-gray-600">{user.bio}</p>
+                                </div>
+                                <div className="mb-4">
+                                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Recent Craft Tutorials</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {latestTutorials.slice(0, 4).map((tutorial) => (
+                                            <div className="mb-4" key={tutorial.id}>
+                                                <Link to={`/tutorials/${tutorial.id}`}>
+                                                    <img
+                                                        src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
+                                                        alt={tutorial.title}
+                                                        className="w-full h-auto rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
+                                                    />
+                                                </Link>
+                                            </div>
+                                        ))}
                                     </div>
-                                </div>
-                                <div className="flex justify-between items-center mb-4">
-                                    <p className="lead font-normal mb-0">Recent Craft Tutorials</p>
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {latestTutorials.slice(0, 4).map((tutorial) => (
-                                        <div className="mb-4" key={tutorial.id}>
-                                            <Link to={`/tutorials/${tutorial.id}`}>
-                                                <img
-                                                    src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
-                                                    alt={tutorial.title}
-                                                    className="w-full h-auto rounded-lg shadow-lg hover:shadow-xl transition duration-300"
-                                                />
-                                            </Link>
-                                            {/* <p className="mt-2 text-sm font-medium text-gray-700">{tutorial.title}</p> */}
-                                        </div>
-                                    ))}
                                 </div>
                             </div>
                         </div>
