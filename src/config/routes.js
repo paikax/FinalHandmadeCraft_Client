@@ -2,6 +2,7 @@ const routes = {
     home: '/',
     settings: '/settings',
     orders: '/orders',
+    orderDetail: '/orders/:id',
     login: '/auth/login',
     register: '/auth/register',
     search: '/search',
@@ -13,6 +14,7 @@ const routes = {
     tutorialDetail: '/tutorials/:tutorialId',
     profile: '/profile/:userId',
     paymentSetup: '/paymentSetup',
+    about: '/about',
 };
 
 export default routes;

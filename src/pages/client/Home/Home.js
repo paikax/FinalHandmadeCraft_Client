@@ -39,7 +39,7 @@ function Home() {
         <div className="bg-gray-100 min-h-screen">
             <div className="container mx-auto px-4">
                 <header className="py-4 flex justify-between items-center">
-                    <Link to="/" className="text-3xl font-bold text-yellow-400">
+                    <Link to="/" className="text-3xl font-bold text-yellow-400 px-4 py-4">
                         M
                     </Link>
                     <button className="md:hidden text-gray-700 hover:text-gray-600">
@@ -59,15 +59,15 @@ function Home() {
                         </svg>
                     </button>
                     <nav className="hidden md:flex space-x-6">
-                        <Link to="/" className="text-gray-700 hover:text-gray-600">
+                        <Link to="/" className="text-gray-700 font-bold hover:text-gray-600">
                             Hot crafts
                         </Link>
                         <Link to="/" className="text-gray-700 hover:text-gray-600">
                             Types
                         </Link>
-                        <Link to="/" className="text-gray-700 hover:text-gray-600">
+                        {/* <Link to="/" className="text-gray-700 hover:text-gray-600">
                             A-Z List
-                        </Link>
+                        </Link> */}
                         <Link to="/" className="text-gray-700 hover:text-gray-600">
                             News
                         </Link>
@@ -99,13 +99,7 @@ function Home() {
                                                 to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
                                                 className="text-yellow-400 hover:text-yellow-500 font-semibold"
                                             >
-                                                View Tutorial
-                                            </Link>
-                                            <Link
-                                                to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
-                                                className="text-gray-400 hover:text-gray-200 font-semibold"
-                                            >
-                                                View Details
+                                                View detail
                                             </Link>
                                         </div>
                                     </div>
@@ -117,7 +111,11 @@ function Home() {
                                         <h2 className="text-lg font-semibold">
                                             Difficulty: {tutorials[currentTutorialIndex].difficultLevel}
                                         </h2>
+                                        <h2 className="text-lg font-semibold italic">
+                                            Materials: {tutorials[currentTutorialIndex].material}
+                                        </h2>
                                     </div>
+
                                     <div className="flex items-center space-x-4">
                                         <Link to={`/profile/${tutorials[currentTutorialIndex].createdById}`}>
                                             <img
@@ -130,7 +128,7 @@ function Home() {
                                             to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
                                             className="bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded text-gray-900 font-semibold"
                                         >
-                                            View Info
+                                            About the Creator
                                         </Link>
                                     </div>
                                 </div>
@@ -139,7 +137,7 @@ function Home() {
                     )}
                 </main>
                 <footer className="mt-8 py-4 border-t border-gray-700 text-center">
-                    <p className="text-gray-400">Privacy 🍪</p>
+                    <p className="text-gray-400">Privacy</p>
                 </footer>
             </div>
         </div>

@@ -7,16 +7,27 @@ export const createOrder = async (orderRequest) => {
         return res;
     } catch (error) {
         console.log(error);
-        throw error; // Re-throw the error to handle it elsewhere
+        throw error;
     }
 };
 
 export const getOrders = async (userId) => {
     try {
         const res = await httpRequest.get(`/orders/all/${userId}`);
-        return res; // Assuming the response data contains the orders
+        return res;
     } catch (error) {
         console.error('Error fetching orders:', error);
-        throw error; // Re-throw the error to handle it elsewhere
+        throw error;
+    }
+};
+
+export const getOrderById = async (orderId) => {
+    try {
+        const res = await httpRequest.get(`/orders/${orderId}`);
+        console.log(res);
+        return res;
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        throw error;
     }
 };

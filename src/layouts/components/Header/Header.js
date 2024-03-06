@@ -81,7 +81,7 @@ function Header({ currentUser }) {
                     <Link to={config.routes.tutorialList} className="text-white hover:underline">
                         Discover
                     </Link>
-                    <Link to="/link2" className="text-white hover:underline">
+                    <Link to={config.routes.about} className="text-white hover:underline">
                         About
                     </Link>
                     <Link to="/link3" className="text-white hover:underline">
@@ -91,7 +91,7 @@ function Header({ currentUser }) {
                 <HeadlessTippy
                     trigger="click"
                     interactive
-                    offset={[8, 8]}
+                    offset={[8, 18]}
                     placement="bottom-end"
                     render={() => (
                         <div className="bg-white shadow-[0_24px_54px_rgba(0,0,0,0.15)]">
@@ -126,7 +126,7 @@ function Header({ currentUser }) {
                     <HeadlessTippy
                         trigger="click"
                         interactive
-                        offset={[8, 8]}
+                        offset={[8, 18]}
                         placement="bottom-end"
                         render={renderResult}
                     >

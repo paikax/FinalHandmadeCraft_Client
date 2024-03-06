@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
-import { faHeart, faComment, faTimes } from '@fortawesome/free-solid-svg-icons'; // Import additional icons
+import { faHeart, faComment, faTimes, faBookBookmark } from '@fortawesome/free-solid-svg-icons'; // Import additional icons
 
 import {
     addCommentToTutorial,
@@ -20,6 +20,7 @@ import toast from 'react-hot-toast';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { createOrder } from '~/services/orderService';
 import { sendPayment } from '~/services/payPalService';
+import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 
 const TutorialDetail = () => {
     const { tutorialId } = useParams();
@@ -150,10 +151,9 @@ const TutorialDetail = () => {
         try {
             const addedComment = await addCommentToTutorial(tutorialId, newComment, currentUserID);
 
-            // Update the comments section state
             setCommentSection((prevCommentSection) => [...prevCommentSection, addedComment]);
 
-            setNewComment(''); // Clear the new comment input field
+            setNewComment('');
         } catch (error) {
             console.error('Error submitting comment:', error);
         }
@@ -198,7 +198,7 @@ const TutorialDetail = () => {
     };
     const handleBuyNow = async () => {
         try {
-            setIsPaymentSuccess(false); // Reset payment success state
+            setIsPaymentSuccess(false);
 
             const orderItem = {
                 tutorialId: tutorialId,
@@ -207,7 +207,6 @@ const TutorialDetail = () => {
                 quantity: +JSON.parse(localStorage.getItem('quantity')),
             };
 
-            // Construct order request object with user ID, order items, total price, and address (if applicable)
             const orderRequest = {
                 userId: currentUserID,
                 items: [orderItem],
@@ -224,9 +223,8 @@ const TutorialDetail = () => {
                 setIsPaymentSuccess(true); // Update payment success state
                 toast.success('Payment successful');
                 console.log('Order created successfully:', orderResponse);
-                setIsBuyModalOpen(false); // Close the buy modal
+                setIsBuyModalOpen(false);
             } else {
-                // Handle the case where order creation failed
                 toast.error('Failed to create order');
             }
         } catch (error) {
@@ -336,7 +334,6 @@ const TutorialDetail = () => {
                 </div>
             </Modal>
 
-            {/* New */}
             <div className="bg-gradient-to-r bg-[#B4D4FF] text-white py-4">
                 <div className="container mx-auto px-4">
                     <header className="flex justify-between items-center py-4">
@@ -360,7 +357,7 @@ const TutorialDetail = () => {
                         </div>
                         <div className="flex items-center">
                             <button className="bg-[#176B87] hover:bg-[#47a2c1] text-white font-bold py-2 px-4 rounded">
-                                Dark Mode
+                                <FontAwesomeIcon icon={faBookmark} className="mr-1" />
                             </button>
                         </div>
                     </header>
@@ -373,6 +370,7 @@ const TutorialDetail = () => {
                                         className="w-12 h-12 rounded-full"
                                         src={tutorial.userProfilePicture}
                                         alt="creator avatar"
+                                        loading="lazy"
                                     />
                                 </button>
                             </Link>
@@ -411,7 +409,9 @@ const TutorialDetail = () => {
                                         <i className="fas fa-shopping-cart mr-2"></i> Buy the product
                                     </button>
                                 )}
-                                <p className="text-lg lg:text-xl mb-6 lg:mb-8 text-white">{tutorial.instruction}</p>
+                                <p className="text-lg lg:text-xl mb-6 mt-6 lg:mb-8 text-white">
+                                    {tutorial.instruction}
+                                </p>
                                 <Link to="/" className="text-white text-lg hover:underline">
                                     + Learn More
                                 </Link>
@@ -430,16 +430,18 @@ const TutorialDetail = () => {
                                 </div>
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Uploaded by:</h3>
-                                    <p className="text-lg text-white">{tutorial.userName}</p>
+                                    <p className="text-lg text-white">
+                                        <span className="">{tutorial.userName}</span>
+                                    </p>
                                 </div>
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Published:</h3>
                                     <p className="text-lg text-white">{tutorial.createdAt}</p>
                                 </div>
-                                <div className="mb-6">
+                                {/* <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Views:</h3>
                                     <p className="text-lg text-white">23,445</p>
-                                </div>
+                                </div> */}
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Likes:</h3>
                                     <div className="flex items-center">

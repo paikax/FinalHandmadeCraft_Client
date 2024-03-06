@@ -72,6 +72,7 @@ const TutorialList = () => {
                                         src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
                                         alt={tutorial.title}
                                         className="w-full h-80 object-cover mb-6 rounded-md"
+                                        loading="lazy"
                                     />
                                     <div className="flex justify-between items-center">
                                         <div>
@@ -88,6 +89,7 @@ const TutorialList = () => {
                                                 src={tutorial.userProfilePicture}
                                                 alt="User Profile"
                                                 className="w-16 h-16 rounded-full"
+                                                loading="lazy"
                                             />
                                             <span className="text-xl font-semibold ml-4 max-sm:hidden">
                                                 {tutorial.userName}

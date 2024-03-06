@@ -18,6 +18,8 @@ import PaymentSetup from '~/pages/client/Payment/PaymentSetup';
 import Order from '~/pages/client/Order';
 import ForgotPassword from '~/pages/client/ResetPassword/forgotPassword';
 import ResetPassword from '~/pages/client/ResetPassword/resetPassword';
+import About from '~/pages/client/About';
+import OrderDetail from '~/pages/client/Order/OrderDetail';
 
 // Public routes
 const publicRoutes = [
@@ -37,7 +39,9 @@ const privateRoutes = [
     { path: config.routes.settings, component: Settings, layout: HeaderOnly },
     { path: config.routes.profile, component: Profile },
     { path: config.routes.paymentSetup, component: PaymentSetup },
+    { path: config.routes.about, component: About },
     { path: config.routes.orders, component: Order },
+    { path: config.routes.orderDetail, component: OrderDetail },
 ];
 
 // Admin routes

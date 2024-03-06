@@ -168,7 +168,7 @@ function Register() {
                         <h2 className="mt-6 text-3xl font-bold text-gray-900">Sign up</h2>
                         <p className="mt-2 text-md text-gray-600">Please enter your information below.</p>
                     </div>
-                    <div className="flex flex-row justify-center items-center space-x-3">
+                    {/* <div className="flex flex-row justify-center items-center space-x-3">
                         <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white  bg-blue-900 hover:shadow-lg cursor-pointer transition ease-in duration-300">
                             <img
                                 className="w-4 h-4"
@@ -192,7 +192,7 @@ function Register() {
                         <span className="h-px w-16 bg-gray-300" />
                         <span className="text-gray-500 font-normal">OR</span>
                         <span className="h-px w-16 bg-gray-300" />
-                    </div>
+                    </div> */}
                     <form
                         className="mt-8 space-y-6"
                         onSubmit={handleSubmit(onSubmitForm)}
@@ -200,25 +200,8 @@ function Register() {
                     >
                         <input type="hidden" name="remember" defaultValue="true" />
                         <div className="relative">
-                            {/* <div className="absolute right-0 mt-4">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 text-green-500"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                            </div> */}
                             {currentStep === 1 && (
                                 <>
-                                    {/* <label className="font-bold text-gray-700 tracking-wide">Email</label> */}
                                     <input
                                         className="w-full px-2 py-2 mt border rounded-xl focus:outline-none focus:border-indigo-500 bg-gray-200"
                                         type="email"
