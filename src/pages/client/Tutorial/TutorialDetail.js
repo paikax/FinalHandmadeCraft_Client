@@ -40,6 +40,7 @@ const TutorialDetail = () => {
     const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
     const [orderTotal, setOrderTotal] = useState(0);
     const [buyerEmail, setBuyerEmail] = useState('');
+    const currentEmail = useSelector((state) => String(state.auth.login.currentUser?.email));
 
     useEffect(() => {
         const fetchTutorial = async () => {
@@ -196,6 +197,7 @@ const TutorialDetail = () => {
         setQuantity(newQuantity);
         localStorage.setItem('quantity', newQuantity);
     };
+
     const handleBuyNow = async () => {
         try {
             setIsPaymentSuccess(false);
@@ -212,7 +214,9 @@ const TutorialDetail = () => {
                 items: [orderItem],
                 totalPrice: +JSON.parse(localStorage.getItem('totalPrice')),
                 address: localStorage.getItem('shippingAddress'),
-                sellerEmail: tutorial.creatorPayPalEmail,
+                sellerEmail: tutorial.creatorEmail,
+                buyerEmail: currentEmail,
+                creatorEmail: tutorial.creatorEmail,
             };
 
             const orderResponse = await createOrder(orderRequest);

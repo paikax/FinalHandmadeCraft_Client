@@ -14,6 +14,7 @@ import Search from '../Search';
 import { NotifyIcon } from '~/components/Icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 function Header({ currentUser }) {
     const name = localStorage.getItem('name');
@@ -21,7 +22,7 @@ function Header({ currentUser }) {
     const googleAvatar = localStorage.getItem('profilePic');
     const avatar = localStorage.getItem('profilePhoto');
 
-    const dispatch = useDispatch(); // Moved dispatch declaration here
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
