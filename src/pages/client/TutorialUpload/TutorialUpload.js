@@ -114,7 +114,7 @@ const TutorialUpload = () => {
     return (
         <div className="flex">
             {/* Left side - Video Upload */}
-            <div className="flex-1 p-4">
+            <div className="w-[65%] p-4 bg-[#176b87] mr-[10px]">
                 {!isUploadComplete && (
                     <div
                         {...getRootProps()}
@@ -148,14 +148,14 @@ const TutorialUpload = () => {
                 {/* Video preview section */}
                 {isUploadComplete && (
                     <div className="">
-                        <label className="block text-xl font-medium text-gray-600">Video Preview</label>
+                        <label className="block text-xl font-medium text-white">Video Preview</label>
                         <video controls className="mt-1 border rounded-md" style={{ maxWidth: '100%' }}>
                             <source src={videoUrl} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
                         <button
                             onClick={handleReplaceVideo}
-                            className="bg-[#176B87] hover:bg-[#4590a9] text-white p-2 mt-2 rounded-md"
+                            className="bg-[#3a93d3] hover:bg-[#4590a9] text-white p-2 mt-3 rounded-md"
                         >
                             Replace Video
                         </button>
@@ -164,13 +164,13 @@ const TutorialUpload = () => {
             </div>
 
             {/* Right side - Form */}
-            <div className="flex-1 p-4">
+            <div className="w-[39%] p-4 bg-[#176b87] ml-[10px]">
                 {isUploadComplete && (
                     <form onSubmit={handleFormSubmit} className="space-y-4">
                         {/* Other input fields */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label htmlFor="title" className="block text-sm font-medium text-gray-600">
+                                <label htmlFor="title" className="block text-xl font-medium text-white">
                                     Title
                                 </label>
                                 <input
@@ -179,13 +179,13 @@ const TutorialUpload = () => {
                                     name="title"
                                     value={tutorialData.title}
                                     onChange={handleInputChange}
-                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
+                                    className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
                                     placeholder="Enter tutorial title"
                                     required
                                 />
                             </div>
-                            <div className="mb-6">
-                                <label htmlFor="difficultLevel" className="block text-sm font-medium text-gray-700">
+                            <div className="">
+                                <label htmlFor="difficultLevel" className="block text-xl font-medium text-white">
                                     Difficulty Level
                                 </label>
                                 <select
@@ -193,7 +193,7 @@ const TutorialUpload = () => {
                                     name="difficultLevel"
                                     value={tutorialData.difficultLevel}
                                     onChange={handleInputChange}
-                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 bg-white shadow-sm"
+                                    className="mt-1 p-2 text-2xl h-[30px] w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 bg-white shadow-xl"
                                     required
                                 >
                                     <option disabled value="">
@@ -206,7 +206,7 @@ const TutorialUpload = () => {
                             </div>
                         </div>
                         <div>
-                            <label htmlFor="material" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="material" className="block text-xl font-medium text-white">
                                 Material
                             </label>
                             <input
@@ -215,14 +215,14 @@ const TutorialUpload = () => {
                                 name="material"
                                 value={tutorialData.material}
                                 onChange={handleInputChange}
-                                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
+                                className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
                                 placeholder="Enter material used"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label htmlFor="instruction" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="instruction" className="block text-xl font-medium text-white">
                                 Instruction
                             </label>
                             <textarea
@@ -230,7 +230,7 @@ const TutorialUpload = () => {
                                 name="instruction"
                                 value={tutorialData.instruction}
                                 onChange={handleInputChange}
-                                className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
+                                className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
                                 placeholder="Enter tutorial instruction"
                                 rows={4}
                                 required
@@ -238,7 +238,7 @@ const TutorialUpload = () => {
                         </div>
 
                         <div>
-                            <label htmlFor="price" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="price" className="block text-xl font-medium text-white">
                                 Price
                             </label>
                             <div className="relative">
@@ -248,7 +248,7 @@ const TutorialUpload = () => {
                                     name="price"
                                     value={tutorialData.price}
                                     onChange={handleInputChange}
-                                    className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 pl-10"
+                                    className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 pl-10"
                                     placeholder="Enter tutorial price (Limit: $300)"
                                     min="0"
                                     max="300" // Limit the maximum value to $300
@@ -262,7 +262,7 @@ const TutorialUpload = () => {
                         </div>
 
                         <div className="relative">
-                            <label htmlFor="categoryId" className="block text-sm font-medium text-gray-600">
+                            <label htmlFor="categoryId" className="block text-xl font-medium text-white">
                                 Category
                             </label>
                             <div className="relative">
@@ -271,7 +271,7 @@ const TutorialUpload = () => {
                                     name="categoryId"
                                     value={tutorialData.categoryId}
                                     onChange={handleInputChange}
-                                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out bg-white hover:border-gray-400"
+                                    className="mt-1 block w-full text-2xl h-[30px] pl-3 pr-10 py-2  border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out bg-white hover:border-gray-400"
                                     required
                                 >
                                     <option value="" disabled hidden>
@@ -307,7 +307,7 @@ const TutorialUpload = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="bg-[#176B87] text-white p-2 rounded-md w-full hover:bg-[#4590a9] focus:outline-none focus:ring focus:ring-blue-300 transition duration-300 ease-in-out"
+                                className="bg-[#3a93d3] text-white p-2 rounded-md w-full hover:bg-[#4590a9] focus:outline-none focus:ring focus:ring-blue-300 transition duration-300 ease-in-out"
                             >
                                 Add Tutorial
                             </button>

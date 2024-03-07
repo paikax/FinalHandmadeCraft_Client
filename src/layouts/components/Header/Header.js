@@ -1,6 +1,6 @@
 import HeadlessTippy from '@tippyjs/react/headless';
 import { toast } from 'react-hot-toast';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
@@ -14,13 +14,16 @@ import Search from '../Search';
 import { NotifyIcon } from '~/components/Icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchNotifications } from '~/services/notificationService';
 
 function Header({ currentUser }) {
+    const [notifications, setNotifications] = useState();
     const name = localStorage.getItem('name');
     const email = localStorage.getItem('email');
     const googleAvatar = localStorage.getItem('profilePic');
     const avatar = localStorage.getItem('profilePhoto');
+    const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -28,6 +31,19 @@ function Header({ currentUser }) {
     const handleLogout = async () => {
         await logOut(dispatch, navigate);
     };
+
+    // useEffect(() => {
+    //     const fetchNotificationsData = async () => {
+    //         try {
+    //             const res = await fetchNotifications(currentUserID);
+    //             setNotifications(res || []);
+    //         } catch (error) {
+    //             console.error('Failed to fetch notifications:', error);
+    //         }
+    //     };
+
+    //     fetchNotificationsData();
+    // }, [currentUserID]);
 
     const renderResult = () => {
         return (
@@ -103,18 +119,14 @@ function Header({ currentUser }) {
                                 </button>
                             </div>
                             <div className="flex flex-col p-[10px]">
-                                <div className="p-[10px] rounded-[8px] mt-[10px] bg-[#f051231a] cursor-pointer">
-                                    <h4>
-                                        Works "<span className="font-medium">INFO</span>"
-                                    </h4>
-                                    <p className="text-[#f05123] text-[12px] mt-[4px]">Time</p>
-                                </div>
-                                <div className="p-[10px] rounded-[8px] mt-[10px] bg-[#f051231a] cursor-pointer">
-                                    <h4>
-                                        Works "<span className="font-medium">INFO</span>"
-                                    </h4>
-                                    <p className="text-[#f05123] text-[12px] mt-[4px]">Time</p>
-                                </div>
+                                {/* {notifications.map(({ title, message }) => (
+                                    <div className="p-[10px] rounded-[8px] mt-[10px] bg-[#f051231a] cursor-pointer">
+                                        <h4>
+                                            {title} "<span className="font-medium">{}</span>"
+                                        </h4>
+                                        <p className="text-[#f05123] text-[12px] mt-[4px]">{message}</p>
+                                    </div>
+                                ))} */}
                             </div>
                         </div>
                     )}

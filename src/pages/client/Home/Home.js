@@ -36,7 +36,7 @@ function Home() {
     };
 
     return (
-        <div className="bg-gray-100 min-h-screen">
+        <div className="bg-gray-100 w-[80%] m-auto">
             <div className="container mx-auto px-4">
                 <header className="py-4 flex justify-between items-center">
                     <Link to="/" className="text-3xl font-bold text-yellow-400 px-4 py-4">
@@ -74,7 +74,7 @@ function Home() {
                     </nav>
                 </header>
 
-                <main className="mt-8">
+                <main>
                     {loading ? (
                         <div>Loading...</div>
                     ) : (

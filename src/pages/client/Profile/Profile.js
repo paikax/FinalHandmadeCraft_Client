@@ -93,7 +93,6 @@ const Profile = () => {
         const fetchFollowersAndFollowing = async () => {
             try {
                 const isCurrentlyFollowing = await checkIfFollowing(userId, currentUserID);
-                console.log(isCurrentlyFollowing);
                 setIsFollowing(isCurrentlyFollowing);
                 const followers = await getFollowers(userId);
                 const following = await getFollowing(userId);

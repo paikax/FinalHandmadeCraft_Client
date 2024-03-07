@@ -75,9 +75,9 @@ const PaymentSetup = () => {
                 <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Payment Board Management</h2>
                 {userPayPalInfo ? (
                     <div className="mb-6">
-                        <p className="text-lg mb-2 text-gray-700">PayPal Email: {userPayPalInfo.email}</p>
-                        <p className="text-lg mb-2 text-gray-700">First Name: {userPayPalInfo.firstName}</p>
-                        <p className="text-lg mb-2 text-gray-700">Last Name: {userPayPalInfo.lastName}</p>
+                        <p className="text-xl mb-2 text-gray-700">PayPal Email: {userPayPalInfo.email}</p>
+                        <p className="text-xl mb-2 text-gray-700">First Name: {userPayPalInfo.firstName}</p>
+                        <p className="text-xl mb-2 text-gray-700">Last Name: {userPayPalInfo.lastName}</p>
                         <button
                             onClick={handleEdit}
                             className="bg-[#176B87] text-white px-4 py-2 rounded-md hover:bg-[#428ba3] transition duration-300 ease-in-out flex items-center justify-center"
@@ -155,7 +155,7 @@ const PaymentSetup = () => {
                                         value={paypalEmail}
                                         onChange={(e) => setPaypalEmail(e.target.value)}
                                         required
-                                        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                        className="border border-gray-300 bg-[#176B87] text-white rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                                 <div>
@@ -168,7 +168,7 @@ const PaymentSetup = () => {
                                         value={paypalFirstName}
                                         onChange={(e) => setPaypalFirstName(e.target.value)}
                                         required
-                                        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                        className="border border-gray-300 bg-[#176B87] text-white rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                                 <div>
@@ -181,7 +181,7 @@ const PaymentSetup = () => {
                                         value={paypalLastName}
                                         onChange={(e) => setPaypalLastName(e.target.value)}
                                         required
-                                        className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                        className="border border-gray-300 bg-[#176B87] text-white rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                                 <button
