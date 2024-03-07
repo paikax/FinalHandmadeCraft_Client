@@ -98,5 +98,30 @@
             "last 1 safari version"
         ]
     },
-    "proxy": "https://localhost:5001/"
+    "proxy": "https://localhost:5001/",
+    "vercel": {
+        "version": 2,
+        "buildCommand": "echo hello",
+        "installCommand": "npm install --force",
+        "builds": [
+            {
+                "src": "index.js",
+                "use": "@vercel/node"
+            },
+            {
+                "src": "dist/**",
+                "use": "@vercel/static"
+            }
+        ],
+        "routes": [
+            {
+                "src": "/",
+                "dest": "dist/index.html"
+            },
+            {
+                "src": "/(.+)",
+                "dest": "index.js"
+            }
+        ]
+    }
 }
