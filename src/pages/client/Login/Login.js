@@ -71,7 +71,7 @@ function Login() {
                     <h3 className="text-2xl font-bold text-center">Welcome back!</h3>
                 </div>
                 <div className="mt-4">
-                    {/* <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between">
                         <span
                             className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg text-white bg-red-600 hover:shadow-lg cursor-pointer transition ease-in duration-300"
                             onClick={handleSignUpGoogle}
@@ -85,7 +85,7 @@ function Login() {
                         <hr className="w-full" />
                         <label className="text-gray-600 px-3 bg-white">OR</label>
                         <hr className="w-full" />
-                    </div> */}
+                    </div>
 
                     <form onSubmit={handleSubmit(onSubmitForm)}>
                         <div className="mt-8">

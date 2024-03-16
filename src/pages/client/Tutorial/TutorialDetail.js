@@ -228,6 +228,7 @@ const TutorialDetail = () => {
                 toast.success('Payment successful');
                 console.log('Order created successfully:', orderResponse);
                 setIsBuyModalOpen(false);
+                toast.success('Check your order to see details');
             } else {
                 toast.error('Failed to create order');
             }

@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import config from '~/config';
+import * as httpRequest from '~/utils/httpRequest';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCBMZAZWUQYM2EAlACJao5x-vt4GwVtImI',
@@ -23,17 +24,22 @@ const provider = new GoogleAuthProvider();
 export const signInWithGoogle = async () => {
     try {
         const result = await signInWithPopup(auth, provider);
-        const name = result.user.displayName;
-        const profilePic = result.user.photoURL;
-        const email = result.user.email;
-        const userId = result.user.uid;
+        const tokenId = await result.user.getIdToken();
 
-        localStorage.setItem('name', name);
-        localStorage.setItem('profilePic', profilePic);
-        localStorage.setItem('email', email);
-        localStorage.setItem('userId', userId);
+        console.log(tokenId);
+        const response = await httpRequest.post('user/authenticate-google', { tokenId });
 
-        window.location.replace(config.routes.home);
+        if (response && response.data) {
+            const { user, jwtToken, refreshToken } = response.data;
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('jwtToken', jwtToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            window.location.replace(config.routes.home);
+
+            console.log('done');
+        } else {
+            throw new Error('Failed to authenticate with Google.');
+        }
     } catch (error) {
         console.log(error);
     }

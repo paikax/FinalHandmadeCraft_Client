@@ -77,7 +77,7 @@ function Home() {
                 <main>
                     {loading ? (
                         <div>Loading...</div>
-                    ) : (
+                    ) : tutorials.length > 0 ? ( // Check if tutorials array is not empty
                         <div className="rounded-lg shadow-lg overflow-hidden">
                             <div className="relative">
                                 <img
@@ -134,8 +134,11 @@ function Home() {
                                 </div>
                             </div>
                         </div>
+                    ) : (
+                        <div>No post recently</div>
                     )}
                 </main>
+
                 <footer className="mt-8 py-4 border-t border-gray-700 text-center">
                     <p className="text-gray-400">Privacy</p>
                 </footer>

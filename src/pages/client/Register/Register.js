@@ -8,7 +8,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ErrorMessage from '~/components/ErrorMessage';
-import { signInWithGoogle } from '~/firebaseConfig';
 import { registerUser } from '~/redux/apiRequest';
 import { registerValidationSchema } from './validationSchema';
 import { useState } from 'react';
@@ -17,6 +16,8 @@ import 'react-image-crop/dist/ReactCrop.css';
 import ImageCropper from '~/utils/ImageCropper';
 import { updateAvatar, uploadImageToCloudinary } from '~/utils/cloudinaryConfig';
 import config from '~/config';
+import { GoogleLogin } from 'react-google-login';
+import GoogleLoginButton from '~/components/Button/GoogleLoginButton';
 
 function Register() {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function Register() {
     const [isImageUploading, setIsImageUploading] = useState(false);
     const currentUser = useSelector((state) => state.auth.user); // Replace with your actual state path
     const userId = currentUser?.id; // Replace with your actual ID field
+    const [googleToken, setGoogleToken] = useState(null);
 
     const handleCropComplete = (croppedImage) => {
         setProfilePicture(croppedImage);
@@ -149,8 +151,34 @@ function Register() {
         }
     };
 
-    const handleSignUpGoogle = () => {
-        signInWithGoogle();
+    // const handleSignUpGoogle = () => {
+    //     signInWithGoogle();
+    // };
+
+    const onSuccess = async (res) => {
+        try {
+            const tokenId = res.tokenId;
+            const response = await fetch('YOUR_API_URL/google-authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tokenId }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const onFailure = (res) => {
+        console.log('Login failed: res:', res);
     };
 
     return (
@@ -168,31 +196,32 @@ function Register() {
                         <h2 className="mt-6 text-3xl font-bold text-gray-900">Sign up</h2>
                         <p className="mt-2 text-md text-gray-600">Please enter your information below.</p>
                     </div>
-                    {/* <div className="flex flex-row justify-center items-center space-x-3">
-                        <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white  bg-blue-900 hover:shadow-lg cursor-pointer transition ease-in duration-300">
+                    <div className="flex flex-row justify-center items-center space-x-3">
+                        {/* <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white  bg-blue-900 hover:shadow-lg cursor-pointer transition ease-in duration-300">
                             <img
                                 className="w-4 h-4"
                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiBjbGFzcz0iIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0xNS45OTcgMy45ODVoMi4xOTF2LTMuODE2Yy0uMzc4LS4wNTItMS42NzgtLjE2OS0zLjE5Mi0uMTY5LTMuMTU5IDAtNS4zMjMgMS45ODctNS4zMjMgNS42Mzl2My4zNjFoLTMuNDg2djQuMjY2aDMuNDg2djEwLjczNGg0LjI3NHYtMTAuNzMzaDMuMzQ1bC41MzEtNC4yNjZoLTMuODc3di0yLjkzOWMuMDAxLTEuMjMzLjMzMy0yLjA3NyAyLjA1MS0yLjA3N3oiIGZpbGw9IiNmZmZmZmYiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+"
                             />
-                        </span>
-                        <span
+                        </span> */}
+                        {/* <span
                             className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white bg-red-600 hover:shadow-lg cursor-pointer transition ease-in duration-300"
                             onClick={handleSignUpGoogle}
                         >
                             <FontAwesomeIcon icon={faGoogle} className="text-white-600" />
-                        </span>
-                        <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white bg-blue-500 hover:shadow-lg cursor-pointer transition ease-in duration-300">
+                        </span> */}
+                        {/* <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white bg-blue-500 hover:shadow-lg cursor-pointer transition ease-in duration-300">
                             <img
                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0yMy45OTQgMjR2LS4wMDFoLjAwNnYtOC44MDJjMC00LjMwNi0uOTI3LTcuNjIzLTUuOTYxLTcuNjIzLTIuNDIgMC00LjA0NCAxLjMyOC00LjcwNyAyLjU4N2gtLjA3di0yLjE4NWgtNC43NzN2MTYuMDIzaDQuOTd2LTcuOTM0YzAtMi4wODkuMzk2LTQuMTA5IDIuOTgzLTQuMTA5IDIuNTQ5IDAgMi41ODcgMi4zODQgMi41ODcgNC4yNDN2Ny44MDF6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PHBhdGggeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkPSJtLjM5NiA3Ljk3N2g0Ljk3NnYxNi4wMjNoLTQuOTc2eiIgZmlsbD0iI2ZmZmZmZiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgc3R5bGU9IiI+PC9wYXRoPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTIuODgyIDBjLTEuNTkxIDAtMi44ODIgMS4yOTEtMi44ODIgMi44ODJzMS4yOTEgMi45MDkgMi44ODIgMi45MDkgMi44ODItMS4zMTggMi44ODItMi45MDljLS4wMDEtMS41OTEtMS4yOTItMi44ODItMi44ODItMi44ODJ6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg=="
                                 className="w-4 h-4"
                             />
-                        </span>
+                        </span> */}
+                        <GoogleLoginButton />
                     </div>
                     <div className="flex items-center justify-center space-x-2">
                         <span className="h-px w-16 bg-gray-300" />
                         <span className="text-gray-500 font-normal">OR</span>
                         <span className="h-px w-16 bg-gray-300" />
-                    </div> */}
+                    </div>
                     <form
                         className="mt-8 space-y-6"
                         onSubmit={handleSubmit(onSubmitForm)}
