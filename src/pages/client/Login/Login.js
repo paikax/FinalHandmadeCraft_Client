@@ -8,10 +8,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ErrorMessage from '~/components/ErrorMessage';
-import { signInWithGoogle } from '~/firebaseConfig';
 import { loginUser } from '~/redux/apiRequest';
 import { loginValidationSchema } from './validationSchema';
 import config from '~/config';
+import GoogleLoginButton from '~/components/Button/GoogleLoginButton';
 
 function Login() {
     const dispatch = useDispatch();
@@ -53,9 +53,7 @@ function Login() {
         }
     };
 
-    const handleSignUpGoogle = () => {
-        signInWithGoogle();
-    };
+    const handleSignUpGoogle = () => {};
 
     return (
         <div
@@ -72,13 +70,14 @@ function Login() {
                 </div>
                 <div className="mt-4">
                     <div className="flex items-center justify-between">
-                        <span
+                        {/* <span
                             className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg text-white bg-red-600 hover:shadow-lg cursor-pointer transition ease-in duration-300"
                             onClick={handleSignUpGoogle}
                         >
                             <FontAwesomeIcon icon={faGoogle} className="text-white-600" />
-                        </span>
-                        <span className="text-gray-700 block text-xl">Sign in with Google</span>
+                        </span> */}
+
+                        <GoogleLoginButton />
                     </div>
 
                     <div className="flex items-center justify-between my-4">

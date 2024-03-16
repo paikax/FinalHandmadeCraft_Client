@@ -16,7 +16,6 @@ import 'react-image-crop/dist/ReactCrop.css';
 import ImageCropper from '~/utils/ImageCropper';
 import { updateAvatar, uploadImageToCloudinary } from '~/utils/cloudinaryConfig';
 import config from '~/config';
-import { GoogleLogin } from 'react-google-login';
 import GoogleLoginButton from '~/components/Button/GoogleLoginButton';
 
 function Register() {
@@ -154,32 +153,6 @@ function Register() {
     // const handleSignUpGoogle = () => {
     //     signInWithGoogle();
     // };
-
-    const onSuccess = async (res) => {
-        try {
-            const tokenId = res.tokenId;
-            const response = await fetch('YOUR_API_URL/google-authenticate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ tokenId }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    const onFailure = (res) => {
-        console.log('Login failed: res:', res);
-    };
 
     return (
         <>
