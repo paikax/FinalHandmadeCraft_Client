@@ -74,9 +74,11 @@ const TutorialList = () => {
                                         className="w-full h-80 object-cover mb-6 rounded-md"
                                         loading="lazy"
                                     />
-                                    <div className="flex justify-between items-center">
-                                        <div>
-                                            <h3 className="text-3xl font-semibold mb-4 capitalize">{tutorial.title}</h3>
+                                    <div className="flex justify-between items-start">
+                                        <div className="flex-[2]">
+                                            <h3 className="text-3xl font-semibold mb-4 capitalize line-clamp-2">
+                                                {tutorial.title}
+                                            </h3>
                                             <p className="text-lg text-gray-600 capitalize">
                                                 Difficulty: {tutorial.difficultLevel}
                                             </p>
@@ -84,7 +86,7 @@ const TutorialList = () => {
                                                 Time: {tutorial.completionTime}
                                             </p>
                                         </div>
-                                        <div className="flex items-center">
+                                        <div className="flex items-start flex-1 mt-1">
                                             <img
                                                 src={tutorial.userProfilePicture}
                                                 alt="User Profile"
@@ -97,7 +99,7 @@ const TutorialList = () => {
                                         </div>
                                     </div>
                                     <div className="flex justify-between mt-6">
-                                        <p className="text-lg text-gray-700 capitalize">
+                                        <p className="text-2xl font-semibold capitalize text-transparent bg-gradient-to-r from-[#ff7eb9] via-[#3ed3f1] to-[#176B87] bg-clip-text">
                                             Price: ${tutorial.price.toFixed(2)}
                                         </p>
                                         <div className="flex items-center space-x-4">

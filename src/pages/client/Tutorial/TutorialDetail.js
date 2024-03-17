@@ -369,8 +369,8 @@ const TutorialDetail = () => {
                     <div className="flex justify-between items-center bg-[#176B87] p-4 rounded my-4">
                         <div className="flex items-center mx-4">
                             <span className="text-white">Follow Maker</span>
-                            <Link to={`/profile/${tutorial.createdById}`}>
-                                <button className="bg-blue-200 mx-2 rounded-full hover:bg-blue-400 text-[#176B87] font-bold py-2 px-3">
+                            <Link to={`/profile/${tutorial.createdById}`} className="flex">
+                                <button className="bg-blue-200 mx-4 rounded-full text-[#176B87] font-bold transition-all">
                                     <img
                                         className="w-12 h-12 rounded-full"
                                         src={tutorial.userProfilePicture}
@@ -400,10 +400,10 @@ const TutorialDetail = () => {
                                     />
                                     Your browser does not support the video tag.
                                 </video>
-                                <h2 className="text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 text-white">
+                                <h2 className="text-3xl lg:text-5xl font-semibold mb-4 lg:mb-6 text-white">
                                     {tutorial.title}
                                 </h2>
-                                <p className="text-3xl lg:text-4xl text-green-300 font-bold mb-6 lg:mb-8">
+                                <p className="text-3xl lg:text-4xl text-green-300 font-bold mb-6 lg:mb-8 ">
                                     ${tutorial.price}
                                 </p>
                                 {tutorial.createdById !== currentUserID && (

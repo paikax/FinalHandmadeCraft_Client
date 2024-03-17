@@ -13,7 +13,7 @@ const routes = {
     tutorialList: '/tutorials',
     tutorialDetail: '/tutorials/:tutorialId',
     profile: '/profile/:userId',
-    paymentSetup: '/paymentSetup',
+    paymentSetup: '/payment-setup',
     about: '/about',
 };
 

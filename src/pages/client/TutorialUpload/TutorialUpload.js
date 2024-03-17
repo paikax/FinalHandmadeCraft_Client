@@ -6,6 +6,8 @@ import cl, { uploadVideoToCloudinary } from '~/utils/cloudinaryConfig'; // Updat
 import { createTutorial } from '~/services/tutorialService'; // Update the path accordingly
 import { useNavigate } from 'react-router-dom';
 import { getAllCategories } from '~/services/categoryService';
+import { getUserById } from '~/redux/apiRequest';
+import toast from 'react-hot-toast';
 
 const TutorialUpload = () => {
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
@@ -111,6 +113,22 @@ const TutorialUpload = () => {
             console.error('Error saving tutorial', error);
         }
     };
+
+    useEffect(() => {
+        async function checkPayPalSetup() {
+            try {
+                const user = await getUserById(currentUserID);
+                if (!user.payPalEmail || !user.payPalFirstName || !user.payPalLastName) {
+                    toast.error('You need to set up your PayPal account before posting a tutorial.');
+                    navigate('/payment-setup'); // Redirect to the payment setup page
+                }
+            } catch (error) {
+                console.error('Error checking PayPal setup', error);
+            }
+        }
+        checkPayPalSetup();
+    }, [currentUserID, navigate]);
+
     return (
         <div className="flex">
             {/* Left side - Video Upload */}
