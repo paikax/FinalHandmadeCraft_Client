@@ -188,7 +188,10 @@ function Register() {
                                 className="w-4 h-4"
                             />
                         </span> */}
-                        <GoogleLoginButton />
+
+                        <span className="flex items-center">
+                            <GoogleLoginButton />
+                        </span>
                     </div>
                     <div className="flex items-center justify-center space-x-2">
                         <span className="h-px w-16 bg-gray-300" />

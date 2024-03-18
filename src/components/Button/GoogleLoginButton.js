@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '~/redux/authSlice';
 
 const apiClient = axios.create({
-    baseURL: 'https://localhost:5001/api/', // Update the base URL to your backend API
+    baseURL: 'https://localhost:5001/api/',
 });
 
 function GoogleLoginButton() {
