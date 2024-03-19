@@ -6,7 +6,9 @@ import { faHeart, faComment, faTimes, faBookBookmark } from '@fortawesome/free-s
 import {
     addCommentToTutorial,
     addLikeToTutorial,
+    addReplyToComment,
     deleteCommentFromTutorial,
+    deleteReplyFromComment,
     getTutorialById,
     removeLikeFromTutorial,
 } from '~/services/tutorialService';
@@ -41,6 +43,9 @@ const TutorialDetail = () => {
     const [orderTotal, setOrderTotal] = useState(0);
     const [buyerEmail, setBuyerEmail] = useState('');
     const currentEmail = useSelector((state) => String(state.auth.login.currentUser?.email));
+
+    const [replyToCommentId, setReplyToCommentId] = useState(null);
+    const [newReply, setNewReply] = useState('');
 
     useEffect(() => {
         const fetchTutorial = async () => {
@@ -244,6 +249,61 @@ const TutorialDetail = () => {
             setOrderTotal(totalPrice);
         }
     }, [tutorial, quantity]);
+
+    // New event handler for adding a reply to a comment
+    const handleReplySubmit = async () => {
+        try {
+            const addedReply = await addReplyToComment(tutorialId, replyToCommentId, newReply, currentUserID);
+            // Update the comment section to include the newly added reply
+            const updatedCommentSection = commentSection.map((comment) => {
+                if (comment.id === replyToCommentId) {
+                    return {
+                        ...comment,
+                        replies: [...comment.replies, addedReply],
+                    };
+                }
+                return comment;
+            });
+            setCommentSection(updatedCommentSection);
+            // Clear the reply form after submission
+            setNewReply('');
+            setReplyToCommentId(null);
+            console.log('add new reply');
+        } catch (error) {
+            console.error('Error submitting reply:', error);
+        }
+    };
+
+    // New event handler for opening the reply modal
+    const openReplyModal = (commentId) => {
+        setIsCommentModalOpen(true);
+        setReplyToCommentId(commentId);
+    };
+
+    const handleDeleteReply = async (commentId, replyId) => {
+        const isConfirmed = window.confirm('Are you sure you want to delete this reply?');
+
+        if (isConfirmed) {
+            try {
+                await deleteReplyFromComment(tutorialId, commentId, replyId);
+
+                // Update the comment section state to remove the deleted reply
+                const updatedCommentSection = commentSection.map((comment) => {
+                    if (comment.id === commentId) {
+                        return {
+                            ...comment,
+                            replies: comment.replies.filter((reply) => reply.id !== replyId),
+                        };
+                    }
+                    return comment;
+                });
+
+                setCommentSection(updatedCommentSection);
+            } catch (error) {
+                console.error('Error deleting reply:', error);
+            }
+        }
+    };
 
     if (loading) {
         return <div className="text-center mt-8">Loading...</div>;
@@ -485,6 +545,8 @@ const TutorialDetail = () => {
                                         currentUserID={currentUserID}
                                         onDeleteComment={handleDeleteComment}
                                         setCommentSection={setCommentSection}
+                                        onOpenReplyModal={openReplyModal}
+                                        onDeleteReply={handleDeleteReply}
                                     />
                                     <div className="mt-8">
                                         <textarea
@@ -501,6 +563,35 @@ const TutorialDetail = () => {
                                             Send
                                         </button>
                                     </div>
+                                    <button
+                                        className="mt-8 self-end flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-300 ease-in-out focus:outline-none"
+                                        onClick={closeCommentModal}
+                                    >
+                                        <FontAwesomeIcon icon={faTimes} className="text-gray-600" />
+                                    </button>
+                                </Modal>
+                                <Modal
+                                    className="flex flex-col w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto my-8 bg-white p-8 shadow-lg rounded-md"
+                                    isOpen={isCommentModalOpen && !!replyToCommentId}
+                                    onRequestClose={closeCommentModal}
+                                    contentLabel="Comments Modal"
+                                >
+                                    <h2 className="text-4xl lg:text-3xl font-bold mb-8 text-gray-900">
+                                        Reply to Comment
+                                    </h2>
+                                    <textarea
+                                        className="w-full h-32 p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring focus:ring-blue-500 text-gray-800"
+                                        placeholder="Type your reply here..."
+                                        value={newReply}
+                                        onChange={(e) => setNewReply(e.target.value)}
+                                    />
+                                    <button
+                                        className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-md transition duration-300 ease-in-out disabled:opacity-50 disabled:pointer-events-none focus:outline-none"
+                                        onClick={handleReplySubmit}
+                                        disabled={!newReply.trim()}
+                                    >
+                                        Send
+                                    </button>
                                     <button
                                         className="mt-8 self-end flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-300 ease-in-out focus:outline-none"
                                         onClick={closeCommentModal}

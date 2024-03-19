@@ -176,3 +176,54 @@ export const searchTutorials = async (searchTerm) => {
         throw error; // Re-throw the error to handle it elsewhere
     }
 };
+
+export const addReplyToComment = async (tutorialId, commentId, replyContent, currentUserID) => {
+    try {
+        const response = await fetch(`/api/tutorials/${tutorialId}/comments/${commentId}/replies`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: replyContent, userId: currentUserID }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add reply');
+        }
+
+        // In a real scenario, you might return the added reply from the API response
+        const addedReply = {
+            id: new Date().getTime().toString(),
+            content: replyContent,
+            timestamp: new Date().toLocaleString(),
+        };
+
+        return addedReply;
+    } catch (error) {
+        console.error('Error adding reply:', error);
+        throw error;
+    }
+};
+
+export const deleteReplyFromComment = async (tutorialId, commentId, replyId) => {
+    try {
+        const response = await fetch(`/api/tutorials/${tutorialId}/comments/${commentId}/replies/${replyId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`Failed to delete reply: ${errorData.message || 'Unknown error'}`);
+        }
+
+        // Check if the response body is empty
+        const responseData = await response.text();
+        return responseData ? JSON.parse(responseData) : null;
+    } catch (error) {
+        console.error('Error deleting reply:', error);
+        throw error;
+    }
+};
