@@ -46,6 +46,7 @@ const TutorialDetail = () => {
 
     const [replyToCommentId, setReplyToCommentId] = useState(null);
     const [newReply, setNewReply] = useState('');
+    const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchTutorial = async () => {
@@ -268,6 +269,7 @@ const TutorialDetail = () => {
             // Clear the reply form after submission
             setNewReply('');
             setReplyToCommentId(null);
+            setIsReplyModalOpen(false);
             console.log('add new reply');
         } catch (error) {
             console.error('Error submitting reply:', error);
@@ -278,6 +280,11 @@ const TutorialDetail = () => {
     const openReplyModal = (commentId) => {
         setIsCommentModalOpen(true);
         setReplyToCommentId(commentId);
+    };
+
+    const closeReplyModal = () => {
+        setIsReplyModalOpen(false);
+        setReplyToCommentId(null);
     };
 
     const handleDeleteReply = async (commentId, replyId) => {
@@ -594,7 +601,7 @@ const TutorialDetail = () => {
                                     </button>
                                     <button
                                         className="mt-8 self-end flex items-center justify-center w-12 h-12 rounded-full bg-gray-200 hover:bg-gray-300 transition duration-300 ease-in-out focus:outline-none"
-                                        onClick={closeCommentModal}
+                                        onClick={closeReplyModal}
                                     >
                                         <FontAwesomeIcon icon={faTimes} className="text-gray-600" />
                                     </button>

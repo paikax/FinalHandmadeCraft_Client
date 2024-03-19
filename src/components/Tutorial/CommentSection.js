@@ -24,17 +24,16 @@ const CommentSection = ({ comments, currentUserID, onDeleteComment, onOpenReplyM
     };
 
     return (
-        <ul className="overflow-y-auto h-full">
+        <ul className="space-y-6 max-h-96 overflow-y-auto">
             {comments && comments.length > 0 ? (
                 comments.map((comment) => (
-                    <li className="mb-6 border-b pb-6" key={comment.id}>
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                            <div className="md:w-3/4">
+                    <li className="border border-gray-200 rounded-md p-4" key={comment.id}>
+                        <div className="flex flex-col md:flex-row md:justify-between items-start">
+                            <div className="w-full md:w-3/4">
                                 <p className="text-lg md:text-xl mb-2">{comment.content}</p>
                                 <small className="text-sm text-gray-500">
                                     {formatRelativeTime(comment.timestamp || comment.timeStamp)}
                                 </small>
-                                {/* Display replies */}
                                 {comment.replies && comment.replies.length > 0 && (
                                     <div className="mt-4 border-l-2 border-gray-400 pl-4">
                                         <p className="text-sm font-semibold mb-2">Replies:</p>
@@ -59,19 +58,20 @@ const CommentSection = ({ comments, currentUserID, onDeleteComment, onOpenReplyM
                                     </div>
                                 )}
                             </div>
-                            <div className="flex items-center justify-end md:w-1/4 mt-4 md:mt-0">
+                            <div className="flex items-center mt-4 md:mt-0">
                                 <button
-                                    className="text-[#176B87] hover:text-[#5cabc5] focus:outline-none px-2 ml-4 text-xl"
-                                    onClick={() => onOpenReplyModal(comment.id)} // Call the function to open the reply modal
+                                    className="text-[#176B87] hover:text-[#5cabc5] focus:outline-none px-2 ml-4 text-lg"
+                                    onClick={() => onOpenReplyModal(comment.id)}
                                 >
+                                    <FontAwesomeIcon icon={faReply} className="mr-2" />
                                     Reply
                                 </button>
                                 {comment.userId === currentUserID && (
                                     <button
-                                        className="text-red-500 hover:text-red-700 focus:outline-none"
+                                        className="text-red-500 hover:text-red-700 focus:outline-none ml-4"
                                         onClick={() => onDeleteComment(comment.id)}
                                     >
-                                        <FontAwesomeIcon icon={faTrashAlt} className="text-xl" />
+                                        <FontAwesomeIcon icon={faTrashAlt} className="text-lg" />
                                     </button>
                                 )}
                             </div>
