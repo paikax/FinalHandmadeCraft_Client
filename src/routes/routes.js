@@ -20,6 +20,7 @@ import ForgotPassword from '~/pages/client/ResetPassword/forgotPassword';
 import ResetPassword from '~/pages/client/ResetPassword/resetPassword';
 import About from '~/pages/client/About';
 import OrderDetail from '~/pages/client/Order/OrderDetail';
+import EmailVerificationPage from '~/pages/client/Verify/EmailVerificationPage';
 
 // Public routes
 const publicRoutes = [
@@ -27,6 +28,7 @@ const publicRoutes = [
     { path: config.routes.register, component: Register, layout: null },
     { path: config.routes.forgotPassword, component: ForgotPassword, layout: null },
     { path: config.routes.resetPassword, component: ResetPassword, layout: null },
+    { path: config.routes.emailVerification, component: EmailVerificationPage, layout: null },
 ];
 
 // Private routes

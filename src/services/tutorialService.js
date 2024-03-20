@@ -71,66 +71,28 @@ export const deleteTutorial = async (id) => {
 
 export const addLikeToTutorial = async (tutorialId, userId) => {
     try {
-        const response = await fetch(`/api/tutorials/${tutorialId}/likes`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`Failed to add like: ${response.statusText}`);
-        }
-
-        // Check if the response body is not empty before parsing as JSON
-        const responseData = await response.text();
-        return responseData ? JSON.parse(responseData) : null;
+        const res = await httpRequest.post(`tutorials/${tutorialId}/likes`, { userId });
+        return res;
     } catch (error) {
-        console.error('Error adding like:', error);
-        throw error;
+        console.log(error);
     }
 };
 
 export const removeLikeFromTutorial = async (tutorialId, likeId) => {
     try {
-        const response = await fetch(`/api/tutorials/${tutorialId}/likes/${likeId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(`Failed to remove like: ${errorData.message || 'Unknown error'}`);
-        }
-
-        // Check if the response body is not empty before parsing as JSON
-        const responseData = await response.text();
-        return responseData ? JSON.parse(responseData) : null;
+        const res = await httpRequest.deleteById(`tutorials/${tutorialId}/likes/${likeId}`);
+        return res;
     } catch (error) {
-        console.error('Error removing like:', error);
-        throw error;
+        console.log(error);
     }
 };
 
 export const addCommentToTutorial = async (tutorialId, commentContent, currentUserID) => {
     try {
-        // Simulate an API call (replace this with your actual API endpoint)
-        const response = await fetch(`/api/tutorials/${tutorialId}/comments`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ content: commentContent, userId: currentUserID }),
+        const res = await httpRequest.post(`tutorials/${tutorialId}/comments`, {
+            content: commentContent,
+            userId: currentUserID,
         });
-
-        if (!response.ok) {
-            throw new Error('Failed to add comment');
-        }
-
-        // In a real scenario, you might return the added comment from the API response
         const addedComment = {
             id: new Date().getTime().toString(),
             content: commentContent,
@@ -139,31 +101,16 @@ export const addCommentToTutorial = async (tutorialId, commentContent, currentUs
 
         return addedComment;
     } catch (error) {
-        console.error('Error adding comment:', error);
-        throw error;
+        console.log(error);
     }
 };
 
 export const deleteCommentFromTutorial = async (tutorialId, commentId) => {
     try {
-        const response = await fetch(`/api/tutorials/${tutorialId}/comments/${commentId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(`Failed to delete comment: ${errorData.message || 'Unknown error'}`);
-        }
-
-        // Check if the response body is empty
-        const responseData = await response.text();
-        return responseData ? JSON.parse(responseData) : null;
+        const res = await httpRequest.deleteById(`tutorials/${tutorialId}/comments/${commentId}`);
+        return res;
     } catch (error) {
-        console.error('Error deleting comment:', error);
-        throw error;
+        console.log(error);
     }
 };
 
@@ -179,19 +126,11 @@ export const searchTutorials = async (searchTerm) => {
 
 export const addReplyToComment = async (tutorialId, commentId, replyContent, currentUserID) => {
     try {
-        const response = await fetch(`/api/tutorials/${tutorialId}/comments/${commentId}/replies`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ content: replyContent, userId: currentUserID }),
+        const res = await httpRequest.post(`tutorials/${tutorialId}/comments/${commentId}/replies`, {
+            content: replyContent,
+            userId: currentUserID,
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to add reply');
-        }
-
-        // In a real scenario, you might return the added reply from the API response
         const addedReply = {
             id: new Date().getTime().toString(),
             content: replyContent,
@@ -200,30 +139,15 @@ export const addReplyToComment = async (tutorialId, commentId, replyContent, cur
 
         return addedReply;
     } catch (error) {
-        console.error('Error adding reply:', error);
-        throw error;
+        console.log(error);
     }
 };
 
 export const deleteReplyFromComment = async (tutorialId, commentId, replyId) => {
     try {
-        const response = await fetch(`/api/tutorials/${tutorialId}/comments/${commentId}/replies/${replyId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(`Failed to delete reply: ${errorData.message || 'Unknown error'}`);
-        }
-
-        // Check if the response body is empty
-        const responseData = await response.text();
-        return responseData ? JSON.parse(responseData) : null;
+        const res = await httpRequest.deleteById(`tutorials/${tutorialId}/comments/${commentId}/replies/${replyId}`);
+        return res;
     } catch (error) {
-        console.error('Error deleting reply:', error);
-        throw error;
+        console.log(error);
     }
 };

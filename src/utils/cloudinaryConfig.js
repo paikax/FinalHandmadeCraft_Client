@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Cloudinary } from 'cloudinary-core';
+import httpRequest from './httpRequest';
 
 const cl = new Cloudinary({ cloud_name: 'dutsdz5bq', secure: true });
 const cloudinaryVideoUploadUrl = `https://api.cloudinary.com/v1_1/${cl.config().cloud_name}/video/upload`;
@@ -23,21 +24,18 @@ export const uploadImageToCloudinary = async (imageFile) => {
 };
 
 export const updateAvatar = async (userId, imageUrl) => {
-    const response = await fetch('/api/user/update-avatar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            // Include any necessary headers, like an authentication token
-        },
-        body: JSON.stringify({ userId, imageUrl }),
-    });
+    try {
+        const response = await httpRequest.post('user/update-avatar', { userId, imageUrl });
 
-    if (!response.ok) {
-        throw new Error('Failed to update avatar');
+        if (!response.ok) {
+            throw new Error('Failed to update avatar');
+        }
+
+        return response.data;
+    } catch (error) {
+        console.error('Error updating avatar:', error);
+        throw error;
     }
-
-    const data = await response.json();
-    return data;
 };
 
 export const uploadVideoToCloudinary = async (videoFile, onUploadProgress) => {

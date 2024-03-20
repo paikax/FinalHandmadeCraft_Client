@@ -6,6 +6,6 @@ export const getAllCategories = async () => {
         const response = await httpRequest.get('categories');
         return response;
     } catch (error) {
-        throw new Error('Error fetching categories'); // Throw an error if the request fails
+        throw new Error('Error fetching categories');
     }
 };

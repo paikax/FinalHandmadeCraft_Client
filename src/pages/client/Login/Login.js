@@ -37,9 +37,8 @@ function Login() {
         onSuccess: (data) => {
             if (data) {
                 toast.success('Login successfully');
-                // navigate('/dashboard');
             } else {
-                toast.error('Login failed!');
+                // toast.error('Login failed!');
             }
         },
     });
@@ -70,13 +69,6 @@ function Login() {
                 </div>
                 <div className="mt-4">
                     <div className="flex items-center justify-center">
-                        {/* <span
-                            className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg text-white bg-red-600 hover:shadow-lg cursor-pointer transition ease-in duration-300"
-                            onClick={handleSignUpGoogle}
-                        >
-                            <FontAwesomeIcon icon={faGoogle} className="text-white-600" />
-                        </span> */}
-
                         <GoogleLoginButton />
                     </div>
 

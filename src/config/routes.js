@@ -15,6 +15,7 @@ const routes = {
     profile: '/profile/:userId',
     paymentSetup: '/payment-setup',
     about: '/about',
+    emailVerification: '/verify-email',
 };
 
 export default routes;

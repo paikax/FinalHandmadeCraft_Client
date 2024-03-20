@@ -1,13 +1,14 @@
 //Paypal service
 import axios from 'axios';
+import httpRequest from '~/utils/httpRequest';
 
 const apiClient = axios.create({
-    baseURL: 'https://localhost:5001/api/', // Update the base URL to your backend API
+    baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 export const upgradeToPremium = async (userId) => {
     try {
-        const response = await axios.apiClient(`/users/${userId}/upgrade-to-premium`);
+        const response = await httpRequest.post(`users/${userId}/upgrade-to-premium`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to upgrade user to premium: ' + error.message);
@@ -23,7 +24,7 @@ export const createOrder = async (amount) => {
             throw new Error('Invalid amount');
         }
 
-        const response = await axios.apiClient('/paypal/create-order', { amount: numericAmount });
+        const response = await httpRequest.post('paypal/create-order', { amount: numericAmount });
         console.log(response.data);
         return response.data.orderId;
     } catch (error) {
@@ -33,7 +34,7 @@ export const createOrder = async (amount) => {
 
 export const capturePayment = async (orderId) => {
     try {
-        await axios.post('/paypal/capture-payment', { orderId });
+        await httpRequest.post('paypal/capture-payment', { orderId });
         return true;
     } catch (error) {
         throw new Error('Failed to capture payment.');
@@ -42,7 +43,7 @@ export const capturePayment = async (orderId) => {
 
 export const connectPaypal = async (userId, paypalEmail, paypalFirstName, paypalLastName) => {
     try {
-        await apiClient.post('/PayPal/connect-paypal', {
+        await httpRequest.post('PayPal/connect-paypal', {
             userId,
             paypalEmail,
             paypalFirstName,
@@ -56,7 +57,7 @@ export const connectPaypal = async (userId, paypalEmail, paypalFirstName, paypal
 export const sendPayment = async (paypalEmail, amount) => {
     try {
         // Make a request to your backend to send payment to the provided PayPal email with the specified amount
-        const res = await apiClient.post(`/PayPal/send-payment?recipientEmail=${paypalEmail}&amount=${amount}`);
+        const res = await httpRequest.post(`PayPal/send-payment?recipientEmail=${paypalEmail}&amount=${amount}`);
         return res;
     } catch (error) {
         console.log(error);

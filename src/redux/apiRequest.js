@@ -22,11 +22,12 @@ import {
 } from './userSlice';
 
 import toast from 'react-hot-toast';
+import httpRequest from '~/utils/httpRequest';
 
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post('/api/User/authenticate', user);
+        const res = await httpRequest.post('user/authenticate', user);
         dispatch(loginSuccess(res.data));
         navigate(config.routes.home);
 
@@ -39,7 +40,7 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
     try {
-        const res = await axios.post('/api/User/register', user);
+        const res = await httpRequest.post('user/register', user);
         dispatch(registerSuccess());
         navigate(config.routes.login);
 
@@ -81,7 +82,7 @@ export const logOut = async (dispatch, navigate) => {
     dispatch(logOutStart());
     try {
         // Assuming you have an endpoint for logging out
-        const res = await axios.post('/api/User/logout');
+        const res = await httpRequest.post('user/logout');
         if (res.status === 200) {
             dispatch(logOutSuccess());
             navigate('/login'); // Redirect to login page after successful logout
@@ -95,7 +96,7 @@ export const logOut = async (dispatch, navigate) => {
 
 export const getUserById = async (userId) => {
     try {
-        const res = await axios.get(`/api/User/${userId}`); // Adjust the endpoint based on your API
+        const res = await httpRequest.get(`user/${userId}`); // Adjust the endpoint based on your API
         return res.data;
     } catch (error) {
         throw error;
@@ -104,7 +105,7 @@ export const getUserById = async (userId) => {
 
 export const updateUserProfile = async (userId, user, axiosJWT) => {
     try {
-        const res = await axios.put(`/api/User/${userId}`, user);
+        const res = await httpRequest.put(`user/${userId}`, user);
         return res.data;
     } catch (err) {
         throw err;
@@ -112,7 +113,7 @@ export const updateUserProfile = async (userId, user, axiosJWT) => {
 };
 export const upgradeToPremium = async (userId) => {
     try {
-        const res = await axios.post(`/api/User/${userId}/upgrade-to-premium`);
+        const res = await httpRequest.post(`user/${userId}/upgrade-to-premium`);
         return res.data;
     } catch (err) {
         throw err;
@@ -121,7 +122,7 @@ export const upgradeToPremium = async (userId) => {
 
 export const followUser = async (userId, followerId) => {
     try {
-        const response = await axios.post(`/api/User/${userId}/follow/${followerId}`);
+        const response = await httpRequest.post(`user/${userId}/follow/${followerId}`);
         return response.data;
     } catch (error) {
         console.error('Failed to follow user', error);
@@ -131,7 +132,7 @@ export const followUser = async (userId, followerId) => {
 
 export const unfollowUser = async (userId, followerId) => {
     try {
-        const response = await axios.post(`/api/User/${userId}/unfollow/${followerId}`);
+        const response = await httpRequest.post(`user/${userId}/unfollow/${followerId}`);
         return response.data;
     } catch (error) {
         console.error('Failed to unfollow user', error);

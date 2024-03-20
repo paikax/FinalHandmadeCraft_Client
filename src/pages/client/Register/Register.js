@@ -17,6 +17,8 @@ import ImageCropper from '~/utils/ImageCropper';
 import { updateAvatar, uploadImageToCloudinary } from '~/utils/cloudinaryConfig';
 import config from '~/config';
 import GoogleLoginButton from '~/components/Button/GoogleLoginButton';
+import FacebookLoginButton from '~/components/Button/FacebookLoginButton';
+import httpRequest from '~/utils/httpRequest';
 
 function Register() {
     const dispatch = useDispatch();
@@ -31,6 +33,7 @@ function Register() {
     const currentUser = useSelector((state) => state.auth.user); // Replace with your actual state path
     const userId = currentUser?.id; // Replace with your actual ID field
     const [googleToken, setGoogleToken] = useState(null);
+    const [verificationCodeSent, setVerificationCodeSent] = useState(false);
 
     const handleCropComplete = (croppedImage) => {
         setProfilePicture(croppedImage);
@@ -84,8 +87,10 @@ function Register() {
         const emailValue = getValues('email');
 
         try {
-            const response = await fetch('https://localhost:5001/api/user/check-email?email=' + emailValue);
-            const data = await response.json();
+            const response = await httpRequest.get('user/check-email', {
+                params: { email: emailValue },
+            });
+            const data = response.data;
             console.log(data);
             if (data.emailExists) {
                 toast.error('Email is already taken.');
@@ -150,6 +155,16 @@ function Register() {
         }
     };
 
+    const handleFacebookLoginSuccess = (accessToken) => {
+        // Handle the successful login with Facebook here
+        console.log('Facebook login successful. Access Token:', accessToken);
+    };
+
+    const handleFacebookLoginFailure = (error) => {
+        // Handle the failed login with Facebook here
+        console.error('Facebook login failed. Error:', error);
+    };
+
     // const handleSignUpGoogle = () => {
     //     signInWithGoogle();
     // };
@@ -192,6 +207,12 @@ function Register() {
                         <span className="flex items-center">
                             <GoogleLoginButton />
                         </span>
+                        <div className="flex items-center">
+                            <FacebookLoginButton
+                                onLoginSuccess={handleFacebookLoginSuccess}
+                                onLoginFailure={handleFacebookLoginFailure}
+                            />
+                        </div>
                     </div>
                     <div className="flex items-center justify-center space-x-2">
                         <span className="h-px w-16 bg-gray-300" />

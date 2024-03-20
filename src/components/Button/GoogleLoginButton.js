@@ -5,6 +5,7 @@ import config from '~/config';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '~/redux/authSlice';
+import httpRequest from '~/utils/httpRequest';
 
 const apiClient = axios.create({
     baseURL: 'https://localhost:5001/api/',
@@ -16,9 +17,7 @@ function GoogleLoginButton() {
     const handleLogin = async (decodedUser) => {
         const tokenId = decodedUser.credential;
         try {
-            const response = await apiClient.post('/user/authenticate-google', {
-                tokenId: tokenId,
-            });
+            const response = await httpRequest.post('user/authenticate-google', { tokenId });
 
             if (response && response.data) {
                 dispatch(loginSuccess(response.data));
