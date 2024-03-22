@@ -41,6 +41,10 @@ function Login() {
                 toast.error('Login failed!');
             }
         },
+        onError: (error) => {
+            console.error('Error during login:', error.message);
+            toast.error('An error occurred during login');
+        },
     });
 
     const onSubmitForm = async (data) => {
