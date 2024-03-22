@@ -23,6 +23,7 @@ import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { createOrder } from '~/services/orderService';
 import { sendPayment } from '~/services/payPalService';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { getUserById } from '~/redux/apiRequest';
 
 const TutorialDetail = () => {
     const { tutorialId } = useParams();
@@ -158,6 +159,14 @@ const TutorialDetail = () => {
         try {
             const addedComment = await addCommentToTutorial(tutorialId, newComment, currentUserID);
 
+            // Fetch user information for the current user
+            const currentUser = await getUserById(currentUserID);
+            console.log(currentUser);
+
+            // Add the current user's information to the added comment
+            addedComment.userName = currentUser.firstName + currentUser.lastName;
+            addedComment.userProfilePhoto = currentUser.profilePhoto;
+
             setCommentSection((prevCommentSection) => [...prevCommentSection, addedComment]);
 
             setNewComment('');
@@ -255,6 +264,14 @@ const TutorialDetail = () => {
     const handleReplySubmit = async () => {
         try {
             const addedReply = await addReplyToComment(tutorialId, replyToCommentId, newReply, currentUserID);
+
+            // Fetch user information for the current user
+            const currentUser = await getUserById(currentUserID);
+
+            // Add the current user's information to the added reply
+            addedReply.userName = currentUser.firstName + currentUser.lastName;
+            addedReply.userProfilePhoto = currentUser.profilePhoto;
+
             // Update the comment section to include the newly added reply
             const updatedCommentSection = commentSection.map((comment) => {
                 if (comment.id === replyToCommentId) {
@@ -265,12 +282,13 @@ const TutorialDetail = () => {
                 }
                 return comment;
             });
+
             setCommentSection(updatedCommentSection);
+
             // Clear the reply form after submission
             setNewReply('');
             setReplyToCommentId(null);
             setIsReplyModalOpen(false);
-            console.log('add new reply');
         } catch (error) {
             console.error('Error submitting reply:', error);
         }

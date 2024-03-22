@@ -30,6 +30,14 @@ const CommentSection = ({ comments, currentUserID, onDeleteComment, onOpenReplyM
                     <li className="border border-gray-200 rounded-md p-4" key={comment.id}>
                         <div className="flex flex-col md:flex-row md:justify-between items-start">
                             <div className="w-full md:w-3/4">
+                                <div className="flex items-center mb-2">
+                                    <img
+                                        src={comment.userProfilePhoto}
+                                        alt="Profile"
+                                        className="w-8 h-8 rounded-full mr-2"
+                                    />
+                                    <p className="text-lg md:text-xl">{comment.userName}</p>
+                                </div>
                                 <p className="text-lg md:text-xl mb-2">{comment.content}</p>
                                 <small className="text-sm text-gray-500">
                                     {formatRelativeTime(comment.timestamp || comment.timeStamp)}
@@ -40,7 +48,14 @@ const CommentSection = ({ comments, currentUserID, onDeleteComment, onOpenReplyM
                                         <ul className="ml-4">
                                             {comment.replies.map((reply) => (
                                                 <li key={reply.id} className="mb-2">
-                                                    <p className="text-lg">{reply.content}</p>
+                                                    <div className="flex items-center mb-2">
+                                                        <img
+                                                            src={reply.userProfilePhoto}
+                                                            alt="Profile"
+                                                            className="w-8 h-8 rounded-full mr-2"
+                                                        />
+                                                        <p className="text-lg">{reply.content}</p>
+                                                    </div>
                                                     <small className="text-sm text-gray-500">
                                                         {formatRelativeTime(reply.timeStamp)}
                                                     </small>
