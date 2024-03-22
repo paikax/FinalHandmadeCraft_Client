@@ -501,17 +501,18 @@ const Profile = () => {
                                         Recent Craft Tutorials
                                     </h3>
                                     <div className="grid grid-cols-2 gap-4">
-                                        {latestTutorials.slice(0, 4).map((tutorial) => (
-                                            <div className="mb-4" key={tutorial.id}>
-                                                <Link to={`/tutorials/${tutorial.id}`}>
-                                                    <img
-                                                        src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
-                                                        alt={tutorial.title}
-                                                        className="w-full h-auto rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
-                                                    />
-                                                </Link>
-                                            </div>
-                                        ))}
+                                        {Array.isArray(latestTutorials) &&
+                                            latestTutorials.slice(0, 4).map((tutorial) => (
+                                                <div className="mb-4" key={tutorial.id}>
+                                                    <Link to={`/tutorials/${tutorial.id}`}>
+                                                        <img
+                                                            src={`${removeFileExtension(tutorial.videoUrl)}.jpg`}
+                                                            alt={tutorial.title}
+                                                            className="w-full h-auto rounded-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
+                                                        />
+                                                    </Link>
+                                                </div>
+                                            ))}
                                     </div>
                                 </div>
                             </div>
