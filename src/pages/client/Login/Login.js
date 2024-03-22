@@ -38,7 +38,7 @@ function Login() {
             if (data) {
                 toast.success('Login successfully');
             } else {
-                // toast.error('Login failed!');
+                toast.error('Login failed!');
             }
         },
     });

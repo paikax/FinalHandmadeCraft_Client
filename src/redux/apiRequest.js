@@ -34,6 +34,7 @@ export const loginUser = async (user, dispatch, navigate) => {
         return res;
     } catch (err) {
         dispatch(loginFailed());
+        console.error('Error during login:', err.message);
     }
 };
 
