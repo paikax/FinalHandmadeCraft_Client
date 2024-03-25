@@ -13,7 +13,7 @@ import { logOutSuccess } from '~/redux/authSlice';
 import Search from '../Search';
 import { NotifyIcon } from '~/components/Icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCloudArrowUp, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { fetchNotifications } from '~/services/notificationService';
 
@@ -103,6 +103,9 @@ function Header({ currentUser }) {
                     </Link>
                     <Link to="/link3" className="text-white hover:underline">
                         Saved
+                    </Link>
+                    <Link to={config.routes.shoppingCart} className="text-white">
+                        <FontAwesomeIcon icon={faShoppingCart} className="text-lg" />
                     </Link>
                 </div>
                 <HeadlessTippy

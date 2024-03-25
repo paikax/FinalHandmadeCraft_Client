@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '~/redux/authSlice';
 import httpRequest from '~/utils/httpRequest';
+import toast from 'react-hot-toast';
 
 const apiClient = axios.create({
     baseURL: 'https://localhost:5001/api/',
@@ -22,6 +23,7 @@ function GoogleLoginButton() {
             if (response && response.data) {
                 dispatch(loginSuccess(response.data));
                 navigate(config.routes.home);
+                toast.success('Sign in successful!');
             } else {
                 throw new Error('Failed to authenticate with Google.');
             }

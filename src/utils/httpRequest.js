@@ -29,4 +29,9 @@ export const deleteById = async (path, options = {}) => {
     return response.data;
 };
 
+export const remove = async (path, options = {}) => {
+    const response = await httpRequest.delete(path, options);
+    return response.data;
+};
+
 export default httpRequest;

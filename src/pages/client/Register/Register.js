@@ -1,4 +1,3 @@
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMutation } from '@tanstack/react-query';
@@ -30,8 +29,8 @@ function Register() {
     const [uploadImage, setUploadImage] = useState(false);
     const [isCroppedImageVisible, setIsCroppedImageVisible] = useState(false);
     const [isImageUploading, setIsImageUploading] = useState(false);
-    const currentUser = useSelector((state) => state.auth.user); // Replace with your actual state path
-    const userId = currentUser?.id; // Replace with your actual ID field
+    const currentUser = useSelector((state) => state.auth.user);
+    const userId = currentUser?.id;
     const [googleToken, setGoogleToken] = useState(null);
     const [verificationCodeSent, setVerificationCodeSent] = useState(false);
 
@@ -185,34 +184,15 @@ function Register() {
                         <p className="mt-2 text-md text-gray-600">Please enter your information below.</p>
                     </div>
                     <div className="flex flex-row justify-center items-center space-x-3">
-                        {/* <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white  bg-blue-900 hover:shadow-lg cursor-pointer transition ease-in duration-300">
-                            <img
-                                className="w-4 h-4"
-                                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiBjbGFzcz0iIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0xNS45OTcgMy45ODVoMi4xOTF2LTMuODE2Yy0uMzc4LS4wNTItMS42NzgtLjE2OS0zLjE5Mi0uMTY5LTMuMTU5IDAtNS4zMjMgMS45ODctNS4zMjMgNS42Mzl2My4zNjFoLTMuNDg2djQuMjY2aDMuNDg2djEwLjczNGg0LjI3NHYtMTAuNzMzaDMuMzQ1bC41MzEtNC4yNjZoLTMuODc3di0yLjkzOWMuMDAxLTEuMjMzLjMzMy0yLjA3NyAyLjA1MS0yLjA3N3oiIGZpbGw9IiNmZmZmZmYiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+"
-                            />
-                        </span> */}
-                        {/* <span
-                            className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white bg-red-600 hover:shadow-lg cursor-pointer transition ease-in duration-300"
-                            onClick={handleSignUpGoogle}
-                        >
-                            <FontAwesomeIcon icon={faGoogle} className="text-white-600" />
-                        </span> */}
-                        {/* <span className="w-11 h-11 items-center justify-center inline-flex rounded-full font-bold text-lg  text-white bg-blue-500 hover:shadow-lg cursor-pointer transition ease-in duration-300">
-                            <img
-                                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0yMy45OTQgMjR2LS4wMDFoLjAwNnYtOC44MDJjMC00LjMwNi0uOTI3LTcuNjIzLTUuOTYxLTcuNjIzLTIuNDIgMC00LjA0NCAxLjMyOC00LjcwNyAyLjU4N2gtLjA3di0yLjE4NWgtNC43NzN2MTYuMDIzaDQuOTd2LTcuOTM0YzAtMi4wODkuMzk2LTQuMTA5IDIuOTgzLTQuMTA5IDIuNTQ5IDAgMi41ODcgMi4zODQgMi41ODcgNC4yNDN2Ny44MDF6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PHBhdGggeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkPSJtLjM5NiA3Ljk3N2g0Ljk3NnYxNi4wMjNoLTQuOTc2eiIgZmlsbD0iI2ZmZmZmZiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgc3R5bGU9IiI+PC9wYXRoPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTIuODgyIDBjLTEuNTkxIDAtMi44ODIgMS4yOTEtMi44ODIgMi44ODJzMS4yOTEgMi45MDkgMi44ODIgMi45MDkgMi44ODItMS4zMTggMi44ODItMi45MDljLS4wMDEtMS41OTEtMS4yOTItMi44ODItMi44ODItMi44ODJ6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg=="
-                                className="w-4 h-4"
-                            />
-                        </span> */}
-
                         <span className="flex items-center">
                             <GoogleLoginButton />
                         </span>
-                        <div className="flex items-center">
+                        {/* <div className="flex items-center">
                             <FacebookLoginButton
                                 onLoginSuccess={handleFacebookLoginSuccess}
                                 onLoginFailure={handleFacebookLoginFailure}
                             />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex items-center justify-center space-x-2">
                         <span className="h-px w-16 bg-gray-300" />
@@ -243,7 +223,6 @@ function Register() {
                         {currentStep === 2 && (
                             <>
                                 <div className="mt-8 content-center">
-                                    {/* <label className="font-bold text-gray-700 tracking-wide">Password</label> */}
                                     <input
                                         className="w-full px-4 py-2 mt-2 border rounded-xl focus:outline-none focus:border-indigo-500 bg-gray-200"
                                         type="password"
@@ -255,9 +234,6 @@ function Register() {
                                     <ErrorMessage name={password} />
                                 </div>
                                 <div className="mt-8 content-center">
-                                    {/* <label className="text-sm font-bold text-gray-700 tracking-wide">
-                                        Confirm Password
-                                    </label> */}
                                     <input
                                         className="w-full px-4 py-2 mt-2 border rounded-xl focus:outline-none focus:border-indigo-500 bg-gray-200"
                                         type="password"
@@ -275,7 +251,6 @@ function Register() {
                                     <ErrorMessage name={confirmPassword} />
                                 </div>
                                 <div className="mt-8 content-center">
-                                    {/* <label className="font-bold text-gray-700 tracking-wide">First Name</label> */}
                                     <input
                                         className="w-full px-4 py-2 mt-2 border rounded-xl focus:outline-none focus:border-indigo-500 bg-gray-200"
                                         type="text"
@@ -286,7 +261,6 @@ function Register() {
                                     <ErrorMessage name={firstName} />
                                 </div>
                                 <div className="mt-8 content-center">
-                                    {/* <label className="font-bold text-gray-700 tracking-wide">Last Name</label> */}
                                     <input
                                         className="w-full px-4 py-2 mt-2 border rounded-xl focus:outline-none focus:border-indigo-500 bg-gray-200"
                                         type="text"
@@ -331,28 +305,13 @@ function Register() {
                             <button
                                 type="button"
                                 onClick={handleNextStep}
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                                className="bg-[#176B87] hover:bg-[#388da9] text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
                             >
                                 Next
                             </button>
                         )}
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                {/* <input
-                                    id="remember_me"
-                                    name="remember_me"
-                                    type="checkbox"
-                                    className="h-4 w-4 bg-indigo-500 focus:ring-indigo-400 border-gray-300 rounded"
-                                /> */}
-                                {/* <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
-                                    Remember me
-                                </label> */}
-                            </div>
-                            {/* <div className="text-sm">
-                                <a href="#" className="font-medium text-indigo-500 hover:text-indigo-500">
-                                    Forgot your password?
-                                </a>
-                            </div> */}
+                            <div className="flex items-center"></div>
                         </div>
                         {currentStep === 3 && (
                             <div>
@@ -362,11 +321,7 @@ function Register() {
                                     className="w-full flex justify-center bg-indigo-500 text-gray-100 p-4 rounded-full tracking-wide
                     font-semibold focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300"
                                 >
-                                    {isLoading || isImageUploading ? (
-                                        <div>Loading...</div> // Replace with your preferred loading spinner or text
-                                    ) : (
-                                        'Sign up'
-                                    )}
+                                    {isLoading || isImageUploading ? <div>Loading...</div> : 'Sign up'}
                                 </button>
                             </div>
                         )}

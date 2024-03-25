@@ -21,6 +21,7 @@ import ResetPassword from '~/pages/client/ResetPassword/resetPassword';
 import About from '~/pages/client/About';
 import OrderDetail from '~/pages/client/Order/OrderDetail';
 import EmailVerificationPage from '~/pages/client/Verify/EmailVerificationPage';
+import ShoppingCart from '~/pages/client/cart/ShoppingCart';
 
 // Public routes
 const publicRoutes = [
@@ -44,6 +45,7 @@ const privateRoutes = [
     { path: config.routes.about, component: About },
     { path: config.routes.orders, component: Order },
     { path: config.routes.orderDetail, component: OrderDetail },
+    { path: config.routes.shoppingCart, component: ShoppingCart },
 ];
 
 // Admin routes

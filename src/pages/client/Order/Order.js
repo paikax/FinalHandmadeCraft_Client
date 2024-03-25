@@ -22,6 +22,7 @@ const Order = () => {
     }, [currentUserID]);
 
     const removeFileExtension = (url) => {
+        if (!url) return ''; // Handle null or undefined input
         const index = url.lastIndexOf('.');
         return index > 0 ? url.substring(0, index) : url;
     };

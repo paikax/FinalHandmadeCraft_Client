@@ -16,6 +16,7 @@ const routes = {
     paymentSetup: '/payment-setup',
     about: '/about',
     emailVerification: '/verify-email',
+    shoppingCart: '/shopping-cart',
 };
 
 export default routes;

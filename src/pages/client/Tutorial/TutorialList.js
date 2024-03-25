@@ -2,12 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 // import { FaHeart, FaComment } from 'react-icons/fa';
-import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faComment, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 import { getAllTutorials } from '~/services/tutorialService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { addToCart, buyItemsFromCart } from '~/services/orderService';
+import { useSelector } from 'react-redux';
 
 const TutorialList = () => {
+    const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
     const [tutorials, setTutorials] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -40,6 +43,28 @@ const TutorialList = () => {
 
     const isHotTutorial = (likesCount) => {
         return likesCount > 3;
+    };
+
+    const handleAddToCart = async (productId) => {
+        try {
+            const item = { productId, quantity: 1 }; // Construct the item object with productId
+            await addToCart(currentUserID, item); // Pass both userId and item
+            alert('Item added to cart successfully!');
+        } catch (error) {
+            console.error('Error adding item to cart', error);
+            alert('Failed to add item to cart. Please try again later.');
+        }
+    };
+
+    // Function to handle buying items from the cart
+    const handleBuyFromCart = async () => {
+        try {
+            await buyItemsFromCart(currentUserID, 'address');
+            alert('Items bought successfully!');
+        } catch (error) {
+            console.error('Error buying items from cart', error);
+            alert('Failed to buy items from cart. Please try again later.');
+        }
     };
 
     return (
@@ -111,6 +136,16 @@ const TutorialList = () => {
                                                 <FontAwesomeIcon icon={faComment} className="text-blue-500 mr-2" />
                                                 <span className="text-lg">{tutorial.comments.length}</span>
                                             </div>
+                                            <button
+                                                className="bg-green-500 text-white px-4 py-2 rounded-lg text-lg font-semibold hover:bg-green-600 transition-colors duration-300"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleAddToCart(String(tutorial.id)); // Convert to string
+                                                }}
+                                            >
+                                                <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
+                                                Add to Cart
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
