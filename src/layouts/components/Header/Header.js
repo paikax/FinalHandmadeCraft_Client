@@ -95,17 +95,17 @@ function Header({ currentUser }) {
                     <FontAwesomeIcon icon={faCloudArrowUp} className="text-[#176B87]" />
                 </Link>
                 <div className="hidden md:flex gap-[20px]">
-                    <Link to={config.routes.tutorialList} className="text-white hover:underline">
+                    <Link to={config.routes.tutorialList} className="text-white translate-y-[1px] hover:underline">
                         Discover
                     </Link>
-                    <Link to={config.routes.about} className="text-white hover:underline">
+                    <Link to={config.routes.about} className="text-white hover:underline translate-y-[1px]">
                         About
                     </Link>
-                    <Link to="/link3" className="text-white hover:underline">
+                    <Link to="/link3" className="text-white hover:underline translate-y-[1px]">
                         Saved
                     </Link>
-                    <Link to={config.routes.shoppingCart} className="text-white">
-                        <FontAwesomeIcon icon={faShoppingCart} className="text-lg" />
+                    <Link to={config.routes.shoppingCart} className="text-white translate-y-[1px]">
+                        <FontAwesomeIcon icon={faShoppingCart} className="text-4xl" />
                     </Link>
                 </div>
                 <HeadlessTippy
@@ -134,8 +134,8 @@ function Header({ currentUser }) {
                         </div>
                     )}
                 >
-                    <button className="p-[5px] bg-[#B4D4FF] rounded-full border border-solid border-white transition-all hover:bg-[#EEF5FF]">
-                        <NotifyIcon className="text-[#176B87]" />
+                    <button className="p-[5px] bg-[#B4D4FF] rounded-full border  border-solid border-white transition-all hover:bg-[#EEF5FF]">
+                        <NotifyIcon className="text-[#176B87] w-[25px] h-[25px]" />
                     </button>
                 </HeadlessTippy>
                 <div className="account-global flex items-center justify-center h-full w-[48px] hover:bg-[#005A9E] transition-colors cursor-pointer">

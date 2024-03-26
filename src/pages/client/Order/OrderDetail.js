@@ -35,8 +35,13 @@ const Loading = () => <div className="container mx-auto flex justify-center item
 const OrderInfo = ({ order }) => (
     <div className="bg-white p-8 rounded-lg shadow-lg border border-86B6F6">
         <h2 className="text-sm font-semibold mb-6 text-center text-176B87">Order #{order.id}</h2>
-        <p className="text-xl text-176B87 mb-4">Total Price: ${order.totalPrice.toFixed(2)}</p>
-        <p className="text-xl text-176B87 mb-8">Shipping Address: {order.address}</p>
+        <p className="text-2xl text-176B87 mb-4">
+            <span className="font-bold">Total Price: </span>${order.totalPrice.toFixed(2)}
+        </p>
+        <p className="text-2xl text-176B87 mb-8">
+            <span className="font-bold">Shipping Address: </span>
+            {order.address}
+        </p>
         <ul className="divide-y divide-86B6F6">
             {order.items.map((item) => (
                 <OrderItem key={item.productId} item={item} />
@@ -50,12 +55,12 @@ const OrderItem = ({ item }) => (
         <img
             src={`${removeFileExtension(item.tutorialImageUrl)}.jpg`}
             alt={item.productName}
-            className="w-24 h-24 mr-6 rounded-lg"
+            className="w-48 h-48 rounded-lg"
         />
-        <div>
-            <p className="text-xl font-semibold text-176B87">{item.productName}</p>
-            <p className="text-lg text-176B87">Quantity: {item.quantity}</p>
-            <p className="text-lg text-176B87">Price: ${item.price.toFixed(2)}</p>
+        <div className="px-5">
+            <p className="text-4xl font-semibold text-176B87">{item.productName}</p>
+            <p className="text-3xl text-gray-500">Quantity: {item.quantity}</p>
+            <p className="text-2xl text-[#176B87]">Price: ${item.price.toFixed(2)}</p>
         </div>
     </li>
 );

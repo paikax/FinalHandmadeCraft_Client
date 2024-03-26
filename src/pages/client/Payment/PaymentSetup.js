@@ -72,12 +72,12 @@ const PaymentSetup = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#86B6F6] to-[#B4D4FF]">
             <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl">
-                <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Payment Board Management</h2>
+                <h2 className="text-5xl font-bold mb-6 text-center text-gray-800">Payment Board Management</h2>
                 {userPayPalInfo ? (
                     <div className="mb-6">
-                        <p className="text-xl mb-2 text-gray-700">PayPal Email: {userPayPalInfo.email}</p>
-                        <p className="text-xl mb-2 text-gray-700">First Name: {userPayPalInfo.firstName}</p>
-                        <p className="text-xl mb-2 text-gray-700">Last Name: {userPayPalInfo.lastName}</p>
+                        <p className="text-2xl mb-2 text-gray-700">PayPal Email: {userPayPalInfo.email}</p>
+                        <p className="text-2xl mb-2 text-gray-700">First Name: {userPayPalInfo.firstName}</p>
+                        <p className="text-2xl mb-2 text-gray-700">Last Name: {userPayPalInfo.lastName}</p>
                         <button
                             onClick={handleEdit}
                             className="bg-[#176B87] text-white px-4 py-2 rounded-md hover:bg-[#428ba3] transition duration-300 ease-in-out flex items-center justify-center"
@@ -146,7 +146,7 @@ const PaymentSetup = () => {
                             </button>
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
-                                    <label htmlFor="email" className="block text-lg mb-2 text-gray-800">
+                                    <label htmlFor="email" className="block text-3lg mb-2 text-gray-800">
                                         Email:
                                     </label>
                                     <input
@@ -155,11 +155,11 @@ const PaymentSetup = () => {
                                         value={paypalEmail}
                                         onChange={(e) => setPaypalEmail(e.target.value)}
                                         required
-                                        className="border border-gray-300 bg-[#176B87] text-white rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                        className="border text-black border-gray-300 bg-[#ddd] rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="firstName" className="block text-lg mb-2 text-gray-800">
+                                    <label htmlFor="firstName" className="block text-3lg mb-2 text-gray-800">
                                         First Name:
                                     </label>
                                     <input
@@ -168,11 +168,11 @@ const PaymentSetup = () => {
                                         value={paypalFirstName}
                                         onChange={(e) => setPaypalFirstName(e.target.value)}
                                         required
-                                        className="border border-gray-300 bg-[#176B87] text-white rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                        className="border border-gray-300 bg-[#ddd] text-black rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="lastName" className="block text-lg mb-2 text-gray-800">
+                                    <label htmlFor="lastName" className="block text-3lg mb-2 text-gray-800">
                                         Last Name:
                                     </label>
                                     <input
@@ -181,7 +181,7 @@ const PaymentSetup = () => {
                                         value={paypalLastName}
                                         onChange={(e) => setPaypalLastName(e.target.value)}
                                         required
-                                        className="border border-gray-300 bg-[#176B87] text-white rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
+                                        className="border border-gray-300 bg-[#ddd] text-black rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500"
                                     />
                                 </div>
                                 <button

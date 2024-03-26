@@ -69,7 +69,7 @@ const TutorialList = () => {
 
     return (
         <div className="container mx-auto p-8">
-            <h2 className="text-4xl font-bold mb-8 text-center">Discover Inspiring Crafts</h2>
+            <h1 className="text-6xl font-bold mb-8 text-center">Discover Inspiring Crafts</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {loading ? (
@@ -101,24 +101,24 @@ const TutorialList = () => {
                                     />
                                     <div className="flex justify-between items-start">
                                         <div className="flex-[2]">
-                                            <h3 className="text-3xl font-semibold mb-4 capitalize line-clamp-2">
+                                            <h3 className="text-4xl font-semibold mb-4 capitalize line-clamp-2">
                                                 {tutorial.title}
                                             </h3>
-                                            <p className="text-lg text-gray-600 capitalize">
+                                            <p className="text-2xl text-gray-600 capitalize">
                                                 Difficulty: {tutorial.difficultLevel}
                                             </p>
-                                            <p className="text-lg text-gray-600 capitalize">
+                                            <p className="text-xl text-gray-600 capitalize">
                                                 Time: {tutorial.completionTime}
                                             </p>
                                         </div>
-                                        <div className="flex items-start flex-1 mt-1">
+                                        <div className="flex items-start flex-1 mt-1 scale-125">
                                             <img
                                                 src={tutorial.userProfilePicture}
                                                 alt="User Profile"
                                                 className="w-16 h-16 rounded-full"
                                                 loading="lazy"
                                             />
-                                            <span className="text-xl font-semibold ml-4 max-sm:hidden">
+                                            <span className="text-lg font-semibold ml-4 max-sm:hidden">
                                                 {tutorial.userName}
                                             </span>
                                         </div>

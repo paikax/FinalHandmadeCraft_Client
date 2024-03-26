@@ -82,22 +82,22 @@ function Home() {
                             <div className="relative">
                                 <img
                                     alt={tutorials[currentTutorialIndex].title}
-                                    className="w-full h-auto object-cover"
+                                    className="w-full h-auto object-cover brightness-75"
                                     src={`${removeFileExtension(tutorials[currentTutorialIndex].videoUrl)}.jpg`}
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-60"></div>
                                 <div className="absolute inset-0 flex items-center justify-center text-white">
                                     <div className="text-center">
-                                        <h1 className="text-3xl md:text-5xl font-bold mb-4">
+                                        <h1 className="text-3xl md:text-6xl font-bold mb-4">
                                             {tutorials[currentTutorialIndex].title}
                                         </h1>
-                                        <p className="text-lg md:text-xl">
+                                        <p className="text-lg md:text-2xl">
                                             {tutorials[currentTutorialIndex].instruction}
                                         </p>
                                         <div className="mt-6 flex justify-center space-x-4">
                                             <Link
                                                 to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
-                                                className="text-yellow-400 hover:text-yellow-500 font-semibold"
+                                                className="text-black font-semibold bg-yellow-400 px-7 py-4 rounded-full  ease-in-out duration-300 hover:bg-yellow-500"
                                             >
                                                 View detail
                                             </Link>
@@ -108,10 +108,10 @@ function Home() {
                             <div className="p-6 bg-white">
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <h2 className="text-lg font-semibold">
+                                        <h2 className="text-3lg font-semibold">
                                             Difficulty: {tutorials[currentTutorialIndex].difficultLevel}
                                         </h2>
-                                        <h2 className="text-lg font-semibold italic">
+                                        <h2 className="text-2lg font-semibold italic">
                                             Materials: {tutorials[currentTutorialIndex].material}
                                         </h2>
                                     </div>
@@ -119,17 +119,17 @@ function Home() {
                                     <div className="flex items-center space-x-4">
                                         <Link to={`/profile/${tutorials[currentTutorialIndex].createdById}`}>
                                             <img
-                                                className="w-12 h-12 rounded-full"
+                                                className="w-24 h-24 rounded-full"
                                                 src={tutorials[currentTutorialIndex].userProfilePicture}
                                                 alt="creator avatar"
                                             />
                                         </Link>
-                                        <Link
+                                        {/* <Link
                                             to={`/tutorials/${tutorials[currentTutorialIndex].id}`}
                                             className="bg-yellow-400 hover:bg-yellow-500 px-6 py-2 rounded text-gray-900 font-semibold"
                                         >
                                             About the Creator
-                                        </Link>
+                                        </Link> */}
                                     </div>
                                 </div>
                             </div>

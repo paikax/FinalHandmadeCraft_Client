@@ -418,7 +418,7 @@ const Profile = () => {
                                 <div className="px-4 py-2">
                                     <h2 className="text-2xl font-semibold text-white">
                                         <span
-                                            className={`text-2xl font-semibold ${
+                                            className={`text-5xl font-semibold ${
                                                 user.isPremium ? 'text-yellow-500 premium-name' : ''
                                             }`}
                                         >
@@ -470,7 +470,7 @@ const Profile = () => {
                                     <div className="mr-4">
                                         <button
                                             onClick={handleShowBenefitsModal}
-                                            className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out shadow-lg"
+                                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-700 font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out shadow-lg"
                                         >
                                             Upgrade to Premium
                                         </button>
@@ -497,7 +497,7 @@ const Profile = () => {
                                     <p className="text-gray-600">{user.bio}</p>
                                 </div>
                                 <div className="mb-4">
-                                    <h3 className="text-2xl font-semibold mb-2 text-gray-800">
+                                    <h3 className="text-3xl font-semibold mb-2 text-gray-800">
                                         Recent Craft Tutorials
                                     </h3>
                                     <div className="grid grid-cols-2 gap-4">

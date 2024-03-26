@@ -35,32 +35,40 @@ const Order = () => {
                     orders.map((order) => (
                         <Link to={`/orders/${order.id}`} key={order.id}>
                             <div key={order.id} className="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-                                <h2 className="text-sm font-semibold mb-6 text-center text-gray-900">
+                                {/* <h2 className="text-sm font-semibold mb-6 text-center text-gray-900">
                                     Order #{order.id}
-                                </h2>
-                                <p className="text-xl text-gray-800 mb-4">
-                                    Total Price: ${order.totalPrice.toFixed(2)}
-                                </p>
-                                <p className="text-xl text-gray-800 mb-8">Shipping Address: {order.address}</p>
+                                </h2> */}
+
                                 <ul className="divide-y divide-gray-300">
                                     {order.items.map((item) => (
                                         <li key={item.productId} className="py-4 flex items-center">
                                             <img
                                                 src={`${removeFileExtension(item.tutorialImageUrl)}.jpg`}
                                                 alt={item.productName}
-                                                className="w-24 h-24 mr-6 rounded-lg"
+                                                className="w-32 h-32 mr-6 rounded-lg"
                                             />
                                             <div>
-                                                <p className="text-xl font-semibold text-gray-900">
+                                                <p className="text-3xl py-2 font-semibold text-gray-900">
                                                     {item.productName}
                                                 </p>
-                                                <p className="text-lg text-gray-800">Quantity: {item.quantity}</p>
-                                                <p className="text-lg text-gray-800">Price: ${item.price.toFixed(2)}</p>
+                                                <p className="text-[15px] text-gray-800">Quantity: {item.quantity}</p>
+                                                <p className="text-[14px] text-green-600 font-bold">
+                                                    Price: ${item.price.toFixed(2)}
+                                                </p>
                                             </div>
                                         </li>
                                     ))}
                                 </ul>
-                                <button className="mt-6 w-full bg-[#176B87] hover:bg-[#3e89a2] text-white font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline">
+                                <div className="mt-10 px-1">
+                                    <p className="text-2xl text-gray-800 mb-4">
+                                        <span className="font-bold">Total Price: </span>${order.totalPrice.toFixed(2)}
+                                    </p>
+                                    <p className="text-2xl text-gray-800 mb-8">
+                                        <span className="font-bold">Shipping Address: </span>
+                                        {order.address}
+                                    </p>
+                                </div>
+                                <button className="w-full bg-[#176B87] hover:bg-[#3e89a2] text-white font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline">
                                     View
                                 </button>
                             </div>
