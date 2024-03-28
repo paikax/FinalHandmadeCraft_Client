@@ -70,9 +70,14 @@ const PaymentSetup = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#86B6F6] to-[#B4D4FF]">
+        <div
+            style={{
+                backgroundImage: `url(${require('~/assets/images/paymentSetup/paymentSetupBg.jpg')})`,
+            }}
+            className="flex bg-no-repeat bg-cover items-center justify-center min-h-screen"
+        >
             <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl">
-                <h2 className="text-5xl font-bold mb-6 text-center text-gray-800">Payment Board Management</h2>
+                <h2 className="text-4xl font-bold mb-6 p-6 text-center text-gray-800">Payment Board Management</h2>
                 {userPayPalInfo ? (
                     <div className="mb-6">
                         <p className="text-2xl mb-2 text-gray-700">PayPal Email: {userPayPalInfo.email}</p>
@@ -80,7 +85,7 @@ const PaymentSetup = () => {
                         <p className="text-2xl mb-2 text-gray-700">Last Name: {userPayPalInfo.lastName}</p>
                         <button
                             onClick={handleEdit}
-                            className="bg-[#176B87] text-white px-4 py-2 rounded-md hover:bg-[#428ba3] transition duration-300 ease-in-out flex items-center justify-center"
+                            className="bg-[#4a8f92] text-white px-4 py-2 rounded-md hover:bg-[#92C7CF] transition duration-300 ease-in-out flex items-center justify-center"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +107,7 @@ const PaymentSetup = () => {
                 ) : (
                     <button
                         onClick={() => setShowModal(true)}
-                        className="bg-[#176B87] text-white px-6 py-3 rounded-full hover:bg-[#4591ab] transition duration-300 ease-in-out flex items-center justify-center"
+                        className="bg-[#4a8f92] text-white px-6 py-3 rounded-full hover:bg-[#92C7CF] transition duration-300 ease-in-out flex items-center justify-center"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

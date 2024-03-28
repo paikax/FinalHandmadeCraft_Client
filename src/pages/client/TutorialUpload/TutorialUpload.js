@@ -126,26 +126,26 @@ const TutorialUpload = () => {
                 console.error('Error checking PayPal setup', error);
             }
         }
-        checkPayPalSetup();
+        checkPayPalSetup(); 
     }, [currentUserID, navigate]);
 
     return (
         <div className="flex">
             {/* Left side - Video Upload */}
-            <div className="w-[65%] p-4 bg-[#176b87] mr-[10px]">
+            <div className="w-[65%] p-4 bg-white mr-[10px]">
                 {!isUploadComplete && (
                     <div
                         {...getRootProps()}
-                        className="border-dashed border-gray-400 border-2 bg-gradient-to-r from-[#176B87] to-[#2D9AC9] p-8 text-center cursor-pointer rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
-                        style={{ maxWidth: '500px', margin: '0 auto' }}
+                        className="ml-[175px] border-dashed border-gray-400 border-2 bg-[#AAD7D9] from-[#176B87] to-[#2D9AC9] p-8 text-center cursor-pointer rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
+                        style={{ maxWidth: '500px'}}
                     >
                         <input {...getInputProps()} />
-                        <p className="text-white text-3xl font-extrabold mb-8">Click or drop your video</p>
+                        <p className="text-black text-3xl font-extrabold mb-8">Click or drop your video</p>
                         <div className="flex justify-between items-center mb-8">
-                            <p className="text-lg text-[#EEF5FF]">
+                            <p className="text-lg text-black">
                                 Accepted formats: <span className="font-semibold">MP4</span>
                             </p>
-                            <button className="text-[#176B87] bg-[#B4D4FF] rounded-md border border-solid border-white transition-all hover:bg-[#EEF5FF] py-3 px-6 font-semibold focus:outline-none focus:ring-2 focus:ring-[#176B87] focus:ring-opacity-50">
+                            <button className="text-black bg-white rounded-md border border-solid border-white transition-all hover:shadow-bxl hover:bg-[#EEF5FF] py-3 px-6 font-semibold focus:outline-none focus:ring-2 focus:ring-[#176B87] focus:ring-opacity-50">
                                 Start Upload
                             </button>
                         </div>
@@ -173,7 +173,7 @@ const TutorialUpload = () => {
                         </video>
                         <button
                             onClick={handleReplaceVideo}
-                            className="bg-[#3a93d3] hover:bg-[#4590a9] text-white p-2 mt-3 rounded-md"
+                            className="bg-[#AAD7D9] hover:bg-[#92C7CF] text-white p-2 mt-3 rounded-md"
                         >
                             Replace Video
                         </button>
@@ -182,36 +182,30 @@ const TutorialUpload = () => {
             </div>
 
             {/* Right side - Form */}
-            <div className="w-[39%] p-4 bg-[#176b87] ml-[10px]">
+            <div className="w-[39%] p-4 bg-white ml-[10px]">
                 {isUploadComplete && (
-                    <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <form onSubmit={handleFormSubmit} className="space-y-4 mt-5">
                         {/* Other input fields */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label htmlFor="title" className="block text-xl font-medium text-white">
-                                    Title
-                                </label>
                                 <input
                                     type="text"
                                     id="title"
                                     name="title"
                                     value={tutorialData.title}
                                     onChange={handleInputChange}
-                                    className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
+                                    className="mt-1 p-2 text-2xl w-full bg-[#e5e7eb] border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
                                     placeholder="Enter tutorial title"
                                     required
                                 />
                             </div>
                             <div className="">
-                                <label htmlFor="difficultLevel" className="block text-xl font-medium text-white">
-                                    Difficulty Level
-                                </label>
                                 <select
                                     id="difficultLevel"
                                     name="difficultLevel"
                                     value={tutorialData.difficultLevel}
                                     onChange={handleInputChange}
-                                    className="mt-1 p-2 text-2xl h-[30px] w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 bg-white shadow-xl"
+                                    className="mt-1 p-2 text-2xl h-[30px] w-full bg-[#e5e7eb] border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 shadow-xl"
                                     required
                                 >
                                     <option disabled value="">
@@ -224,31 +218,25 @@ const TutorialUpload = () => {
                             </div>
                         </div>
                         <div>
-                            <label htmlFor="material" className="block text-xl font-medium text-white">
-                                Material
-                            </label>
                             <input
                                 type="text"
                                 id="material"
                                 name="material"
                                 value={tutorialData.material}
                                 onChange={handleInputChange}
-                                className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
+                                className="mt-1 p-2 text-2xl w-full bg-[#e5e7eb] border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
                                 placeholder="Enter material used"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label htmlFor="instruction" className="block text-xl font-medium text-white">
-                                Instruction
-                            </label>
                             <textarea
                                 id="instruction"
                                 name="instruction"
                                 value={tutorialData.instruction}
                                 onChange={handleInputChange}
-                                className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
+                                className="mt-1 p-2 text-2xl w-full bg-[#e5e7eb] border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500"
                                 placeholder="Enter tutorial instruction"
                                 rows={4}
                                 required
@@ -256,9 +244,6 @@ const TutorialUpload = () => {
                         </div>
 
                         <div>
-                            <label htmlFor="price" className="block text-xl font-medium text-white">
-                                Price
-                            </label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -266,7 +251,7 @@ const TutorialUpload = () => {
                                     name="price"
                                     value={tutorialData.price}
                                     onChange={handleInputChange}
-                                    className="mt-1 p-2 text-2xl w-full border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 pl-10"
+                                    className="mt-1 p-2 text-2xl w-full bg-[#e5e7eb] border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out placeholder-gray-500 pl-10"
                                     placeholder="Enter tutorial price (Limit: $300)"
                                     min="0"
                                     max="300" // Limit the maximum value to $300
@@ -280,16 +265,13 @@ const TutorialUpload = () => {
                         </div>
 
                         <div className="relative">
-                            <label htmlFor="categoryId" className="block text-xl font-medium text-white">
-                                Category
-                            </label>
                             <div className="relative">
                                 <select
                                     id="categoryId"
                                     name="categoryId"
                                     value={tutorialData.categoryId}
                                     onChange={handleInputChange}
-                                    className="mt-1 block w-full text-2xl h-[30px] pl-3 pr-10 py-2  border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out bg-white hover:border-gray-400"
+                                    className="mt-1 block w-full bg-[#e5e7eb] text-2xl h-[30px] pl-3 pr-10 py-2  border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out bg-white hover:border-gray-400"
                                     required
                                 >
                                     <option value="" disabled hidden>
@@ -325,7 +307,7 @@ const TutorialUpload = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="bg-[#3a93d3] text-white p-2 rounded-md w-full hover:bg-[#4590a9] focus:outline-none focus:ring focus:ring-blue-300 transition duration-300 ease-in-out"
+                                className="bg-[#AAD7D9] text-white p-2 rounded-md w-full hover:bg-[#92C7CF] focus:outline-none focus:ring focus:ring-blue-300 transition duration-300 ease-in-out"
                             >
                                 Add Tutorial
                             </button>

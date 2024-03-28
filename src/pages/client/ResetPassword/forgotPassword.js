@@ -34,8 +34,8 @@ const ForgotPassword = () => {
                     />
                     <button
                         type="submit"
-                        className={`w-full px-4 py-2 rounded-md hover:bg-indigo-600 transition duration-300 ${
-                            loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-500 text-white'
+                        className={`w-full px-4 py-2 rounded-md hover:bg-[#5ba2ba] transition duration-300 ${
+                            loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#176B87] text-white'
                         }`}
                         disabled={loading} // Disable button when loading
                     >

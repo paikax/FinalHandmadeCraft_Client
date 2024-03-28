@@ -67,10 +67,11 @@ function Login() {
                 backgroundPosition: 'center',
             }}
         >
-            <div className="px-8 py-6 mt-4 text-left bg-white shadow-lg border rounded-xl">
-                <div className="flex justify-center">
-                    <h3 className="text-2xl font-bold text-center">Welcome back!</h3>
+            <div className="max-w-xl w-full px-8 py-6 mt-4 text-left bg-white shadow-lg border rounded-xl">
+                <div className="flex justify-center mb-3">
+                    <h3 className="text-3xl font-bold text-center">Welcome back!</h3>
                 </div>
+
                 <div className="mt-4">
                     <div className="flex items-center justify-center">
                         <GoogleLoginButton />
@@ -85,34 +86,30 @@ function Login() {
                     <form onSubmit={handleSubmit(onSubmitForm)}>
                         <div className="mt-8">
                             <div>
-                                <label className="block text-2xl" htmlFor="email">
-                                    Email
-                                </label>
                                 <input
                                     type="email"
                                     placeholder="Email"
                                     {...register('email')}
-                                    className="w-full px-4 py-2 mt-2 border rounded-md"
+                                    className="w-full px-2 py-2 mt border rounded-xl focus:outline-none bg-gray-200"
                                 />
                                 {email && <ErrorMessage message={email.message} />}
                             </div>
-                            <div className="mt-4">
-                                <label className="block block text-2xl">Password</label>
+                            <div className="mt-6">
                                 <input
                                     type="password"
                                     placeholder="Password"
                                     {...register('password')}
-                                    className="w-full px-4 py-2 mt-2 border rounded-md"
+                                    className="w-full px-2 py-2 mt border rounded-xl focus:outline-none bg-gray-200"
                                 />
                                 {password && <ErrorMessage message={password.message} />}
                             </div>
-                            <div className="flex items-baseline justify-between">
-                                <button className="px-6 py-2 mt-4 text-white bg-[#176B87] hover:bg-[#388da9] rounded-lg">
+                            <div className="mt-4 flex items-baseline justify-between">
+                                <button className="px-6 py-2 mt-4 text-gray-800 font-semibold bg-[#92C7CF] hover:bg-[#AAD7D9] rounded-lg">
                                     Sign in
                                 </button>
                                 <Link
                                     to={config.routes.forgotPassword}
-                                    className=" text-blue-600 text-xl hover:underline"
+                                    className=" text-[#4a8f92] text-xl hover:underline"
                                 >
                                     Forgot password?
                                 </Link>
@@ -120,12 +117,14 @@ function Login() {
                         </div>
                     </form>
                 </div>
-                <p className="mt-14 font-light text-center text-xl text-gray-700">
+                <p className="mt-14 font-light text-center text-2xl text-gray-700">
                     {' '}
                     Don't have an account?{' '}
-                    <Link to={config.routes.register} className="text-blue-600 hover:underline">
-                        Sign up
-                    </Link>
+                    <em>
+                        <Link to={config.routes.register} className="text-[#4a8f92] hover:underline">
+                            Sign up
+                        </Link>
+                    </em>
                 </p>
             </div>
         </div>

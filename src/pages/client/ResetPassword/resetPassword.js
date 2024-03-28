@@ -46,7 +46,7 @@ const ResetPassword = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#176B87] focus:ring-2 focus:ring-indigo-200"
                     />
                     <input
                         type="password"
@@ -58,7 +58,7 @@ const ResetPassword = () => {
                     />
                     <button
                         type="submit"
-                        className={`w-full px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition duration-300 ${
+                        className={`w-full px-4 py-2 bg-[#176B87] text-white rounded-md hover:bg-[#5b9fb6] transition duration-300 ${
                             loading ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                         disabled={loading} // Disable button when loading

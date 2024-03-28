@@ -399,14 +399,14 @@ const Profile = () => {
     }
 
     return (
-        <div className="gradient-custom-2 bg-gradient-to-r from-[#EEF5FF] to-[#EEF5FF] rounded-lg">
+        <div className="gradient-custom-2 bg-gradient-to-r rounded-lg">
             <div className="container py-5 h-full">
                 <div className="flex justify-center items-center h-full">
                     <div className="w-[90%]">
                         <div className="card bg-white rounded-lg shadow-lg overflow-hidden">
                             <div
                                 className="flex items-center rounded-t-lg transition-all duration-300 ease-in-out h-[150px]"
-                                style={{ backgroundColor: '#176B87' }}
+                                style={{ backgroundColor: '#4a8f92' }}
                             >
                                 <div className="p-8">
                                     <img
@@ -419,7 +419,7 @@ const Profile = () => {
                                     <h2 className="text-2xl font-semibold text-white">
                                         <span
                                             className={`text-5xl font-semibold ${
-                                                user.isPremium ? 'text-yellow-500 premium-name' : ''
+                                                user.isPremium ? 'text-yellow-400 premium-name' : ''
                                             }`}
                                         >
                                             {user.firstName} {user.lastName}
@@ -427,11 +427,11 @@ const Profile = () => {
                                         {user.isPremium && (
                                             <FontAwesomeIcon
                                                 icon={faCrown}
-                                                className="ml-2 text-yellow-500 animate-bounce"
+                                                className="ml-3 text-yellow-400 animate-bounce"
                                             />
                                         )}
                                     </h2>
-                                    <p className="text-lg text-gray-200">
+                                    <p className="text-2xl text-gray-200">
                                         <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" />
                                         {user.address}
                                     </p>
@@ -662,7 +662,7 @@ const Profile = () => {
                                         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-green-600 border-solid border-r-0 border-l-0"></div>
                                     </div>
                                 ) : (
-                                    <div className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                    <div className="bg-[#92C7CF] hover:bg-[#AAD7D9] text-black font-bold py-2 px-4 rounded-full">
                                         Save Changes
                                     </div>
                                 )}

@@ -1,3 +1,4 @@
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,7 @@ const ShoppingCart = () => {
     const [loading, setLoading] = useState(true);
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
     const dispatch = useDispatch();
+    const [totalPriceInCart, setTotalPriceInCart] = useState(0);
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -72,6 +74,7 @@ const ShoppingCart = () => {
         try {
             // Assuming you have the user's address stored somewhere in your state or can pass it as a parameter
             const address = '123 Street, City, Country';
+
             await buyItemsFromCart(currentUserID, address);
             // After successful purchase, clear the cart and update the UI
             await handleClearCart();
@@ -105,8 +108,27 @@ const ShoppingCart = () => {
         return commission.toFixed(2);
     };
 
+    useEffect(() => {
+        // Calculate the total price in the cart whenever cart items change
+        const calculateTotalPriceInCart = () => {
+            const totalPriceWithoutCommission = cartItems.reduce(
+                (total, item) => total + item.quantity * item.price,
+                0,
+            );
+            const commission = totalPriceWithoutCommission * 0.05; // Assuming 5% commission
+            const totalPriceWithCommission = totalPriceWithoutCommission + commission;
+            setTotalPriceInCart(totalPriceWithCommission.toFixed(2));
+
+            localStorage.setItem('totalPriceInCart', totalPriceWithCommission.toFixed(2));
+        };
+
+        calculateTotalPriceInCart();
+    }, [cartItems]);
+
+    localStorage.setItem('totalPriceInCart', totalPriceInCart);
+
     return (
-        <div className="container mx-auto p-8">
+        <div className="container mx-auto p-8 max-w-[750px] rounded-md bg-[#b4d4ff]">
             <h2 className="text-4xl font-bold mb-8 text-center">Shopping Cart</h2>
 
             {loading ? (
@@ -133,24 +155,25 @@ const ShoppingCart = () => {
                                                 loading="lazy"
                                             />
                                             <div>
-                                                <p className="font-semibold text-4xl text-[#176B87]">
+                                                <p className="font-semibold text-4xl text-[#176B87] line-clamp-1">
                                                     {item.productName}
                                                 </p>
                                                 <p className="text-gray-600 mb-1">
                                                     Price: <span className="font-bold">${item.price.toFixed(2)}</span>
                                                 </p>
-                                                <p className="text-gray-600 mb-1">Description: {item.description}</p>
                                                 <div className="flex items-center">
                                                     <button
                                                         onClick={() => handleQuantityChange(item.productId, -1)}
-                                                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded"
+                                                        className="bg-[#b4d4ff] hover:bg-opacity-70 text-gray-800 font-bold py-1 px-2 rounded"
                                                     >
                                                         -
                                                     </button>
-                                                    <p className="mx-2">{item.quantity}</p>
+                                                    <p className="text-center mx-2 py-[2px] w-[40px] rounded border">
+                                                        {item.quantity}
+                                                    </p>
                                                     <button
                                                         onClick={() => handleQuantityChange(item.productId, 1)}
-                                                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-2 rounded"
+                                                        className="bg-[#b4d4ff] hover:bg-opacity-70 text-gray-800 font-bold py-1 px-1 rounded"
                                                     >
                                                         +
                                                     </button>
@@ -158,7 +181,7 @@ const ShoppingCart = () => {
                                             </div>
                                         </div>
                                         <div className="flex flex-col gap-2">
-                                            <p className="font-semibold text-3xl">
+                                            <p className="font-semibold text-3xl w-[160px]">
                                                 Total: ${calculateItemTotalPrice(item)}
                                             </p>
                                             <p className="text-2xl text-gray-500">
@@ -176,24 +199,49 @@ const ShoppingCart = () => {
                             </div>
                             <div className="mt-8 flex justify-between">
                                 <div>
-                                    <p className="font-semibold text-4xl">
+                                    <button
+                                        onClick={handleClearCart}
+                                        className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-md"
+                                    >
+                                        Clear Cart
+                                    </button>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-4xl bg-white px-4 py-2 rounded-md">
                                         Total Cart Price:
                                         <span className="text-yellow-600"> ${calculateTotalCartPrice()}</span>
                                     </p>
                                 </div>
                                 <div>
-                                    <button
-                                        onClick={handleClearCart}
-                                        className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-md mr-4"
+                                    <PayPalScriptProvider
+                                        options={{
+                                            'client-id':
+                                                'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k',
+                                        }}
                                     >
-                                        Clear Cart
-                                    </button>
-                                    <button
-                                        onClick={handleBuyItems}
-                                        className="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-md"
-                                    >
-                                        Buy Items
-                                    </button>
+                                        <PayPalButtons
+                                            createOrder={(data, actions) => {
+                                                const calculatedTotalCartPriceStorage = JSON.parse(
+                                                    localStorage.getItem('totalPriceInCart'),
+                                                );
+
+                                                return actions.order.create({
+                                                    purchase_units: [
+                                                        {
+                                                            amount: {
+                                                                value: (+calculatedTotalCartPriceStorage).toFixed(2),
+                                                            },
+                                                        },
+                                                    ],
+                                                });
+                                            }}
+                                            onApprove={(data, actions) => {
+                                                return actions.order.capture().then(function (details) {
+                                                    handleBuyItems();
+                                                });
+                                            }}
+                                        />
+                                    </PayPalScriptProvider>
                                 </div>
                             </div>
                         </div>

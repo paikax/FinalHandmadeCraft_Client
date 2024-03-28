@@ -32,22 +32,9 @@ function Header({ currentUser }) {
         await logOut(dispatch, navigate);
     };
 
-    // useEffect(() => {
-    //     const fetchNotificationsData = async () => {
-    //         try {
-    //             const res = await fetchNotifications(currentUserID);
-    //             setNotifications(res || []);
-    //         } catch (error) {
-    //             console.error('Failed to fetch notifications:', error);
-    //         }
-    //     };
-
-    //     fetchNotificationsData();
-    // }, [currentUserID]);
-
     const renderResult = () => {
         return (
-            <div className="bg-white shadow-[0_24px_54px_rgba(0,0,0,0.15)]">
+            <div className="bg-[#fff]  shadow-[0_24px_54px_rgba(0,0,0,0.15)]">
                 <div className="flex justify-end">
                     <button
                         className="px-[14px] py-[15px] text-[14px] hover:bg-[#f5f5f5] hover:underline"
@@ -75,10 +62,13 @@ function Header({ currentUser }) {
     };
 
     return (
-        <header className="flex md:flex-row items-center h-[60px] bg-[#176B87] justify-between px-[12px]">
+        <header className="flex md:flex-row items-center h-[60px] shadow-md bg-[#fff] justify-between px-[12px] z-10 mb-10">
             <div className="flex items-center justify-between w-full md:w-auto">
                 <div className="flex items-center">
-                    <Link to={config.routes.home} className="font-semibold text-white hover:underline px-4">
+                    <Link
+                        to={config.routes.home}
+                        className="font-bold text-[#4a8f92] px-4 hover:scale-110 transition-all"
+                    >
                         HandMadeCraft
                     </Link>
                 </div>
@@ -90,21 +80,33 @@ function Header({ currentUser }) {
             <div className="flex items-center gap-[20px] h-full">
                 <Link
                     to={config.routes.tutorialUpload}
-                    className="text-center text-white w-[50px] bg-[#B4D4FF] rounded-full border border-solid border-white transition-all hover:bg-[#EEF5FF]"
+                    className="text-center text-white w-[50px] bg-gray-200 rounded-full transition-all hover:bg-[#EEF5FF] hover:scale-125"
                 >
-                    <FontAwesomeIcon icon={faCloudArrowUp} className="text-[#176B87]" />
+                    <FontAwesomeIcon icon={faCloudArrowUp} className="text-[#4a8f92]" />
                 </Link>
                 <div className="hidden md:flex gap-[20px]">
-                    <Link to={config.routes.tutorialList} className="text-white translate-y-[1px] hover:underline">
+                    <Link
+                        to={config.routes.tutorialList}
+                        className="text-black font-semibold translate-y-[1px] hover:scale-110 transition-all "
+                    >
                         Discover
                     </Link>
-                    <Link to={config.routes.about} className="text-white hover:underline translate-y-[1px]">
+                    <Link
+                        to={config.routes.about}
+                        className="text-black font-semibold  transition-all translate-y-[1px] hover:scale-125"
+                    >
                         About
                     </Link>
-                    <Link to="/link3" className="text-white hover:underline translate-y-[1px]">
+                    <Link
+                        to="/link3"
+                        className="text-black font-semibold transition-all hover:scale-125  translate-y-[1px]"
+                    >
                         Saved
                     </Link>
-                    <Link to={config.routes.shoppingCart} className="text-white translate-y-[1px]">
+                    <Link
+                        to={config.routes.shoppingCart}
+                        className="text-black translate-y-[1px] hover:scale-110 transition-all"
+                    >
                         <FontAwesomeIcon icon={faShoppingCart} className="text-4xl" />
                     </Link>
                 </div>
@@ -134,11 +136,11 @@ function Header({ currentUser }) {
                         </div>
                     )}
                 >
-                    <button className="p-[5px] bg-[#B4D4FF] rounded-full border  border-solid border-white transition-all hover:bg-[#EEF5FF]">
-                        <NotifyIcon className="text-[#176B87] w-[25px] h-[25px]" />
+                    <button className="p-[5px] bg-gray-200 rounded-full border-white transition-all hover:scale-110 hover:bg-[#EEF5FF]">
+                        <NotifyIcon className="text-black font-semibold w-[25px] h-[25px]" />
                     </button>
                 </HeadlessTippy>
-                <div className="account-global flex items-center justify-center h-full w-[48px] hover:bg-[#005A9E] transition-colors cursor-pointer">
+                <div className="account-global flex items-center justify-center h-full w-[48px] hover:bg-[#AAD7D9] transition-colors cursor-pointer">
                     <HeadlessTippy
                         trigger="click"
                         interactive
@@ -147,7 +149,7 @@ function Header({ currentUser }) {
                         render={renderResult}
                     >
                         <Image
-                            className="rounded-full w-[32px] h-[32px] object-cover border-[1px] border-solid border-white"
+                            className="rounded-full w-[34px] h-[34px] object-cover border-[1px] border-solid border-white"
                             src={googleAvatar || currentUser.profilePhoto}
                             alt="Avatar"
                         />

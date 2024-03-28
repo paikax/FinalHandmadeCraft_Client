@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
-import { faHeart, faComment, faTimes, faBookBookmark } from '@fortawesome/free-solid-svg-icons'; // Import additional icons
+import { faHeart, faComment, faTimes, faBookBookmark, faShoppingCart } from '@fortawesome/free-solid-svg-icons'; // Import additional icons
 
 import {
     addCommentToTutorial,
@@ -20,7 +20,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import CommentSection from '~/components/Tutorial/CommentSection';
 import toast from 'react-hot-toast';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
-import { createOrder } from '~/services/orderService';
+import { addToCart, createOrder } from '~/services/orderService';
 import { sendPayment } from '~/services/payPalService';
 import { faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { getUserById } from '~/redux/apiRequest';
@@ -330,6 +330,22 @@ const TutorialDetail = () => {
         }
     };
 
+    const handleAddToCart = async () => {
+        try {
+            const item = {
+                productId: tutorialId,
+                quantity: quantity,
+            };
+            // Call addToCart service function
+            await addToCart(currentUserID, item);
+            // Show success message or perform any other actions
+            alert('Item added to cart successfully!');
+        } catch (error) {
+            console.error('Error adding item to cart', error);
+            alert('Failed to add item to cart. Please try again later.');
+        }
+    };
+
     if (loading) {
         return <div className="text-center mt-8">Loading...</div>;
     }
@@ -424,7 +440,7 @@ const TutorialDetail = () => {
                 </div>
             </Modal>
 
-            <div className="bg-gradient-to-r bg-[#B4D4FF] text-white py-4">
+            <div className="bg-gradient-to-r bg-[#FBF9F1] text-white py-4">
                 <div className="container mx-auto px-4">
                     <header className="flex justify-between items-center py-4">
                         <div className="flex items-center">
@@ -434,7 +450,7 @@ const TutorialDetail = () => {
                                 </Link>
                             </div>
                             <nav className="hidden md:flex space-x-4">
-                                <Link to="/" className="text-black hover:underline">
+                                <Link to="/" className="text-black font-semibold hover:underline">
                                     Your choosing
                                 </Link>
                                 <Link to="/" className="text-black hover:underline">
@@ -451,11 +467,11 @@ const TutorialDetail = () => {
                             </button>
                         </div>
                     </header>
-                    <div className="flex justify-between items-center bg-[#176B87] p-4 rounded my-4">
+                    <div className="flex justify-between items-center bg-[#AAD7D9] p-4 rounded my-4">
                         <div className="flex items-center mx-4">
                             <span className="text-white">Follow Maker</span>
                             <Link to={`/profile/${tutorial.createdById}`} className="flex">
-                                <button className="bg-blue-200 mx-4 rounded-full text-[#176B87] font-bold transition-all">
+                                <button className="mx-4 rounded-full text-[#AAD7D9] hover:scale-125 font-bold transition-all">
                                     <img
                                         className="w-12 h-12 rounded-full"
                                         src={tutorial.userProfilePicture}
@@ -468,7 +484,7 @@ const TutorialDetail = () => {
                     </div>
                     <div className="flex flex-wrap lg:flex-nowrap">
                         <div className="w-full lg:w-1/2 p-4">
-                            <div className="flex flex-col items-center bg-[#176B87] p-8 rounded-lg shadow-lg">
+                            <div className="flex flex-col items-center bg-[#AAD7D9] p-8 rounded-lg shadow-lg">
                                 <video
                                     controls
                                     className="w-full h-auto object-cover rounded-md mb-6 lg:mb-8"
@@ -488,20 +504,28 @@ const TutorialDetail = () => {
                                 <h2 className="text-3xl lg:text-5xl font-semibold mb-4 lg:mb-6 text-white">
                                     {tutorial.title}
                                 </h2>
-                                <p className="text-3xl lg:text-4xl text-green-300 font-bold mb-6 lg:mb-8 ">
-                                    ${tutorial.price}
-                                </p>
-                                {tutorial.createdById !== currentUserID && (
+                                <p className="text-3xl lg:text-4xl text-white font-bold mb-3">${tutorial.price}</p>
+                                <div className="flex justify-around w-full items-center">
+                                    {tutorial.createdById !== currentUserID && (
+                                        <button
+                                            onClick={openBuyModal}
+                                            className="w-[215px] bg-green-600 hover:bg-green-500 text-white font-bold py-3 lg:py-4 px-10 lg:px-12 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                        >
+                                            <i className="fas fa-shopping-cart mr-2"></i> Buy the product
+                                        </button>
+                                    )}
                                     <button
-                                        onClick={openBuyModal}
-                                        className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 lg:py-4 px-10 lg:px-12 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                        className="w-[215px] bg-blue-500 text-white font-bold py-3 lg:py-4 px-10 lg:px-12 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-300 flex items-center hover:scale-105 justify-center"
+                                        onClick={handleAddToCart}
                                     >
-                                        <i className="fas fa-shopping-cart mr-2"></i> Buy the product
+                                        <FontAwesomeIcon icon={faShoppingCart} className="mr-2" /> Add to Cart
                                     </button>
-                                )}
+                                </div>
+
                                 <p className="text-lg lg:text-xl mb-6 mt-6 lg:mb-8 text-white">
                                     {tutorial.instruction}
                                 </p>
+
                                 <Link to="/" className="text-white text-lg hover:underline">
                                     + Learn More
                                 </Link>
@@ -509,7 +533,7 @@ const TutorialDetail = () => {
                         </div>
 
                         <div className="w-full lg:w-1/2 p-4">
-                            <div className="bg-[#176B87] p-8 rounded-lg shadow-lg">
+                            <div className="bg-[#AAD7D9] p-8 rounded-lg shadow-lg">
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Type:</h3>
                                     <p className="text-lg text-white">{tutorial.categoryName}</p>
