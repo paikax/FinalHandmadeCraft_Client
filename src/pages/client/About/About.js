@@ -27,7 +27,7 @@ const About = () => {
                         <div className="flex justify-center">
                             <a
                                 href="/projects"
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                                className="bg-[#4a8f92] hover:bg-[#92C7CF] text-white font-bold py-2 px-4 rounded"
                             >
                                 Explore Projects
                             </a>

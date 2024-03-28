@@ -69,7 +69,9 @@ const TutorialList = () => {
 
     return (
         <div className="container mx-auto p-8">
-            <h1 className="text-5xl text-gray-700 font-bold mb-8 text-center">Discover Inspiring Crafts</h1>
+            <h1 className="text-4xl text-gray-700 uppercase font-extrabold mb-8 text-center">
+                Discover <span className="text-[#4a8f92]">Inspiring Crafts</span>
+            </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {loading ? (
@@ -80,7 +82,7 @@ const TutorialList = () => {
                     tutorials.map((tutorial) => (
                         <div key={tutorial.id} className="relative">
                             <Link to={`/tutorials/${tutorial.id}`}>
-                                <div className="bg-white rounded-lg p-8 shadow-xl transition-transform transform hover:scale-105 h-full">
+                                <div className="bg-[#fff] rounded-lg p-8  transition-transform transform hover:shadow-xl hover:scale-105 h-full">
                                     {isNewTutorial(tutorial.uploadTime) && (
                                         <span className="bg-green-500 text-white px-4 py-2 rounded-full absolute top-6 right-6">
                                             New
@@ -104,10 +106,10 @@ const TutorialList = () => {
                                             <h3 className="text-4xl font-semibold mb-4 capitalize line-clamp-1">
                                                 {tutorial.title}
                                             </h3>
-                                            <p className="text-2xl text-gray-600 capitalize">
+                                            <p className="text-xl font-semibold text-gray-600 capitalize">
                                                 Difficulty: {tutorial.difficultLevel}
                                             </p>
-                                            <p className="text-xl text-gray-600 capitalize">
+                                            <p className="text-xl font-semibold text-gray-600 capitalize">
                                                 Time: {tutorial.completionTime}
                                             </p>
                                         </div>
@@ -137,7 +139,7 @@ const TutorialList = () => {
                                                 <span className="text-lg">{tutorial.comments.length}</span>
                                             </div>
                                             <button
-                                                className="bg-[#4a8f92] text-white px-4 py-2 rounded-lg text-lg font-semibold hover:bg-[#92C7CF] transition-all duration-300"
+                                                className="bg-[#4a8f92] text-white px-4 py-2 rounded-lg text-xl font-semibold hover:bg-[#92C7CF] transition-all duration-300"
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     handleAddToCart(String(tutorial.id));

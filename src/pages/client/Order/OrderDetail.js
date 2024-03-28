@@ -24,7 +24,7 @@ const OrderDetail = () => {
 
     return (
         <div className="container mx-auto">
-            <h1 className="text-4xl font-bold mb-10 text-center text-gray-900">Order Details</h1>
+            <h1 className="text-4xl font-bold mb-10 uppercase text-center text-gray-900">Order Details</h1>
             <OrderInfo order={order} />
         </div>
     );
@@ -34,7 +34,7 @@ const Loading = () => <div className="container mx-auto flex justify-center item
 
 const OrderInfo = ({ order }) => (
     <div className="bg-white p-8 rounded-lg shadow-lg border border-86B6F6">
-        <h2 className="text-sm font-semibold mb-6 text-center text-176B87">Order #{order.id}</h2>
+        <h2 className="text-lg font-semibold mb-6 text-center text-[#4a8f92]">Order #{order.id}</h2>
         <p className="text-2xl text-176B87 mb-4">
             <span className="font-bold">Total Price: </span>${order.totalPrice.toFixed(2)}
         </p>
@@ -55,12 +55,12 @@ const OrderItem = ({ item }) => (
         <img
             src={`${removeFileExtension(item.tutorialImageUrl)}.jpg`}
             alt={item.productName}
-            className="w-48 h-48 rounded-lg"
+            className="w-60 h-44 rounded-lg"
         />
         <div className="px-5">
             <p className="text-4xl font-semibold text-176B87">{item.productName}</p>
             <p className="text-3xl text-gray-500">Quantity: {item.quantity}</p>
-            <p className="text-2xl text-[#176B87]">Price: ${item.price.toFixed(2)}</p>
+            <p className="text-2xl font-semibold text-[#4a8f92]">Price: ${item.price.toFixed(2)}</p>
         </div>
     </li>
 );

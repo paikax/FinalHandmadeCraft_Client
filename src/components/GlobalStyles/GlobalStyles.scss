@@ -1,7 +1,10 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet');
+@font-face {
+    font-family: 'Avenir Next Cyr Medium';
+    src: url('../../assets/fonts/Avenir\ Next\ Cyr\ Medium.ttf') format('truetype');
+}
 
 :root {
     // Colors
@@ -11,7 +14,6 @@
     --text-color: #333;
 
     // Default layout
-    --font-family: 'Inter', sans-serif;
 }
 
 *,
@@ -24,7 +26,6 @@
 
 html {
     font-size: 62.5%;
-    font-family: var(--font-family);
     box-sizing: border-box;
 }
 

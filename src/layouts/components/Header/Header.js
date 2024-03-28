@@ -62,12 +62,12 @@ function Header({ currentUser }) {
     };
 
     return (
-        <header className="flex md:flex-row items-center h-[60px] shadow-md bg-[#fff] justify-between px-[12px] z-10 mb-10">
+        <header className="flex md:flex-row items-center h-[80px] shadow-sm bg-[#fff] justify-between px-[12px] z-10">
             <div className="flex items-center justify-between w-full md:w-auto">
                 <div className="flex items-center">
                     <Link
                         to={config.routes.home}
-                        className="font-bold text-[#4a8f92] px-4 hover:scale-110 transition-all"
+                        className="font-bold uppercase text-[#4a8f92] px-4 hover:scale-110 transition-all"
                     >
                         HandMadeCraft
                     </Link>
@@ -80,32 +80,32 @@ function Header({ currentUser }) {
             <div className="flex items-center gap-[20px] h-full">
                 <Link
                     to={config.routes.tutorialUpload}
-                    className="text-center text-white w-[50px] bg-gray-200 rounded-full transition-all hover:bg-[#EEF5FF] hover:scale-125"
+                    className="text-center text-white w-24 h-12 bg-gray-200 rounded-full transition-all hover:bg-[#EEF5FF] hover:scale-110"
                 >
-                    <FontAwesomeIcon icon={faCloudArrowUp} className="text-[#4a8f92]" />
+                    <FontAwesomeIcon icon={faCloudArrowUp} className="text-[#4a8f92] mt-[7px]" />
                 </Link>
                 <div className="hidden md:flex gap-[20px]">
                     <Link
                         to={config.routes.tutorialList}
-                        className="text-black font-semibold translate-y-[1px] hover:scale-110 transition-all "
+                        className="text-gray-600 text-2xl font-semibold translate-y-[2px] hover:underline transition-all "
                     >
                         Discover
                     </Link>
                     <Link
                         to={config.routes.about}
-                        className="text-black font-semibold  transition-all translate-y-[1px] hover:scale-125"
+                        className="text-gray-600 text-2xl font-semibold  transition-all translate-y-[2px] hover:underline"
                     >
                         About
                     </Link>
                     <Link
                         to="/link3"
-                        className="text-black font-semibold transition-all hover:scale-125  translate-y-[1px]"
+                        className="text-gray-600 text-2xl font-semibold transition-all hover:underline  translate-y-[2px]"
                     >
                         Saved
                     </Link>
                     <Link
                         to={config.routes.shoppingCart}
-                        className="text-black translate-y-[1px] hover:scale-110 transition-all"
+                        className="text-gray-600 translate-y-[1px] hover:scale-110 transition-all"
                     >
                         <FontAwesomeIcon icon={faShoppingCart} className="text-4xl" />
                     </Link>

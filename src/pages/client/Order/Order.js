@@ -1,5 +1,3 @@
-// Order.js
-
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -29,15 +27,16 @@ const Order = () => {
 
     return (
         <div className="container mx-auto">
-            <h1 className="text-4xl font-bold mb-10 text-center text-gray-900">Your Orders</h1>
+            <h1 className="text-4xl font-bold mb-10 text-center uppercase text-gray-900">Your Orders</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {orders && orders.length > 0 ? (
                     orders.map((order) => (
                         <Link to={`/orders/${order.id}`} key={order.id}>
                             <div key={order.id} className="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-                                {/* <h2 className="text-sm font-semibold mb-6 text-center text-gray-900">
-                                    Order #{order.id}
-                                </h2> */}
+                                <div className="flex justify-between items-center mb-4">
+                                    <h2 className="text-xl font-semibold text-gray-900">Order #{order.id}</h2>
+                                    <span className="text-xl text-gray-600">{order.date}</span>
+                                </div>
 
                                 <ul className="divide-y divide-gray-300">
                                     {order.items.map((item) => (
@@ -45,32 +44,32 @@ const Order = () => {
                                             <img
                                                 src={`${removeFileExtension(item.tutorialImageUrl)}.jpg`}
                                                 alt={item.productName}
-                                                className="w-32 h-32 mr-6 rounded-lg"
+                                                className="w-32 h-32 mr-4 rounded-lg"
                                             />
                                             <div>
-                                                <p className="text-3xl py-2 font-semibold text-gray-900">
+                                                <p className="text-2xl font-semibold text-gray-900">
                                                     {item.productName}
                                                 </p>
-                                                <p className="text-[15px] text-gray-800">Quantity: {item.quantity}</p>
-                                                <p className="text-[14px] text-green-600 font-bold">
+                                                <p className="text-xl text-gray-800">Quantity: {item.quantity}</p>
+                                                <p className="text-xl text-green-600 font-bold">
                                                     Price: ${item.price.toFixed(2)}
                                                 </p>
                                             </div>
                                         </li>
                                     ))}
                                 </ul>
-                                <div className="mt-10 px-1">
-                                    <p className="text-2xl text-gray-800 mb-4">
+                                <div className="mt-6">
+                                    <p className="text-2xl text-gray-800 mb-2">
                                         <span className="font-bold">Total Price: </span>${order.totalPrice.toFixed(2)}
                                     </p>
-                                    <p className="text-2xl text-gray-800 mb-8">
+                                    <p className="text-2xl text-gray-800 mb-4">
                                         <span className="font-bold">Shipping Address: </span>
                                         {order.address}
                                     </p>
+                                    <button className="w-full bg-[#92C7CF] hover:bg-[#AAD7D9] text-gray-800 font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline">
+                                        View Details
+                                    </button>
                                 </div>
-                                <button className="w-full bg-[#176B87] hover:bg-[#3e89a2] text-white font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline">
-                                    View
-                                </button>
                             </div>
                         </Link>
                     ))

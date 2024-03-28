@@ -191,7 +191,7 @@ const PaymentSetup = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="bg-[#176B87] text-white px-6 py-3 rounded-full hover:bg-[#41879e] transition duration-300 ease-in-out w-full"
+                                    className="bg-[#92C7CF] text-gray-800 px-6 py-3 rounded-full hover:bg-[#AAD7D9] transition duration-300 ease-in-out w-full"
                                 >
                                     Save
                                 </button>

@@ -128,7 +128,7 @@ const ShoppingCart = () => {
     localStorage.setItem('totalPriceInCart', totalPriceInCart);
 
     return (
-        <div className="container mx-auto p-8 max-w-[750px] rounded-md bg-[#b4d4ff]">
+        <div className="container mx-auto p-8 max-w-[750px] rounded-md bg-[#AAD7D9]">
             <h2 className="text-4xl font-bold mb-8 text-center">Shopping Cart</h2>
 
             {loading ? (
@@ -155,7 +155,7 @@ const ShoppingCart = () => {
                                                 loading="lazy"
                                             />
                                             <div>
-                                                <p className="font-semibold text-4xl text-[#176B87] line-clamp-1">
+                                                <p className="font-semibold text-4xl text-gray-800 line-clamp-1">
                                                     {item.productName}
                                                 </p>
                                                 <p className="text-gray-600 mb-1">
@@ -185,7 +185,7 @@ const ShoppingCart = () => {
                                                 Total: ${calculateItemTotalPrice(item)}
                                             </p>
                                             <p className="text-2xl text-gray-500">
-                                                Commission: ${calculateItemCommission(item)}
+                                                Transaction fee: ${calculateItemCommission(item)}
                                             </p>
                                             <button
                                                 onClick={() => handleRemoveItem(item.productId)}
@@ -198,7 +198,7 @@ const ShoppingCart = () => {
                                 ))}
                             </div>
                             <div className="mt-8 flex justify-between">
-                                <div>
+                                <div className="">
                                     <button
                                         onClick={handleClearCart}
                                         className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-md"

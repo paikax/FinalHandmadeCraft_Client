@@ -104,9 +104,18 @@ function Sidebar({ currentUser, showSidebar, handleToggleSidebar }) {
                                     <NavLink
                                         to={item.to}
                                         className={({ isActive }) =>
-                                            cx('flex', 'items-center', 'text-2xl', 'px-[24px]', 'py-[12px]', {
-                                                active: isActive,
-                                            })
+                                            cx(
+                                                'flex',
+                                                'items-center',
+                                                'text-2xl',
+                                                'px-[24px]',
+                                                'py-[12px]',
+                                                'font-semibold',
+                                                'text-gray-600',
+                                                {
+                                                    active: isActive,
+                                                },
+                                            )
                                         }
                                     >
                                         <Icon />

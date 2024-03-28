@@ -469,7 +469,7 @@ const TutorialDetail = () => {
                     </header>
                     <div className="flex justify-between items-center bg-[#AAD7D9] p-4 rounded my-4">
                         <div className="flex items-center mx-4">
-                            <span className="text-white">Follow Maker</span>
+                            <span className="text-gray-800 font-semibold">Follow Maker</span>
                             <Link to={`/profile/${tutorial.createdById}`} className="flex">
                                 <button className="mx-4 rounded-full text-[#AAD7D9] hover:scale-125 font-bold transition-all">
                                     <img
@@ -484,7 +484,7 @@ const TutorialDetail = () => {
                     </div>
                     <div className="flex flex-wrap lg:flex-nowrap">
                         <div className="w-full lg:w-1/2 p-4">
-                            <div className="flex flex-col items-center bg-[#AAD7D9] p-8 rounded-lg shadow-lg">
+                            <div className="flex flex-col items-center bg-[#92C7CF] p-8 rounded-lg shadow-lg">
                                 <video
                                     controls
                                     className="w-full h-auto object-cover rounded-md mb-6 lg:mb-8"
@@ -501,11 +501,11 @@ const TutorialDetail = () => {
                                     />
                                     Your browser does not support the video tag.
                                 </video>
-                                <h2 className="text-3xl lg:text-5xl font-semibold mb-4 lg:mb-6 text-white">
+                                <h2 className="text-3xl lg:text-5xl font-semibold mb-4 lg:mb-6 text-gray-800">
                                     {tutorial.title}
                                 </h2>
                                 <p className="text-3xl lg:text-4xl text-white font-bold mb-3">${tutorial.price}</p>
-                                <div className="flex justify-around w-full items-center">
+                                <div className="flex justify-around w-full items-center mt-5">
                                     {tutorial.createdById !== currentUserID && (
                                         <button
                                             onClick={openBuyModal}
@@ -522,11 +522,11 @@ const TutorialDetail = () => {
                                     </button>
                                 </div>
 
-                                <p className="text-lg lg:text-xl mb-6 mt-6 lg:mb-8 text-white">
+                                <p className="text-lg lg:text-xl mb-6 mt-6 lg:mb-8 text-gray-800 font-semibold">
                                     {tutorial.instruction}
                                 </p>
 
-                                <Link to="/" className="text-white text-lg hover:underline">
+                                <Link to="/" className="text-gray-600 text-lg hover:underline">
                                     + Learn More
                                 </Link>
                             </div>
@@ -535,29 +535,29 @@ const TutorialDetail = () => {
                         <div className="w-full lg:w-1/2 p-4">
                             <div className="bg-[#AAD7D9] p-8 rounded-lg shadow-lg">
                                 <div className="mb-6">
-                                    <h3 className="text-2xl font-bold mb-2 text-white">Type:</h3>
-                                    <p className="text-lg text-white">{tutorial.categoryName}</p>
+                                    <h3 className="text-2xl font-bold mb-2 text-gray-700">Type:</h3>
+                                    <p className="text-lg text-gray-700">{tutorial.categoryName}</p>
                                 </div>
                                 <div className="mb-6">
-                                    <h3 className="text-2xl font-bold mb-2 text-white">Material:</h3>
-                                    <p className="text-lg text-white">{tutorial.material} ...</p>
+                                    <h3 className="text-2xl font-bold mb-2 text-gray-700">Material:</h3>
+                                    <p className="text-lg text-gray-700">{tutorial.material} ...</p>
                                 </div>
                                 <div className="mb-6">
-                                    <h3 className="text-2xl font-bold mb-2 text-white">Uploaded by:</h3>
-                                    <p className="text-lg text-white">
+                                    <h3 className="text-2xl font-bold mb-2 text-gray-700">Uploaded by:</h3>
+                                    <p className="text-lg text-gray-700">
                                         <span className="">{tutorial.userName}</span>
                                     </p>
                                 </div>
                                 <div className="mb-6">
-                                    <h3 className="text-2xl font-bold mb-2 text-white">Published:</h3>
-                                    <p className="text-lg text-white">{tutorial.createdAt}</p>
+                                    <h3 className="text-2xl font-bold mb-2 text-gray-700">Published:</h3>
+                                    <p className="text-lg text-gray-700">{tutorial.createdAt}</p>
                                 </div>
                                 {/* <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 text-white">Views:</h3>
                                     <p className="text-lg text-white">23,445</p>
                                 </div> */}
                                 <div className="mb-6">
-                                    <h3 className="text-2xl font-bold mb-2 text-white">Likes:</h3>
+                                    <h3 className="text-2xl font-bold mb-2 text-gray-700">Likes:</h3>
                                     <div className="flex items-center">
                                         <p className="text-3xl font-bold text-yellow-200 mr-2">
                                             {tutorial.likes.length}
