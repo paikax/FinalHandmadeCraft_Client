@@ -45,27 +45,22 @@ export const createTutorial = async (tutorialData) => {
 
 export const updateTutorial = async (id, tutorialData) => {
     try {
-        const res = await httpRequest.update('tutorials', tutorialData, {
-            params: {
-                id,
-            },
-        });
+        const res = await httpRequest.update(`tutorials/${id}`, tutorialData);
         return res;
     } catch (error) {
         console.log(error);
     }
 };
 
+// tutorialService.js
+
 export const deleteTutorial = async (id) => {
     try {
-        const res = await httpRequest.deleteById('tutorials', {
-            params: {
-                id,
-            },
-        });
+        const res = await httpRequest.deleteById(`tutorials/${id}`);
         return res;
     } catch (error) {
         console.log(error);
+        throw error; // Re-throw the error to handle it elsewhere if needed
     }
 };
 

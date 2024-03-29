@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
-import { faHeart, faComment, faTimes, faBookBookmark, faShoppingCart } from '@fortawesome/free-solid-svg-icons'; // Import additional icons
+import {
+    faHeart,
+    faComment,
+    faTimes,
+    faBookBookmark,
+    faShoppingCart,
+    faEdit,
+    faTrashAlt,
+} from '@fortawesome/free-solid-svg-icons'; // Import additional icons
 
 import {
     addCommentToTutorial,
@@ -9,8 +17,10 @@ import {
     addReplyToComment,
     deleteCommentFromTutorial,
     deleteReplyFromComment,
+    deleteTutorial,
     getTutorialById,
     removeLikeFromTutorial,
+    updateTutorial,
 } from '~/services/tutorialService';
 import { ClearIcon } from '~/components/Icons';
 import { useSelector } from 'react-redux';
@@ -48,6 +58,15 @@ const TutorialDetail = () => {
     const [replyToCommentId, setReplyToCommentId] = useState(null);
     const [newReply, setNewReply] = useState('');
     const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+    const [updatedTutorialData, setUpdatedTutorialData] = useState({
+        title: '',
+        difficultLevel: '',
+        completionTime: '',
+        instruction: '',
+        material: '',
+        price: 0,
+    });
 
     useEffect(() => {
         const fetchTutorial = async () => {
@@ -346,6 +365,56 @@ const TutorialDetail = () => {
         }
     };
 
+    const openUpdateModal = () => {
+        setIsUpdateModalOpen(true);
+        setUpdatedTutorialData({
+            title: tutorial.title,
+            difficultLevel: tutorial.difficultLevel,
+            completionTime: tutorial.completionTime,
+            instruction: tutorial.instruction,
+            material: tutorial.material,
+            price: tutorial.price,
+        });
+    };
+
+    const closeUpdateModal = () => {
+        setIsUpdateModalOpen(false);
+    };
+
+    const handleUpdate = async () => {
+        try {
+            // Call the updateTutorial function with the updated tutorial data
+            await updateTutorial(tutorialId, updatedTutorialData);
+            // Optionally, fetch the updated tutorial details and update the state
+            const updatedTutorial = await getTutorialById(tutorialId);
+            setTutorial(updatedTutorial);
+            // Close the modal after successful update
+            setIsUpdateModalOpen(false);
+        } catch (error) {
+            console.error('Error updating tutorial:', error);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedTutorialData({
+            ...updatedTutorialData,
+            [name]: value,
+        });
+    };
+    const handleDelete = async () => {
+        try {
+            await deleteTutorial(tutorialId);
+            toast.success('Tutorial deleted successfully');
+            setTimeout(() => {
+                window.location.reload(); // Refresh the page after deletion
+            }, 1000); // Optional: Adjust the timeout as needed
+        } catch (error) {
+            console.error('Error deleting tutorial:', error);
+            toast.error('Failed to delete tutorial');
+        }
+    };
+
     if (loading) {
         return <div className="text-center mt-8">Loading...</div>;
     }
@@ -504,7 +573,11 @@ const TutorialDetail = () => {
                                 <h2 className="text-3xl lg:text-5xl font-semibold mb-4 lg:mb-6 text-gray-800">
                                     {tutorial.title}
                                 </h2>
-                                <p className="text-3xl lg:text-4xl text-white font-bold mb-3">${tutorial.price}</p>
+                                <p className="text-3xl lg:text-4xl text-white font-bold mb-3">
+                                    Price:
+                                    <span className="text-red-500"> ${tutorial.price.toFixed(2)}</span>
+                                </p>
+
                                 <div className="flex justify-around w-full items-center mt-5">
                                     {tutorial.createdById !== currentUserID && (
                                         <button
@@ -647,6 +720,145 @@ const TutorialDetail = () => {
                                     >
                                         <FontAwesomeIcon icon={faTimes} className="text-gray-600" />
                                     </button>
+                                </Modal>
+                                {tutorial.createdById === currentUserID && (
+                                    <>
+                                        <button
+                                            className="bg-blue-500 mb-3 hover:bg-blue-600 rounded-lg font-semibold text-white px-4 py-2 flex items-center space-x-2"
+                                            onClick={openUpdateModal}
+                                        >
+                                            <FontAwesomeIcon icon={faEdit} />
+                                            <span>Update</span>
+                                        </button>
+                                        <button
+                                            className="bg-red-500 hover:bg-red-600 rounded-lg w-34 text-center font-semibold text-white px-4 py-2 flex items-center space-x-2"
+                                            onClick={handleDelete}
+                                        >
+                                            <FontAwesomeIcon icon={faTrashAlt} />
+                                            <span>Delete</span>
+                                        </button>
+                                    </>
+                                )}
+
+                                {/* Modal for updating the tutorial */}
+                                <Modal
+                                    isOpen={isUpdateModalOpen}
+                                    onRequestClose={closeUpdateModal}
+                                    contentLabel="Update Tutorial Modal"
+                                    className="flex flex-col w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto my-8 bg-white p-8 shadow-lg rounded-md"
+                                >
+                                    <h2 className="text-3xl text-center lg:text-4xl font-bold mb-4 text-gray-800">
+                                        Update Tutorial
+                                    </h2>
+                                    <div className="mb-4">
+                                        <label
+                                            htmlFor="title"
+                                            className="block text-lg font-semibold text-gray-800 mb-1"
+                                        >
+                                            Title:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="title"
+                                            name="title"
+                                            value={updatedTutorialData.title}
+                                            onChange={handleInputChange}
+                                            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:[#4a8f92] w-full"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label
+                                            htmlFor="difficultLevel"
+                                            className="block text-lg font-semibold text-gray-800 mb-1"
+                                        >
+                                            Difficult Level:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="difficultLevel"
+                                            name="difficultLevel"
+                                            value={updatedTutorialData.difficultLevel}
+                                            onChange={handleInputChange}
+                                            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:[#4a8f92] w-full"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label
+                                            htmlFor="completionTime"
+                                            className="block text-lg font-semibold text-gray-800 mb-1"
+                                        >
+                                            Completion Time:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="completionTime"
+                                            name="completionTime"
+                                            value={updatedTutorialData.completionTime}
+                                            onChange={handleInputChange}
+                                            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:[#4a8f92] w-full"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label
+                                            htmlFor="instruction"
+                                            className="block text-lg font-semibold text-gray-800 mb-1"
+                                        >
+                                            Instruction:
+                                        </label>
+                                        <textarea
+                                            id="instruction"
+                                            name="instruction"
+                                            value={updatedTutorialData.instruction}
+                                            onChange={handleInputChange}
+                                            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:[#4a8f92] w-full h-32 resize-none"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label
+                                            htmlFor="material"
+                                            className="block text-lg font-semibold text-gray-800 mb-1"
+                                        >
+                                            Material:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="material"
+                                            name="material"
+                                            value={updatedTutorialData.material}
+                                            onChange={handleInputChange}
+                                            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:[#4a8f92] w-full"
+                                        />
+                                    </div>
+                                    <div className="mb-4">
+                                        <label
+                                            htmlFor="price"
+                                            className="block text-lg font-semibold text-gray-800 mb-1"
+                                        >
+                                            Price:
+                                        </label>
+                                        <input
+                                            type="number"
+                                            id="price"
+                                            name="price"
+                                            value={updatedTutorialData.price}
+                                            onChange={handleInputChange}
+                                            className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:[#4a8f92] w-full"
+                                        />
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <button
+                                            onClick={handleUpdate}
+                                            className="bg-[#92C7CF] text-gray-800 font-bold py-3 px-6 rounded-md hover:bg-[#AAD7D9] transition duration-300 ease-in-out mr-4"
+                                        >
+                                            Update
+                                        </button>
+                                        <button
+                                            onClick={closeUpdateModal}
+                                            className="bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-md hover:bg-gray-400 transition duration-300 ease-in-out"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
                                 </Modal>
                             </div>
                         </div>
