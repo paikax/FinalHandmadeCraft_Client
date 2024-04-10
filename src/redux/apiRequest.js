@@ -34,7 +34,10 @@ export const loginUser = async (user, dispatch, navigate) => {
         return res;
     } catch (err) {
         dispatch(loginFailed());
-        console.error('Error during login:', err.message);
+        // toast.error('An error occurred during login. Please try again.');
+        if (err.response && err.response.data && err.response.data.message) {
+            toast.error(err.response.data.message);
+        }
     }
 };
 

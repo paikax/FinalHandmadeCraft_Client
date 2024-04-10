@@ -1,8 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { DashboardRoute, PrivateRoute, UnauthorizeRoute, dashboardRoutes, privateRoutes, publicRoutes } from '~/routes';
 import Error from './pages/client/Error';
-
-
+import Footer from './components/Footer/Footer';
 
 function App() {
     return (
@@ -56,6 +55,7 @@ function App() {
                     })}
                     <Route path="*" element={<Error />} />
                 </Routes>
+                <Footer />
             </div>
         </Router>
     );

@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllTutorials } from '~/services/tutorialService';
+import { useSelector } from 'react-redux';
+import TalkJSChat from '~/components/Chatbox/TalkJSChat';
 
 function Home() {
     const [tutorials, setTutorials] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentTutorialIndex, setCurrentTutorialIndex] = useState(0);
+    const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
+    const currentEmail = useSelector((state) => String(state.auth.login.currentUser?.email));
 
     useEffect(() => {
         const fetchTutorials = async () => {
@@ -142,6 +146,7 @@ function Home() {
                 <footer className="mt-8 py-4 border-t border-gray-700 text-center">
                     <p className="text-gray-400">Privacy</p>
                 </footer>
+                <TalkJSChat />
             </div>
         </div>
     );

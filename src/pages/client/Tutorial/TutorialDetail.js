@@ -405,10 +405,8 @@ const TutorialDetail = () => {
     const handleDelete = async () => {
         try {
             await deleteTutorial(tutorialId);
+            setTutorial(null); // Remove deleted tutorial from state
             toast.success('Tutorial deleted successfully');
-            setTimeout(() => {
-                window.location.reload(); // Refresh the page after deletion
-            }, 1000); // Optional: Adjust the timeout as needed
         } catch (error) {
             console.error('Error deleting tutorial:', error);
             toast.error('Failed to delete tutorial');
