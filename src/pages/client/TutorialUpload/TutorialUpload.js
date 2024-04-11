@@ -126,18 +126,18 @@ const TutorialUpload = () => {
                 console.error('Error checking PayPal setup', error);
             }
         }
-        checkPayPalSetup(); 
+        checkPayPalSetup();
     }, [currentUserID, navigate]);
 
     return (
         <div className="flex">
             {/* Left side - Video Upload */}
-            <div className="w-[65%] p-4 bg-white mr-[10px]">
+            <div className="w-[65%] p-4 bg-[#ecf2f3] mr-[10px]">
                 {!isUploadComplete && (
                     <div
                         {...getRootProps()}
                         className="ml-[175px] border-dashed border-gray-400 border-2 bg-[#AAD7D9] from-[#176B87] to-[#2D9AC9] p-8 text-center cursor-pointer rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
-                        style={{ maxWidth: '500px'}}
+                        style={{ maxWidth: '500px' }}
                     >
                         <input {...getInputProps()} />
                         <p className="text-black text-3xl font-extrabold mb-8">Click or drop your video</p>
@@ -182,7 +182,7 @@ const TutorialUpload = () => {
             </div>
 
             {/* Right side - Form */}
-            <div className="w-[39%] p-4 bg-white ml-[10px]">
+            <div className="w-[39%] p-4 bg-[#ecf2f3] ml-[10px]">
                 {isUploadComplete && (
                     <form onSubmit={handleFormSubmit} className="space-y-4 mt-5">
                         {/* Other input fields */}
