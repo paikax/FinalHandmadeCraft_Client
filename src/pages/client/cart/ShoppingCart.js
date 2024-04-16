@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import AddressModal from '~/components/Address/AddressModal';
 import config from '~/config';
 import {
     clearCart,
@@ -19,6 +20,16 @@ const ShoppingCart = () => {
     const dispatch = useDispatch();
     const [totalPriceInCart, setTotalPriceInCart] = useState(0);
     const navigate = useNavigate();
+    const [addressModalOpen, setAddressModalOpen] = useState(false);
+    const [address, setAddress] = useState({
+        street: '',
+        city: '',
+        province: '',
+        country: '',
+        postalCode: '',
+        phoneNumber: '',
+    });
+    const [paypalButtonVisible, setPaypalButtonVisible] = useState(false);
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -75,10 +86,8 @@ const ShoppingCart = () => {
 
     const handleBuyItems = async () => {
         try {
-            // Assuming you have the user's address stored somewhere in your state or can pass it as a parameter
-            const address = '123 Street, City, Country';
-
-            await buyItemsFromCart(currentUserID, address);
+            const addressCombination = `${address.street}, ${address.city}, ${address.province}, ${address.country}, ${address.postalCode}, ${address.phoneNumber}`;
+            await buyItemsFromCart(currentUserID, addressCombination);
             // After successful purchase, clear the cart and update the UI
             await handleClearCart();
             navigate(config.routes.orders);
@@ -128,6 +137,19 @@ const ShoppingCart = () => {
 
         calculateTotalPriceInCart();
     }, [cartItems]);
+
+    useEffect(() => {
+        // Check if address is complete to show PayPal button
+        const isAddressComplete =
+            address.street &&
+            address.city &&
+            address.province &&
+            address.country &&
+            address.postalCode &&
+            address.phoneNumber;
+
+        setPaypalButtonVisible(isAddressComplete);
+    }, [address]);
 
     localStorage.setItem('totalPriceInCart', totalPriceInCart);
 
@@ -217,35 +239,187 @@ const ShoppingCart = () => {
                                     </p>
                                 </div>
                                 <div>
-                                    <PayPalScriptProvider
-                                        options={{
-                                            'client-id':
-                                                'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k',
-                                        }}
+                                    <button
+                                        onClick={() => setAddressModalOpen(true)}
+                                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md"
                                     >
-                                        <PayPalButtons
-                                            createOrder={(data, actions) => {
-                                                const calculatedTotalCartPriceStorage = JSON.parse(
-                                                    localStorage.getItem('totalPriceInCart'),
-                                                );
+                                        Add Address
+                                    </button>
+                                    {addressModalOpen && (
+                                        <div className="fixed z-10 inset-0 overflow-y-auto">
+                                            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                                <div className="fixed inset-0 transition-opacity">
+                                                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                                                </div>
+                                                <span
+                                                    className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                                                    aria-hidden="true"
+                                                >
+                                                    &#8203;
+                                                </span>
+                                                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                                                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                                        <div className="sm:flex sm:items-center">
+                                                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                                                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                                                    Add Address
+                                                                </h3>
+                                                                <div className="mt-2">
+                                                                    <div className="mb-4">
+                                                                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                                            Street
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            value={address.street}
+                                                                            onChange={(e) =>
+                                                                                setAddress({
+                                                                                    ...address,
+                                                                                    street: e.target.value,
+                                                                                })
+                                                                            }
+                                                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="mb-4">
+                                                                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                                            City
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            value={address.city}
+                                                                            onChange={(e) =>
+                                                                                setAddress({
+                                                                                    ...address,
+                                                                                    city: e.target.value,
+                                                                                })
+                                                                            }
+                                                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="mb-4">
+                                                                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                                            Province
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            value={address.province}
+                                                                            onChange={(e) =>
+                                                                                setAddress({
+                                                                                    ...address,
+                                                                                    province: e.target.value,
+                                                                                })
+                                                                            }
+                                                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="mb-4">
+                                                                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                                            Country
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            value={address.country}
+                                                                            onChange={(e) =>
+                                                                                setAddress({
+                                                                                    ...address,
+                                                                                    country: e.target.value,
+                                                                                })
+                                                                            }
+                                                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="mb-4">
+                                                                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                                            Postal Code
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            value={address.postalCode}
+                                                                            onChange={(e) =>
+                                                                                setAddress({
+                                                                                    ...address,
+                                                                                    postalCode: e.target.value,
+                                                                                })
+                                                                            }
+                                                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="mb-4">
+                                                                        <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                                            Phone Number
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            value={address.phoneNumber}
+                                                                            onChange={(e) =>
+                                                                                setAddress({
+                                                                                    ...address,
+                                                                                    phoneNumber: e.target.value,
+                                                                                })
+                                                                            }
+                                                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                                        <button
+                                                            onClick={() => {
+                                                                setAddressModalOpen(false);
+                                                            }}
+                                                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                                        >
+                                                            Confirm
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setAddressModalOpen(false)}
+                                                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    {paypalButtonVisible && (
+                                        <PayPalScriptProvider
+                                            options={{
+                                                'client-id':
+                                                    'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k',
+                                            }}
+                                        >
+                                            <PayPalButtons
+                                                createOrder={(data, actions) => {
+                                                    const calculatedTotalCartPriceStorage = JSON.parse(
+                                                        localStorage.getItem('totalPriceInCart'),
+                                                    );
 
-                                                return actions.order.create({
-                                                    purchase_units: [
-                                                        {
-                                                            amount: {
-                                                                value: (+calculatedTotalCartPriceStorage).toFixed(2),
+                                                    return actions.order.create({
+                                                        purchase_units: [
+                                                            {
+                                                                amount: {
+                                                                    value: (+calculatedTotalCartPriceStorage).toFixed(
+                                                                        2,
+                                                                    ),
+                                                                },
                                                             },
-                                                        },
-                                                    ],
-                                                });
-                                            }}
-                                            onApprove={(data, actions) => {
-                                                return actions.order.capture().then(function (details) {
-                                                    handleBuyItems();
-                                                });
-                                            }}
-                                        />
-                                    </PayPalScriptProvider>
+                                                        ],
+                                                    });
+                                                }}
+                                                onApprove={(data, actions) => {
+                                                    return actions.order.capture().then(function (details) {
+                                                        handleBuyItems();
+                                                    });
+                                                }}
+                                            />
+                                        </PayPalScriptProvider>
+                                    )}
                                 </div>
                             </div>
                         </div>

@@ -68,6 +68,30 @@ const TutorialDetail = () => {
         price: 0,
     });
 
+    const [addressModalOpen, setAddressModalOpen] = useState(false);
+    const [address, setAddress] = useState({
+        street: '',
+        city: '',
+        province: '',
+        country: '',
+        postalCode: '',
+        phoneNumber: '',
+    });
+
+    useEffect(() => {
+        // Check if address is complete to show PayPal button
+        const isAddressComplete =
+            address.street &&
+            address.city &&
+            address.province &&
+            address.country &&
+            address.postalCode &&
+            address.phoneNumber;
+
+        setPaypalButtonVisible(isAddressComplete);
+    }, [address]);
+
+    const [paypalButtonVisible, setPaypalButtonVisible] = useState(false);
     useEffect(() => {
         const fetchTutorial = async () => {
             try {
@@ -243,11 +267,13 @@ const TutorialDetail = () => {
                 quantity: +JSON.parse(localStorage.getItem('quantity')),
             };
 
+            const addressCombination = `${address.street}, ${address.city}, ${address.province}, ${address.country}, ${address.postalCode}, ${address.phoneNumber}`;
             const orderRequest = {
                 userId: currentUserID,
                 items: [orderItem],
                 totalPrice: +JSON.parse(localStorage.getItem('totalPrice')),
-                address: localStorage.getItem('shippingAddress'),
+
+                address: addressCombination,
                 sellerEmail: tutorial.creatorEmail,
                 buyerEmail: currentEmail,
                 creatorEmail: tutorial.creatorEmail,
@@ -442,19 +468,12 @@ const TutorialDetail = () => {
                     </button>
                     <div className="p-8">
                         <h2 className="text-3xl font-bold mb-4 text-green-600">{tutorial.title}</h2>
-                        <div className="mb-6">
-                            <label className="block text-xl font-medium text-gray-700 mb-1" htmlFor="shippingAddress">
-                                Shipping Address
-                            </label>
-                            <input
-                                type="text"
-                                id="shippingAddress"
-                                value={shippingAddress}
-                                onChange={(e) => setShippingAddress(e.target.value)}
-                                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500 w-full"
-                                placeholder="Enter your shipping address"
-                            />
-                        </div>
+                        <button
+                            onClick={() => setAddressModalOpen(true)}
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md"
+                        >
+                            Address
+                        </button>
                         <div className="mb-6">
                             <label className="block text-xl font-medium text-gray-700 mb-1" htmlFor="quantity">
                                 Quantity (Max: 10)
@@ -477,36 +496,172 @@ const TutorialDetail = () => {
                             <p className="text-xl text-gray-700">Total Price: ${orderTotal}</p>
                         </div>
                         <div className="mb-6">
-                            <PayPalScriptProvider
-                                options={{
-                                    'client-id':
-                                        'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k',
-                                }}
-                            >
-                                <PayPalButtons
-                                    createOrder={(data, actions) => {
-                                        const totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
+                            {paypalButtonVisible && (
+                                <PayPalScriptProvider
+                                    options={{
+                                        'client-id':
+                                            'AYJzF953JIsVvMqNNV58TYQzz_8Dkk0Tr9oz47CPCQixJXuE8kCe8-BYqij7j4B8sQf_beOdmkJ5kF-k',
+                                    }}
+                                >
+                                    <PayPalButtons
+                                        createOrder={(data, actions) => {
+                                            const totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
 
-                                        return actions.order.create({
-                                            purchase_units: [
-                                                {
-                                                    amount: { value: (+totalPrice).toFixed(2) },
-                                                },
-                                            ],
-                                        });
-                                    }}
-                                    onApprove={(data, actions) => {
-                                        return actions.order.capture().then(function (details) {
-                                            handleBuyNow();
-                                        });
-                                    }}
-                                />
-                            </PayPalScriptProvider>
+                                            return actions.order.create({
+                                                purchase_units: [
+                                                    {
+                                                        amount: { value: (+totalPrice).toFixed(2) },
+                                                    },
+                                                ],
+                                            });
+                                        }}
+                                        onApprove={(data, actions) => {
+                                            return actions.order.capture().then(function (details) {
+                                                handleBuyNow();
+                                            });
+                                        }}
+                                    />
+                                </PayPalScriptProvider>
+                            )}
                         </div>
                     </div>
                 </div>
             </Modal>
-
+            {addressModalOpen && (
+                <div className="fixed z-10 inset-0 overflow-y-auto">
+                    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <div className="fixed inset-0 transition-opacity">
+                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                        </div>
+                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+                            &#8203;
+                        </span>
+                        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div className="sm:flex sm:items-center">
+                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <h3 className="text-lg leading-6 font-medium text-gray-900">Add Address</h3>
+                                        <div className="mt-2">
+                                            <div className="mb-4">
+                                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                    Street
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={address.street}
+                                                    onChange={(e) =>
+                                                        setAddress({
+                                                            ...address,
+                                                            street: e.target.value,
+                                                        })
+                                                    }
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                />
+                                            </div>
+                                            <div className="mb-4">
+                                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                    City
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={address.city}
+                                                    onChange={(e) =>
+                                                        setAddress({
+                                                            ...address,
+                                                            city: e.target.value,
+                                                        })
+                                                    }
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                />
+                                            </div>
+                                            <div className="mb-4">
+                                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                    Province
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={address.province}
+                                                    onChange={(e) =>
+                                                        setAddress({
+                                                            ...address,
+                                                            province: e.target.value,
+                                                        })
+                                                    }
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                />
+                                            </div>
+                                            <div className="mb-4">
+                                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                    Country
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={address.country}
+                                                    onChange={(e) =>
+                                                        setAddress({
+                                                            ...address,
+                                                            country: e.target.value,
+                                                        })
+                                                    }
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                />
+                                            </div>
+                                            <div className="mb-4">
+                                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                    Postal Code
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={address.postalCode}
+                                                    onChange={(e) =>
+                                                        setAddress({
+                                                            ...address,
+                                                            postalCode: e.target.value,
+                                                        })
+                                                    }
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                />
+                                            </div>
+                                            <div className="mb-4">
+                                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                                    Phone Number
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    value={address.phoneNumber}
+                                                    onChange={(e) =>
+                                                        setAddress({
+                                                            ...address,
+                                                            phoneNumber: e.target.value,
+                                                        })
+                                                    }
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button
+                                    onClick={() => {
+                                        setAddressModalOpen(false);
+                                    }}
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                >
+                                    Confirm
+                                </button>
+                                <button
+                                    onClick={() => setAddressModalOpen(false)}
+                                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="bg-gradient-to-r bg-[#FBF9F1] text-white py-4">
                 <div className="container mx-auto px-4">
                     <header className="flex justify-between items-center py-4">
