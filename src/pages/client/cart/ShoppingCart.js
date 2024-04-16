@@ -2,6 +2,8 @@ import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import config from '~/config';
 import {
     clearCart,
     getCartItems,
@@ -16,6 +18,7 @@ const ShoppingCart = () => {
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
     const dispatch = useDispatch();
     const [totalPriceInCart, setTotalPriceInCart] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -78,6 +81,7 @@ const ShoppingCart = () => {
             await buyItemsFromCart(currentUserID, address);
             // After successful purchase, clear the cart and update the UI
             await handleClearCart();
+            navigate(config.routes.orders);
             toast.success('Items purchased successfully!');
         } catch (error) {
             console.error('Error buying items from cart:', error);

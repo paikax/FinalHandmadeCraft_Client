@@ -5,6 +5,11 @@ import { useSelector } from 'react-redux';
 function TalkJSChat() {
     const currentEmail = useSelector((state) => String(state.auth.login.currentUser?.email));
     const currentUserID = useSelector((state) => String(state.auth.login.currentUser?.id));
+    const currentPfp = useSelector((state) => String(state.auth.login.currentUser?.profilePhoto));
+    const currentUserFirstName = useSelector((state) => String(state.auth.login.currentUser?.firstName));
+    const currentUserLastName = useSelector((state) => String(state.auth.login.currentUser?.lastName));
+    const userName = currentUserFirstName + ' ' + currentUserLastName;
+
     const [chatVisible, setChatVisible] = useState(false);
 
     useEffect(() => {
@@ -12,18 +17,21 @@ function TalkJSChat() {
             Talk.ready.then(() => {
                 const me = new Talk.User({
                     id: currentUserID,
-                    name: 'client',
+                    name: userName,
                     email: currentEmail,
-                    photoUrl: 'https://your-photo-url.jpg',
+                    photoUrl: currentPfp,
                     welcomeMessage: 'Hey there! How can I help you?',
+                    role: 'user', // Set the role for the current user
                 });
 
                 const admin = new Talk.User({
-                    id: '98',
+                    id: 'admin',
                     name: 'Admin',
                     email: 'admin@gmail.com',
-                    photoUrl: 'https://your-photo-url.jpg',
+                    photoUrl:
+                        'https://t4.ftcdn.net/jpg/03/75/38/73/360_F_375387396_wSJM4Zm0kIRoG7Ej8rmkXot9gN69H4u4.jpg',
                     welcomeMessage: 'Admin here?',
+                    role: 'admin', // Set the role for the admin user
                 });
 
                 const session = new Talk.Session({
@@ -38,7 +46,7 @@ function TalkJSChat() {
                 inbox.mount(document.getElementById('talkjs-container'));
             });
         }
-    }, [chatVisible, currentEmail, currentUserID]);
+    }, [chatVisible, currentEmail, currentUserID, currentPfp]);
 
     const toggleChat = () => {
         setChatVisible(!chatVisible);

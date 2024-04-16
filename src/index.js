@@ -23,7 +23,7 @@ root.render(
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <GlobalStyles>
-                        {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
+                        {/* {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />} */}
                         <App />
                         <Toaster />
                     </GlobalStyles>
