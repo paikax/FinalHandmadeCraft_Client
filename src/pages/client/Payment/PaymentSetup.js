@@ -77,7 +77,14 @@ const PaymentSetup = () => {
             className="flex bg-no-repeat bg-cover items-center justify-center min-h-screen"
         >
             <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl">
-                <h2 className="text-4xl font-bold mb-6 p-6 text-center text-gray-800">Payment Board Management</h2>
+                <div>
+                    <h2 className="text-4xl font-bold mb-6 p-6 text-center text-gray-800">Become a Creator</h2>
+                    <p className="text-center text-gray-700 mb-8">
+                        By entering your payment method here, you'll unlock the ability to sell your products and
+                        unleash your creativity as a creator.
+                    </p>
+                </div>
+
                 {userPayPalInfo ? (
                     <div className="mb-6">
                         <p className="text-2xl mb-2 text-gray-700">PayPal Email: {userPayPalInfo.email}</p>
