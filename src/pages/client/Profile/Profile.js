@@ -430,7 +430,9 @@ const Profile = () => {
                                                 className="ml-3 text-yellow-400 animate-bounce"
                                             />
                                         )}
+                                        {user.role === 3 && <p className="text-white">You're creator</p>}
                                     </h2>
+
                                     <p className="text-2xl text-gray-200">
                                         <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" />
                                         {user.address}

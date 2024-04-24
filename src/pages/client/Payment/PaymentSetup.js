@@ -49,6 +49,7 @@ const PaymentSetup = () => {
         try {
             await connectPaypal(currentUserID, paypalEmail, paypalFirstName, paypalLastName);
             toast.success('PayPal information updated successfully');
+            toast.success('Congratulations you now become Creator');
             setUserPayPalInfo({
                 email: paypalEmail,
                 firstName: paypalFirstName,
