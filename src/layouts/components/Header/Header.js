@@ -30,6 +30,7 @@ function Header({ currentUser }) {
 
     const handleLogout = async () => {
         await logOut(dispatch, navigate);
+        toast.success('Logged out successfully');
     };
 
     const renderResult = () => {

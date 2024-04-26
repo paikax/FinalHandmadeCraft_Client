@@ -384,7 +384,7 @@ const TutorialDetail = () => {
             // Call addToCart service function
             await addToCart(currentUserID, item);
             // Show success message or perform any other actions
-            alert('Item added to cart successfully!');
+            toast.success('Product added to cart');
         } catch (error) {
             console.error('Error adding item to cart', error);
             alert('Failed to add item to cart. Please try again later.');
